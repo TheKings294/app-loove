@@ -2,12 +2,12 @@
 
 namespace App\Controllers;
 
-use App\Repositories\UserModels;
+use App\Repositories\UserRespositories;
 
 class UsersController extends BaseController {
 
     public function liste() {
-        $repository = new UserModels();
+        $repository = new UserRespositories();
 
         return $this->render('users/liste.php', [
             'users' => $repository->all()
@@ -15,7 +15,7 @@ class UsersController extends BaseController {
     }
 
     public function user(string $id) {
-        $repository = new UserModels();
+        $repository = new UserRespositories();
 
         return $this->render('users/specific.php', [
             'user' => $repository->get($id)

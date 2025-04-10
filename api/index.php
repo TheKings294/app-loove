@@ -3,7 +3,6 @@
 use App\Controllers\HomeController;
 use App\Controllers\UsersController;
 use App\Core\Routeur;
-use App\Core\TemplateEngine;
 use App\Kernel;
 
 require 'vendor/autoload.php';

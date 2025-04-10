@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Repositories;
+namespace App\Respositories;
 
 use App\Models\User;
+use App\Repositories\BaseRespositories;
 use Exception;
 
-class UserModels extends BaseModels {
+class UserRespositories extends BaseRespositories {
 
     public function get(string $identifier): User {
         $result = $this

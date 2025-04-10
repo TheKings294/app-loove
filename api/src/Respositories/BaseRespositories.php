@@ -6,7 +6,7 @@ use LogicException;
 use PDO;
 use PDOStatement;
 
-abstract class BaseModels {
+abstract class BaseRespositories {
 
     private PDO $connection;
     private ?PDOStatement $current_statement = null;
