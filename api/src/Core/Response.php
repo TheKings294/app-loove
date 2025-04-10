@@ -16,4 +16,7 @@ class Response {
     public function getBody() : string {
         return $this->body;
     }
+    public function setCode(int $code) {
+        $this->code = $code;
+    }
 }

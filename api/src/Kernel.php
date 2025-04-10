@@ -18,7 +18,7 @@ class Kernel {
         $response = $this->routeur->request($request);
 
         header('Content-Type: application/json');
-        http_response_code($response->getCode());
+        $response->setCode(http_response_code());
         echo $response->getBody();
     }
 }

@@ -14,10 +14,10 @@ abstract class BaseRespositories {
     public function __construct(string $dsn = '')
     {
         if(empty($dsn)) {
-            $dsn = "mysql:host=localhost:3306;dbname=monapp;charset=utf8";
+            $dsn = "mysql:host=".$_ENV["DB_URL"].";dbname=".$_ENV["DB_NAME"].";charset=utf8";
         }
 
-        $this->connection = new PDO($dsn, 'username', 'password', [
+        $this->connection = new PDO($dsn, $_ENV['DB_USER'], $_ENV['DB_PASSWORD'], [
             PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
         ]);
