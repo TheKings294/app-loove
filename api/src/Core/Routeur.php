@@ -6,6 +6,8 @@ use Exception;
 use ReflectionClass;
 use App\Controllers\BaseController;
 
+require_once '../includes/log.php';
+
 class Routeur {
 
     public function __construct(
@@ -37,7 +39,7 @@ class Routeur {
                 }, ARRAY_FILTER_USE_BOTH);
 
                 /** @var BaseController $controller */
-                $controller = $reflected_controller->newInstance();
+                $controller = $reflected_controller->newInstance(getLogger());
                 $controller->setRequest($request);
 
                 try {

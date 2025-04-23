@@ -3,14 +3,15 @@
 namespace App\Controllers;
 
 use App\Core\Request;
-use App\Core\TemplateEngine;
+
+require_once '../includes/log.php';
 
 abstract class BaseController {
     
     protected Request $request;
 
     public function __construct(
-        private TemplateEngine $templateEngine = new TemplateEngine(__DIR__ . '/../../templates'),
+        protected $logger,
     ) {}
     
     protected function render(string $filepath, array $context) : string {

@@ -1,7 +1,6 @@
 <?php
 
-use App\Controllers\HomeController;
-use App\Controllers\UsersController;
+use App\Controllers\{HomeController, UsersController};
 use App\Core\Routeur;
 use App\Kernel;
 
