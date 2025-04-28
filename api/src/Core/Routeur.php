@@ -3,16 +3,21 @@
 namespace App\Core;
 
 use Exception;
+use Monolog\Logger;
 use ReflectionClass;
 use App\Controllers\BaseController;
 
 require_once '../includes/log.php';
 
 class Routeur {
+    private Logger $logger;
 
     public function __construct(
         private array $routes = []
-    ) {}
+    ) {
+        $container = require_once __DIR__ . '/../utils/Services.php';
+        $this->logger = $container['logger'];
+    }
 
     public function addRoute(string|array $methods, string $path, string $controller, string $action, ) 
     {
@@ -39,7 +44,7 @@ class Routeur {
                 }, ARRAY_FILTER_USE_BOTH);
 
                 /** @var BaseController $controller */
-                $controller = $reflected_controller->newInstance(getLogger());
+                $controller = $reflected_controller->newInstance($this->logger);
                 $controller->setRequest($request);
 
                 try {
