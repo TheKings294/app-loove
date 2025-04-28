@@ -1,6 +1,7 @@
 <?php
+session_start();
 
-use App\Controllers\{HomeController, UsersController};
+use App\Controllers\{UsersAdminController};
 use App\Core\Routeur;
 use App\Kernel;
 
@@ -10,8 +11,6 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 $routeur = new Routeur();
-$routeur->addRoute(['GET'], '/users/{id}', UsersController::class, 'user');
-$routeur->addRoute(['GET'], '/', HomeController::class, 'index');
-$routeur->addRoute(['GET'], '/users', UsersController::class, 'liste');
+$routeur->addRoute(['POST'], '/login-admin', UsersAdminController::class, 'login');
 
 new Kernel($routeur);

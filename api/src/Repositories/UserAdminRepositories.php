@@ -3,12 +3,13 @@
 namespace App\Repositories;
 
 use App\Models\User;
+use App\Models\UserAdmin;
 use App\Repositories\BaseRepositories;
 use Exception;
 
-class UserRepositories extends BaseRepositories {
+class UserAdminRepositories extends BaseRepositories {
 
-    public function get(string $identifier): User {
+    public function get(string $identifier): UserAdmin {
         $result = $this
             ->query("SELECT * FROM users WHERE id= :id")
             ->fetch(['id' => $identifier])
@@ -19,6 +20,19 @@ class UserRepositories extends BaseRepositories {
         }
         
         return new User($result['id'], $result['nom'], $result['prenom'], $result['age'], $result['localisation']);
+    }
+
+    public function getByName(string $username): UserAdmin {
+        $result = $this
+            ->query("SELECT * FROM users WHERE email= :email")
+            ->fetch(['id' => $username])
+        ;
+
+        if(empty($result)) {
+            throw new Exception("User with identifier $username does not exist");
+        }
+
+        return new UserAdmin($result['id'], $result['email'], $result['password']);
     }
 
     public function all(): array {
