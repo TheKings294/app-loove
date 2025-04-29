@@ -6,8 +6,8 @@ use Exception;
 use Monolog\Logger;
 use ReflectionClass;
 use App\Controllers\BaseController;
+use App\Utils\Functions;
 
-require_once '../includes/log.php';
 
 class Routeur {
     private Logger $logger;
@@ -19,22 +19,29 @@ class Routeur {
         $this->logger = $container['logger'];
     }
 
-    public function addRoute(string|array $methods, string $path, string $controller, string $action, ) 
+    public function addRoute(string|array $methods, string $path, string $controller, string $action, string $role)
     {
         if (is_string($methods)) {
             $methods = [$methods];
         }
 
-        $this->routes[] = new Route($path, $controller, $action, $methods);
+        $this->routes[] = new Route($path, $controller, $action, $role, $methods);
     }
 
     public function request(Request $request): Response 
     {
         $response = new Response(404, "Route not found");
- 
+
+        $token = Functions::checkInBearerToken();
+
         /** @var Route $route */
         foreach($this->routes as $route) {
             if ($route->isValidFor($request)) {
+                $checkToken = $this->checkAuthorization($route, $token);
+                if (is_array($checkToken)) {
+                    $response->setCode(http_response_code($checkToken['code']));
+                    $response->setBody($checkToken['message']);
+                }
                 $reflected_controller = new ReflectionClass($route->getController());
 
                 $exploded_uri = explode('/', trim($request->uri));
@@ -73,5 +80,17 @@ class Routeur {
         }
         return $indexes;
     }
+    private function checkAuthorization(Route $route, string | bool $token): bool | array
+    {
+        if ($route->getRole() !== 'none' && !is_string($token)) {
+            return ['code' => 401,'message' => 'Token not provided' ];
+        } elseif (is_string($token)) {
+            if ($_SESSION['role'] === Functions::decodeJWTToken($token)['role'] &&
+                Functions::decodeJWTToken($token)['role'] === $route->getRole()) {
+                return ['code' => 403, 'message' => 'You don\'t have permission to access this route'];
+            }
+        }
 
+        return true;
+    }
 }

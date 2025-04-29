@@ -8,6 +8,7 @@ class Route {
         private string $path,
         private string $controller,
         private string $action,
+        private string $role,
         private array $methods = [],
     ) {}
 
@@ -25,6 +26,10 @@ class Route {
 
     public function getAction(): string {
         return $this->action;
+    }
+
+    public function getRole(): string {
+        return $this->role;
     }
 
     public function isValidFor(Request $request) {
