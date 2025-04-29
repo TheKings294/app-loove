@@ -9,30 +9,30 @@ use Exception;
 
 class UserAdminRepositories extends BaseRepositories {
 
-    public function get(string $identifier): UserAdmin {
+    public function get(string $identifier): UserAdmin | string {
         $result = $this
-            ->query("SELECT * FROM users WHERE id= :id")
+            ->query("SELECT * FROM users_admin WHERE id= :id")
             ->fetch(['id' => $identifier])
         ;
 
         if(empty($result)) {
-            throw new Exception("User with identifier $identifier does not exist");
+            return "User with identifier $identifier does not exist";
         }
         
-        return new User($result['id'], $result['nom'], $result['prenom'], $result['age'], $result['localisation']);
+        return new UserAdmin($result['id'], $result['email'], $result['password']);
     }
 
-    public function getByName(string $username): UserAdmin {
+    public function getByName(string $username): UserAdmin | string {
         $result = $this
-            ->query("SELECT * FROM users WHERE email= :email")
-            ->fetch(['id' => $username])
+            ->query("SELECT * FROM users_admin WHERE email= :email")
+            ->fetch(['email' => $username])
         ;
 
         if(empty($result)) {
-            throw new Exception("User with identifier $username does not exist");
+            return "User with identifier $username does not exist";
         }
 
-        return new UserAdmin($result['id'], $result['email'], $result['password']);
+        return new UserAdmin($result[0]['id'], $result[0]['email'], $result[0]['password']);
     }
 
     public function all(): array {
@@ -42,7 +42,7 @@ class UserAdminRepositories extends BaseRepositories {
 
         $users = [];
         foreach($results as $result) {
-            $users[] = new User($result['id'], $result['nom'], $result['prenom'], $result['age'], $result['localisation']);
+            $users[] = new UserAdmin($result['id'], $result['email'], $result['password']);
         }
 
         return $users;
@@ -65,5 +65,15 @@ class UserAdminRepositories extends BaseRepositories {
             ->query("DELETE FROM users where id = :id")
             ->execute(['id'=>$user->id])
         ;
+    }
+
+    public function new(UserAdmin $userAdmin): void
+    {
+        $this
+            ->query("INSERT INTO users_admin (email, password) VALUES(:email, :password)")
+            ->execute([
+                'email' => $userAdmin->username,
+                'password' => $userAdmin->password
+            ]);
     }
 }
