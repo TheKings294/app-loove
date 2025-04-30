@@ -5,8 +5,6 @@ namespace App\Controllers;
 use App\Core\Request;
 use Monolog\Logger;
 
-require_once '../includes/log.php';
-
 abstract class BaseController {
     
     protected Request $request;

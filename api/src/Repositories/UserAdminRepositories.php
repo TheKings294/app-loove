@@ -2,10 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Models\User;
 use App\Models\UserAdmin;
 use App\Repositories\BaseRepositories;
-use Exception;
 
 class UserAdminRepositories extends BaseRepositories {
 
@@ -19,7 +17,7 @@ class UserAdminRepositories extends BaseRepositories {
             return "User with identifier $identifier does not exist";
         }
         
-        return new UserAdmin($result['id'], $result['email'], $result['password']);
+        return new UserAdmin($result[0]['id'], $result[0]['email'], $result[0]['password']);
     }
 
     public function getByName(string $username): UserAdmin | string {
@@ -37,7 +35,7 @@ class UserAdminRepositories extends BaseRepositories {
 
     public function all(): array {
         $results = $this
-            ->query("SELECT * FROM users")
+            ->query("SELECT * FROM users_admin")
             ->fetch();
 
         $users = [];
@@ -48,22 +46,20 @@ class UserAdminRepositories extends BaseRepositories {
         return $users;
     }
 
-    public function save(User $user): void {
+    public function save(UserAdmin $user): void {
         $this
-            ->query("UPDATE users SET nom = :nom, prenom = :prenom, age = :age, localisation = :localisation WHERE id = :id")
+            ->query("UPDATE users_admin SET email = :email, password = :password WHERE id = :id")
             ->execute([
-                'nom' => $user->nom,
-                'prenom' => $user->prenom,
-                'age' => $user->age,
-                'localisation' => $user->localisation,
+                'email' => $user->username,
+                'password' => $user->password,
                 'id' => $user->id
             ]);
     }
 
-    public function delete(User $user): void {
+    public function delete(int $id): void {
         $this
-            ->query("DELETE FROM users where id = :id")
-            ->execute(['id'=>$user->id])
+            ->query("DELETE FROM users_admin where id = :id")
+            ->execute(['id'=>$id])
         ;
     }
 

@@ -46,6 +46,7 @@ abstract class BaseRepositories {
             $this->current_statement->bindParam($key, $value);
         }
 
+        $this->current_statement->execute();
         return $this->current_statement->fetchAll();
     }
 }

@@ -50,7 +50,8 @@ class UsersAdminController extends BaseController {
         return json_encode(["token" => $jwt]);
     }
 
-    public function new_users_admin() {
+    public function new_users_admin()
+    {
         $usrRepo = new UserAdminRepositories();
 
         $email = !empty($_POST['email']) ? Functions::cleanCodeString($_POST['email']) : null;
@@ -75,5 +76,47 @@ class UsersAdminController extends BaseController {
 
         http_response_code(200);
         return json_encode(["success" => true]);
+    }
+
+    public function get_users_admin()
+    {
+        $usrRepo = new UserAdminRepositories();
+        return json_encode($usrRepo->all());
+    }
+    public function get_user_admin(string $id)
+    {
+        $usrRepo = new UserAdminRepositories();
+        return json_encode($usrRepo->get($id));
+    }
+    public function edit_user_admin(string $id)
+    {
+        $usrRepo = new UserAdminRepositories();
+
+        parse_str(file_get_contents("php://input"), $put_vars);
+
+        $email = !empty($put_vars['email']) ? Functions::cleanCodeString($put_vars['email']) : null;
+        $password = !empty($put_vars['password']) ? Functions::cleanCodeString($put_vars['password']) : null;
+
+        if (!Functions::checkIfIsNotNull([$email, $password])) {
+            http_response_code(406);
+            return json_encode(["message" => "All fields are required"]);
+        }
+
+
+        $user = new UserAdmin(intval($id), $email, password_hash($password, PASSWORD_DEFAULT));
+        $password = null;
+
+        $usrRepo->save($user);
+        $this->logger->info("User [username => $user->username] updated");
+
+        return json_encode(["success" => true]);
+    }
+    public function delete_user_admin(string $id)
+    {
+        $usrRepo = new UserAdminRepositories();
+        $usrRepo->delete(intval($id));
+        $this->logger->info("User [id => $id] deleted");
+        http_response_code(200);
+        return json_encode(['success' => true]);
     }
 }
