@@ -6,7 +6,7 @@ use Exception;
 use Monolog\Logger;
 use ReflectionClass;
 use App\Controllers\BaseController;
-use App\Utils\Functions;
+use App\Utils\JWTFunctions;
 
 
 class Routeur {
@@ -85,8 +85,8 @@ class Routeur {
         if ($route->getRole() !== 'none' && !is_string($token)) {
             return ['code' => 401,'message' => 'Token not provided' ];
         } elseif (is_string($token)) {
-            if ($_SESSION['role'] === Functions::decodeJWTToken($token)['role'] &&
-                Functions::decodeJWTToken($token)['role'] === $route->getRole()) {
+            if ($_SESSION['role'] === JWTFunctions::decodeJWTToken($token)['role'] &&
+                JWTFunctions::decodeJWTToken($token)['role'] === $route->getRole()) {
                 return ['code' => 403, 'message' => 'You don\'t have permission to access this route'];
             }
         }
