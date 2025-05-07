@@ -116,6 +116,8 @@ class UsersController extends BaseController
 
         $this->userRepo->update($user);
 
+        $this->logger->info("Users updated [username => $user->email]");
+
         http_response_code(200);
         return json_encode(["success" => true, 'message' => 'User updated']);
     }
@@ -137,24 +139,28 @@ class UsersController extends BaseController
     public function deleteUser(string $id)
     {
         $this->userRepo->setDelete(intval($id));
+        $this->logger->info("Users deleted [username => $id]");
         http_response_code(200);
         return json_encode(["success" => true, "message" => "User deleted"]);
     }
     public function suspendUser(string $id, string $end_date)
     {
         $this->userRepo->setSuspended(intval($id), $end_date);
+        $this->logger->info("Users suspended [username => $id] until $end_date");
         http_response_code(200);
         return json_encode(["success" => true, 'message' => 'User suspended']);
     }
     public function premiumUser(string $id)
     {
         $this->userRepo->setPremium(intval($id));
+        $this->logger->info("Users premium [username => $id]");
         http_response_code(200);
         return json_encode(["success" => true, 'message' => 'User passed to premium']);
     }
     public function banUser(string $id)
     {
         $this->userRepo->setBan(intval($id));
+        $this->logger->info("Users ban [username => $id]");
         http_response_code(200);
         return json_encode(["success" => true, 'message' => 'User banned']);
     }
