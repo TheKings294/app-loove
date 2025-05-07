@@ -32,7 +32,7 @@ class Routeur {
     {
         $response = new Response(404, "Route not found");
 
-        $token = Functions::checkInBearerToken();
+        $token = JWTFunctions::checkInBearerToken();
 
         /** @var Route $route */
         foreach($this->routes as $route) {
@@ -40,7 +40,8 @@ class Routeur {
                 $checkToken = $this->checkAuthorization($route, $token);
                 if (is_array($checkToken)) {
                     $response->setCode(http_response_code($checkToken['code']));
-                    $response->setBody($checkToken['message']);
+                    $response->setBody(json_encode(['message' => $checkToken['message']]));
+                    return $response;
                 }
                 $reflected_controller = new ReflectionClass($route->getController());
 
