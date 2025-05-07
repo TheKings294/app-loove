@@ -84,11 +84,15 @@ class Routeur {
     private function checkAuthorization(Route $route, string | bool $token): bool | array
     {
         if ($route->getRole() !== 'none' && !is_string($token)) {
+            var_dump(is_string($token));
+            var_dump($_SESSION);
             return ['code' => 401,'message' => 'Token not provided' ];
         } elseif (is_string($token)) {
-            if ($_SESSION['role'] === JWTFunctions::decodeJWTToken($token)['role'] &&
-                JWTFunctions::decodeJWTToken($token)['role'] === $route->getRole()) {
+            $decoded = JWTFunctions::decodeJWTToken($token);
+            if (is_object($decoded) && $_SESSION['role'] !== $decoded->data->role && $decoded->data->role !== $route->getRole()) {
                 return ['code' => 403, 'message' => 'You don\'t have permission to access this route'];
+            } elseif (is_array($decoded)) {
+                return $decoded;
             }
         }
 

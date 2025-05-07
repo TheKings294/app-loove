@@ -27,12 +27,12 @@ class JWTFunctions
     }
     static function checkInBearerToken(): bool | string
     {
-        $headers = getallheaders();
-        if (!isset($headers['Authorization'])) {
+        $headers = $_SERVER;
+        if (!isset($headers['REDIRECT_HTTP_AUTHORIZATION'])) {
             return false;
         }
 
-        if (preg_match('/Bearer\s(\S+)/', $headers['Authorization'], $matches)) {
+        if (preg_match('/Bearer\s(\S+)/', $headers['REDIRECT_HTTP_AUTHORIZATION'], $matches)) {
             return $matches[1];
         }
 
@@ -44,8 +44,7 @@ class JWTFunctions
             return JWT::decode($token, new Key($_ENV['JWT_PRIVATE_KEY'], 'HS256'));
         } catch (Exception $e) {
             http_response_code(401);
-            echo json_encode(['error' => 'Invalid token: ' . $e->getMessage()]);
+            return ['message' => 'Invalid token: ' . $e->getMessage(), 'code' => 401];
         }
-        return true;
     }
 }
