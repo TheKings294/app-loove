@@ -15,7 +15,7 @@ class User {
         public string $password,
         public string $city,
         public string $description,
-        public string $image_url,
+        public string | null $image_url,
         public string $gender_attraction,
         public string $age_attraction,
         public string $relation_type,
@@ -24,6 +24,6 @@ class User {
         public bool $is_ban,
         public bool $is_deleted,
         public bool $is_premium,
-        public DateTime $en_suspended_date
+        public DateTime | null $en_suspended_date
     ){}
 }

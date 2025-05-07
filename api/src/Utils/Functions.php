@@ -2,6 +2,7 @@
 
 namespace App\Utils;
 
+use DateTime;
 use Firebase\JWT\JWT;
 use Firebase\JWT\Key;
 use Exception;
@@ -20,5 +21,22 @@ class Functions
               }
          }
            return true;
+    }
+    static function isValidDOB(string $dob, int $minAge = 18): bool
+    {
+        try {
+            $birthDate = DateTime::createFromFormat('Y-m-d', $dob);
+            $today = new DateTime();
+
+            if ($birthDate > $today) {
+                return false;
+            }
+
+            $age = $today->diff($birthDate)->y;
+
+            return $age >= $minAge;
+        } catch (Exception $e) {
+            return false;
+        }
     }
 }
