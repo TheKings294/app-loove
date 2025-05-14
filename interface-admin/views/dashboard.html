@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="fr" data-theme="white">
+<html lang="fr" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
@@ -11,7 +11,7 @@
 <div class="fixed top-4 right-4 z-50">
     <label class="swap swap-rotate">
         <!-- this hidden checkbox controls the state -->
-        <input type="checkbox" class="theme-controller" value="synthwave" />
+        <input type="checkbox" class="theme-controller" value="dracula" />
 
         <svg
                 class="swap-off h-5 w-5 fill-current"
@@ -257,27 +257,15 @@
                 </label>
                 <input type="password" class="input validator" required placeholder="Password" minlength="12"
                        pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{12,}"
-                       title="Must be more than 12 characters, including number, lowercase letter, uppercase letter" />
-                <p class="validator-hint">
-                    Must be more than 8 characters, including
-                    <br/>At least one number
-                    <br/>At least one lowercase letter
-                    <br/>At least one uppercase letter
-                </p>
+                       title="Must be more than 12 characters, including number, lowercase letter, uppercase letter"/>
             </div>
             <div class="form-control">
                 <label class="label">
                     <span class="label-text">Confirmation du mot de passe</span>
                 </label>
                 <input type="password" class="input validator" required placeholder="Password" minlength="12"
-                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}"
+                       pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{12,}"
                        title="Must be more than 12 characters, including number, lowercase letter, uppercase letter" />
-                <p class="validator-hint">
-                    Must be more than 8 characters, including
-                    <br/>At least one number
-                    <br/>At least one lowercase letter
-                    <br/>At least one uppercase letter
-                </p>
             </div>
             <div class="form-control mt-6">
                 <button type="submit" class="btn btn-primary">Crée</button>
