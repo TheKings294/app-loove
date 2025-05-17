@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Utils\Functions;
 use Monolog\Logger;
 use App\Repositories\ConvRepositories;
 
@@ -17,5 +18,10 @@ class ConvController extends BaseController
     {
         $this->convRepo->newConv($user_A, $user_B);
         return true;
+    }
+    public function getMyConvs(string $user_id)
+    {
+        $user_id = intval(Functions::cleanCodeString($user_id));
+        return json_encode(['result' => $this->convRepo->getMyConv($user_id)]);
     }
 }
