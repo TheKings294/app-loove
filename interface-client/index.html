@@ -2,10 +2,17 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <title>Title</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <title>Clink</title>
 </head>
 <body>
+<script type="module">
+    import {PageController} from "./controllers/PageController.js";
 
+    const page = new PageController()
+    page.start()
+</script>
 </body>
 </html>
