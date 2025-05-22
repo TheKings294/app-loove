@@ -1,16 +1,28 @@
-
+import {LoginViews} from "../views/LoginViews.js";
+import {SignInViews} from "../views/SignInViews.js";
+import {HomeViews} from "../views/HomeViews.js";
+import {InboxViews} from "../views/InboxViews.js";
+import {SettingsViews} from "../views/SettingsViews.js";
 
 export class PageController
 {
     constructor() {
         this.routes = {
             home: () => {
-                if (!this.auth.checkAuth()) return this.navigate("login")
-                //new UsersViews().render(this.navigate.bind(this))
+                new HomeViews().render(this.navigate.bind(this))
             },
             login: () => {
-                //new LoginViews().render(this.navigate.bind(this), this.auth)
+                new LoginViews().render(this.navigate.bind(this), this.auth)
             },
+            singIn: () => {
+                new SignInViews().render(this.navigate.bind(this))
+            },
+            inbox: () => {
+                new InboxViews().render(this.navigate.bind(this))
+            },
+            settings: () => {
+                new SettingsViews().render(this.navigate.bind(this))
+            }
         }
     }
 
@@ -23,6 +35,6 @@ export class PageController
     }
 
     start() {
-        this.navigate(this.auth.checkAuth() ? "home" : "login")
+        this.navigate( "login")
     }
 }
