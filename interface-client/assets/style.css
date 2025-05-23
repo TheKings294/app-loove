@@ -32,4 +32,10 @@
         -webkit-mask-size: contain;
         background-color: currentColor;
     }
+    #messages {
+        overflow-y: auto;
+    }
+    .messages {
+        overflow: hidden;
+    }
 }

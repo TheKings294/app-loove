@@ -1,6 +1,7 @@
 import {Dock} from "../component/Dock.js";
 import {Footer} from "../component/Footer.js";
 import {Inbox} from "../component/Inbox.js";
+import {MessageViews} from "./MessageViews.js";
 
 export class InboxViews
 {
@@ -9,7 +10,7 @@ export class InboxViews
     }
     render(navigate)
     {
-        document.querySelector(".app").innerHTML = ""
+        this.app.innerHTML = ""
         const title = document.createElement("p")
         title.textContent = "Inbox"
         title.className = "text-center text-[20px] mt-5"
@@ -17,14 +18,18 @@ export class InboxViews
 
         const divInboxList = document.createElement("div")
         divInboxList.className = "flex flex-col items-center gap-4 my-8"
-        new Inbox("John Doe").render(navigate, divInboxList)
-        new Inbox("John Doe").render(navigate, divInboxList)
-        new Inbox("John Doe").render(navigate, divInboxList)
-        new Inbox("John Doe").render(navigate, divInboxList)
+        new Inbox("John Doe", 1).render(navigate, divInboxList)
+        new Inbox("John Doe", 1).render(navigate, divInboxList)
+        new Inbox("John Doe", 1).render(navigate, divInboxList)
+        new Inbox("John Doe", 1).render(navigate, divInboxList)
 
         this.app.appendChild(divInboxList)
         new Footer().render(navigate, this.app)
         new Dock().render(navigate, this.app)
         document.title = "Messagerie"
+
+        document.querySelectorAll(".inbox").forEach((element) => {
+            element.addEventListener("click", () => new MessageViews().render(navigate, 1, "John Doe"))
+        })
     }
 }
