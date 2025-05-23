@@ -1,5 +1,30 @@
 <?php
+session_set_cookie_params([
+    'lifetime' => 0,
+    'path' => '/',
+    'domain' => '.clink.test',
+    'secure' => true,
+    'httponly' => true,
+    'samesite' => 'None'
+]);
 session_start();
+$allowed_origins = [
+    "https://admin.clink.test",
+    "https://clink.test",
+];
+
+if (isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], $allowed_origins)) {
+    header("Access-Control-Allow-Origin: " . $_SERVER['HTTP_ORIGIN']);
+    header("Vary: Origin");
+}
+header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH, OPTION");
+header("Access-Control-Allow-Headers: Content-Type, Authorization");
+header("Access-Control-Allow-Credentials: true");
+
+if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
+    http_response_code(204); // No Content
+    exit;
+}
 
 use App\Controllers\{UsersAdminController, ReportsController, UsersController};
 use App\Core\Routeur;

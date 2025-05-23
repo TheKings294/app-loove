@@ -17,8 +17,10 @@ export class UsersViews
         title.textContent = "Utilisateurs";
         main.classList.add("flex-1")
         main.appendChild(title)
-        //main.appendChild(await this.controller.getUsersList())
+        main.appendChild(await this.controller.getUsersList())
         el.appendChild(main)
 
     }
 }
+
+//"v6h6o82ua76go0jqk2sfcla871"

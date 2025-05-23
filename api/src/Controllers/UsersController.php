@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Controllers\BaseController;
+use App\Models\SoftSkill;
 use App\Models\User;
 use App\Utils\ImageFunctions;
 use Monolog\Logger;
@@ -34,16 +35,26 @@ class UsersController extends BaseController
     }
     public function newUser()
     {
+        $softRepo = new SkillController($this->logger);
         $data = [];
+        $softData = [];
         for ($i = 0; $i < 12; $i++) {
             if ($this->inputFields[$i] !== 'image') {
                 $data[$this->inputFields[$i]] = Functions::cleanCodeString($_POST[$this->inputFields[$i]]) ?? null;
             }
         }
+        for ($i = 1; $i <= 10; $i++) {
+            $softData['soft_' . $i] = Functions::cleanCodeString($_POST['soft_' . $i]) ?? null;
+        }
         if (!Functions::checkIfIsNotNull($data) || !$_FILES['image']['name'])
         {
             http_response_code(406);
             return json_encode(['message' => "All fields are required."]);
+        }
+        if (!Functions::checkIfIsNotNull($softData))
+        {
+            http_response_code(406);
+            return json_encode(['message' => "All skills are required."]);
         }
 
         $result = $this->userRepo->getByEmail($data['email']);
@@ -73,6 +84,16 @@ class UsersController extends BaseController
             false, false, false, false, new \DateTime());
 
         $this->userRepo->new($user);
+        $user_id = $this->userRepo->getLastId();
+        if ($user_id === 0) {
+            http_response_code(400);
+            return json_encode(['message' => "Unable to create user."]);
+        }
+        $soft = new SoftSkill(0, $user_id, $softData['soft_1'], $softData['soft_2'], $softData['soft_3'],
+            $softData['soft_4'], $softData['soft_5'], $softData['soft_6'], $softData['soft_7'], $softData['soft_8'],
+            $softData['soft_9'], $softData['soft_10'],);
+
+        $softRepo->setSkill($soft);
 
         $this->logger->info("Users created [username => $user->email]");
 

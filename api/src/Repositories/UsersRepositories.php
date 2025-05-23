@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\SoftSkill;
 use App\Repositories\BaseRepositories;
 use App\Models\User;
 
@@ -10,20 +11,25 @@ class UsersRepositories extends BaseRepositories
     public function getAll(): array
     {
         $result = $this
-            ->query("SELECT * FROM users")
+            ->query("SELECT * FROM users LEFT JOIN rank_soft_skills rss on users.id = rss.user_id")
             ->fetch();
 
         $data = [];
 
         foreach ($result as $user) {
-            $data[] = new User($user['id'], $user['first_name'], $user['last_name'], new \DateTime($user['date_of_birth']),
-                $user['gender'],$user['email'], $user['password'],$user['city'], $user['description'], $user['image'],
-                $user['gender_attraction'], $user['age_attraction'], $user['relation_type'],$user['is_verified'],
-                $user['is_suspended'], $user['is_ban'], $user['is_delete'], $user['is_premium'], $user['end_suspended_date']);
+            $data[] = [
+                new User(0, $user['first_name'], $user['last_name'], new \DateTime($user['date_of_birth']),
+                    $user['gender'],$user['email'], $user['password'],$user['city'], $user['description'], $user['image'],
+                    $user['gender_attraction'], $user['age_attraction'], $user['relation_type'],$user['is_verified'],
+                    $user['is_suspended'], $user['is_ban'], $user['is_delete'], $user['is_premium'], new \DateTime($user['end_suspended_date'])),
+                new SoftSkill(0, $user['user_id'], $user['soft_1'], $user['soft_2'], $user['soft3'],
+                    $user['soft4'], $user['soft5'], $user['soft6'], $user['soft7'], $user['soft8'],
+                    $user['soft9'], $user['soft10'])
+            ];
         }
         return $data;
     }
-    public function getById(int $id)
+    public function getById(int $id): array
     {
         $result = $this
             ->query("SELECT * FROM users WHERE id = :id")
@@ -32,10 +38,15 @@ class UsersRepositories extends BaseRepositories
             ]);
 
         $result = $result[0];
-        return new User($result['id'], $result['first_name'], $result['last_name'], new \DateTime($result['date_of_birth']),
+        return [
+            new User($result['id'], $result['first_name'], $result['last_name'], new \DateTime($result['date_of_birth']),
             $result['gender'], $result['email'], $result['password'], $result['city'], $result['description'], $result['image'],
             $result['gender_attraction'], $result['age_attraction'], $result['relation_type'], $result['is_verified'],
-            $result['is_suspended'], $result['is_ban'], $result['is_delete'], $result['is_premium'], $result['end_suspended_date']);
+            $result['is_suspended'], $result['is_ban'], $result['is_delete'], $result['is_premium'], $result['end_suspended_date']),
+            new SoftSkill($result['rss.id'], $result['id'], $result['soft_1'], $result['soft_2'], $result['soft_3'],
+                $result['soft_4'], $result['soft_5'], $result['soft_6'], $result['soft_7'], $result['soft_8'],
+                $result['soft_9'], $result['soft_10'])
+        ];
     }
     public function getByEmail(string $email): array | null
     {
@@ -165,5 +176,13 @@ class UsersRepositories extends BaseRepositories
         ]);
 
         return $result ? $result[0]['image'] : "";
+    }
+    public function getLastId(): int
+    {
+        $result = $this
+            ->query("SELECT id FROM users ORDER BY id DESC LIMIT 1")
+            ->fetch();
+
+        return $result ? $result['id'] : 0;
     }
 }

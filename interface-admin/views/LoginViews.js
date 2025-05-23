@@ -9,6 +9,7 @@ export class LoginViews
     render(navigate, auth)
     {
         document.querySelector(".app").innerHTML = `
+        <div class="min-h-screen flex items-center justify-center bg-base-200">
         <div class="w-full max-w-sm p-8 space-y-4 bg-base-100 rounded-2xl shadow-xl">
             <h1 class="text-2xl font-bold text-center">Connexion</h1>
 
@@ -32,6 +33,7 @@ export class LoginViews
                 </div>
             </form>
         </div>
+        </div>
         `
 
         document.getElementById('form-login').addEventListener('submit', (e) => {
@@ -39,7 +41,7 @@ export class LoginViews
         })
         document.getElementById('btnLogin').addEventListener('click', async () => {
             const result = await this.controller.login(document.getElementById('email').value, document.getElementById('password').value)
-            if (result) {
+            if (result === true) {
                 navigate('users')
             }
         })

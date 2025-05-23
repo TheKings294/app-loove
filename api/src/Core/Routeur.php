@@ -84,8 +84,6 @@ class Routeur {
     private function checkAuthorization(Route $route, string | bool $token): bool | array
     {
         if ($route->getRole() !== 'none' && !is_string($token)) {
-            var_dump(is_string($token));
-            var_dump($_SESSION);
             return ['code' => 401,'message' => 'Token not provided' ];
         } elseif (is_string($token)) {
             $decoded = JWTFunctions::decodeJWTToken($token);

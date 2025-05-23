@@ -22,7 +22,7 @@ class UsersAdminController extends BaseController {
 
         if (!Functions::checkIfIsNotNull([$email, $password])) {
             http_response_code(406);
-            return "Missing Input";
+            return json_encode(['message' => 'Missing email or password']);
         }
 
         $user = new UserAdmin(0, $email, $password);
@@ -31,12 +31,12 @@ class UsersAdminController extends BaseController {
 
         if (is_string($result)) {
             http_response_code(406);
-            return "Username not found";
+            return json_encode(['message' => 'Username not found']);
         }
 
         if (!password_verify($user->password, $result->password)) {
             http_response_code(401);
-            return "Wrong password";
+            return json_encode(['message' => 'Wrong password']);
         }
 
         $user->id = $result->id;
@@ -53,7 +53,7 @@ class UsersAdminController extends BaseController {
 
         $this->logger->info("Token created for an user [username => $user->username]");
 
-        return json_encode(["token" => $jwt]);
+        return json_encode(["token" => $jwt, "role" => "admin"]);
     }
 
     public function new_users_admin()

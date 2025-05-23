@@ -10,11 +10,12 @@ export class UserModel
     async login(email, password)
     {
         try {
-            const response = await fetch('https://api.clink.local/login-admin', {
+            const response = await fetch('https://api.clink.test/login-admin', {
                 method: 'POST',
                 headers: {
                     "Content-Type": "application/x-www-form-urlencoded",
                 },
+                credentials: 'include',
                 body: new URLSearchParams({
                     email: email,
                     password: password
@@ -37,7 +38,7 @@ export class UserModel
     async getAll()
     {
         const token = "Bearer " + localStorage.getItem("token")
-             fetch("https://api.clink.local/users", {
+             return fetch("https://api.clink.test/users", {
                  method: 'GET',
                  credentials: "include",
                 headers: {
@@ -50,6 +51,7 @@ export class UserModel
                              localStorage.clear()
                              this.token = null
                              this.role = null
+                             document.cookie = "session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.clink.local;";
                              return {success: false, message: "login"}
                          }
                      }
@@ -62,6 +64,7 @@ export class UserModel
                      console.error("Fetch error:", error)
                      return { success: false, message: error.message }
                  })
+
     }
 
     isAuthenticated() {
