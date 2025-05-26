@@ -6,7 +6,7 @@ export class LoginViews
     constructor() {
         this.controller = new LoginController()
     }
-    render(navigate, auth)
+    render(navigate)
     {
         document.querySelector(".app").innerHTML = `
         <div class="min-h-screen flex items-center justify-center bg-base-200">

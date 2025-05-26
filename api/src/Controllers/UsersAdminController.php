@@ -72,7 +72,7 @@ class UsersAdminController extends BaseController {
 
         if (!is_string($result)) {
             http_response_code(406);
-            return "Username already exists";
+            return json_encode(["success" => false, "message" => "Username already exists"]);
         }
 
         $this->userAdminRepo->new($user);

@@ -39,6 +39,7 @@ class Routeur {
             if ($route->isValidFor($request)) {
                 $checkToken = $this->checkAuthorization($route, $token);
                 if (is_array($checkToken)) {
+                    http_response_code(401);
                     $response->setCode(http_response_code($checkToken['code']));
                     $response->setBody(json_encode(['message' => $checkToken['message']]));
                     return $response;

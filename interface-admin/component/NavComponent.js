@@ -1,8 +1,9 @@
 export class NavComponent
 {
     constructor() {
+        this.parent = document.querySelector(".nav")
         this.el = document.createElement("aside")
-        this.el.classList.add("w-64", "bg-base-200", "flex", "flex-col", "text-base-content", "p-4")
+        this.el.className = "w-64 bg-base-200 flex flex-col text-base-content p-4 h-screen"
         this.el.innerHTML = `
             <h2 class="text-xl font-bold mb-4">Menu</h2>
             <ul class="menu">
@@ -90,8 +91,9 @@ export class NavComponent
     `
     }
 
-    render(navigate, parent = document.body) {
-        parent.appendChild(this.el)
+    render(navigate) {
+        this.parent.innerHTML = ""
+        this.parent.appendChild(this.el)
         document.querySelector("#usersLink").addEventListener('click', () => navigate('users'))
         document.querySelector("#adminLink").addEventListener('click', () => navigate('admin'))
         document.querySelector("#reportLink").addEventListener('click', () => navigate('report'))

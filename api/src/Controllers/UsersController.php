@@ -11,6 +11,8 @@ use App\Repositories\UsersRepositories;
 use App\Utils\Functions;
 use App\Utils\JWTFunctions;
 use Notihnio\MultipartFormDataParser;
+use League\Geotools\Coordinate\Coordinate;
+use League\Geotools\Distance\Distance;
 
 class UsersController extends BaseController
 {
@@ -191,9 +193,30 @@ class UsersController extends BaseController
         http_response_code(200);
         return json_encode(["success" => true, 'message' => 'User validated']);
     }
-    public function getUsersCompatible(string $x, string $y)
+    public function getUsersCompatible(string $x, string $y, string $id)
     {
+        $user = $this->userRepo->getById(intval($id));
+        $cityOfUser = $this->userRepo->getCityFrance($user->city);
+        if (empty($x) || empty($y)) {
+            $x = $cityOfUser['ville_longitude_deg'];
+            $y = $cityOfUser['ville_latitude_deg'];
+        }
+        $coorOfCityUser = new \Geotools\Coordinate\Coordinate([$x, $y]);
 
+        $result = $this->userRepo->getUsersCompatible(intval($id));
+        $compatibleUsers = [];
+
+        foreach ($result as $user) {
+            $city = $this->userRepo->getCityFrance($user->city);
+            $coorCity = new \Geotools\Coordinate\Coordinate([$city['ville_longitude_deg'], $city['ville_latitude_deg']]);
+
+            $distance = new \Geotools\Distance\Distance();
+            if ($distance->setFrom($coorOfCityUser)->setTo($coorCity)->in('km')->haversine() < 20) {
+                $compatibleUsers[] = $user;
+            }
+        }
+
+        return json_encode($compatibleUsers);
     }
     public function loginUser()
     {

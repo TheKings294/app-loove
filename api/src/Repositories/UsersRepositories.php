@@ -185,4 +185,80 @@ class UsersRepositories extends BaseRepositories
 
         return $result ? $result['id'] : 0;
     }
+    public function getUsersCompatible(int $id): array
+    {
+        $result = $this
+            ->query("SELECT u.*
+        FROM users u
+         JOIN rank_soft_skills r ON r.user_id = u.id
+         JOIN rank_soft_skills me_r ON me_r.user_id = :id
+         JOIN users me ON me.id = :id
+        WHERE u.id != :id
+          AND TIMESTAMPDIFF(YEAR, u.date_of_birth, CURDATE()) BETWEEN (me.age_attraction - 2) AND (me.age_attraction + 2)
+          AND u.gender = me.gender_attraction
+          
+          AND u.id NOT IN (
+              SELECT user_unlike
+              FROM un_like
+              WHERE user = :id
+            )
+            
+          AND (
+            (me_r.soft_1 = 5 AND r.soft_1 BETWEEN 4 AND 5) OR (me_r.soft_1 < 5 AND r.soft_1 BETWEEN me_r.soft_1 - 1 AND me_r.soft_1 + 1)
+            )
+          AND (
+            (me_r.soft_2 = 5 AND r.soft_2 BETWEEN 4 AND 5) OR (me_r.soft_2 < 5 AND r.soft_2 BETWEEN me_r.soft_2 - 1 AND me_r.soft_2 + 1)
+            )
+          AND (
+            (me_r.soft3 = 5 AND r.soft3 BETWEEN 4 AND 5) OR (me_r.soft3 < 5 AND r.soft3 BETWEEN me_r.soft3 - 1 AND me_r.soft3 + 1)
+            )
+          AND (
+            (me_r.soft4 = 5 AND r.soft4 BETWEEN 4 AND 5) OR (me_r.soft4 < 5 AND r.soft4 BETWEEN me_r.soft4 - 1 AND me_r.soft4 + 1)
+            )
+          AND (
+            (me_r.soft5 = 5 AND r.soft5 BETWEEN 4 AND 5) OR (me_r.soft5 < 5 AND r.soft5 BETWEEN me_r.soft5 - 1 AND me_r.soft5 + 1)
+            )
+          AND (
+            (me_r.soft6 = 5 AND r.soft6 BETWEEN 4 AND 5) OR (me_r.soft6 < 5 AND r.soft6 BETWEEN me_r.soft6 - 1 AND me_r.soft6 + 1)
+            )
+          AND (
+            (me_r.soft7 = 5 AND r.soft7 BETWEEN 4 AND 5) OR (me_r.soft7 < 5 AND r.soft7 BETWEEN me_r.soft7 - 1 AND me_r.soft7 + 1)
+            )
+          AND (
+            (me_r.soft8 = 5 AND r.soft8 BETWEEN 4 AND 5) OR (me_r.soft8 < 5 AND r.soft8 BETWEEN me_r.soft8 - 1 AND me_r.soft8 + 1)
+            )
+          AND (
+            (me_r.soft9 = 5 AND r.soft9 BETWEEN 4 AND 5) OR (me_r.soft9 < 5 AND r.soft9 BETWEEN me_r.soft9 - 1 AND me_r.soft9 + 1)
+            )
+          AND (
+            (me_r.soft10 = 5 AND r.soft10 BETWEEN 4 AND 5) OR (me_r.soft10 < 5 AND r.soft10 BETWEEN me_r.soft10 - 1 AND me_r.soft10 + 1)
+            );")
+            ->fetch([
+                'id' => $id
+            ]);
+
+        $data = [];
+
+        foreach ($result as $user) {
+            $data[] = [
+                new User(0, $user['first_name'], $user['last_name'], new \DateTime($user['date_of_birth']),
+                    $user['gender'],$user['email'], $user['password'],$user['city'], $user['description'], $user['image'],
+                    $user['gender_attraction'], $user['age_attraction'], $user['relation_type'],$user['is_verified'],
+                    $user['is_suspended'], $user['is_ban'], $user['is_delete'], $user['is_premium'], new \DateTime($user['end_suspended_date'])),
+                new SoftSkill(0, $user['user_id'], $user['soft_1'], $user['soft_2'], $user['soft3'],
+                    $user['soft4'], $user['soft5'], $user['soft6'], $user['soft7'], $user['soft8'],
+                    $user['soft9'], $user['soft10'])
+            ];
+        }
+
+        return $data;
+    }
+    public function getCityFrance(string $city)
+    {
+        return $this
+            ->query('SELECT * FROM `villes_france_free` WHERE LOWER(ville_slug) LIKE LOWER(:search)')
+            ->fetch([
+                'search' => $city
+            ]);
+    }
 }

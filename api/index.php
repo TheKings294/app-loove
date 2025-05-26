@@ -4,7 +4,7 @@ session_set_cookie_params([
     'path' => '/',
     'domain' => '.clink.test',
     'secure' => true,
-    'httponly' => true,
+    'httponly' => false,
     'samesite' => 'None'
 ]);
 session_start();
@@ -26,7 +26,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-use App\Controllers\{UsersAdminController, ReportsController, UsersController};
+if (preg_match('#^/uploads/(.+)$#', $_SERVER['REQUEST_URI'], $matches)) {
+    $filePath = __DIR__ . $_SERVER['REQUEST_URI'];
+    if (file_exists($filePath) && is_file($filePath)) {
+        $mimeType = mime_content_type($filePath);
+        header("Content-Type: $mimeType");
+        readfile($filePath);
+        exit();
+    } else {
+        http_response_code(404);
+        echo "Fichier non trouvé.";
+        exit();
+    }
+}
+
+use App\Controllers\{UsersAdminController, ReportsController, UsersController, HomeController};
 use App\Core\Routeur;
 use App\Kernel;
 
@@ -37,6 +51,9 @@ $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->safeLoad();
 
 $routeur = new Routeur();
+
+$routeur->addRoute(['GET'], '/', HomeController::class , 'status', 'none');
+
 //Routes for users admin
 $routeur->addRoute(['POST'], '/login-admin', UsersAdminController::class, 'login', 'none');
 $routeur->addRoute(['POST'], '/users-admin/new', UsersAdminController::class, 'new_users_admin', 'admin');
@@ -62,10 +79,9 @@ $routeur->addRoute(['PATCH'], '/users/premium/{id}', UsersController::class, 'pr
 $routeur->addRoute(['PATCH'], '/users/ban/{id}', UsersController::class, 'banUser', 'admin');
 $routeur->addRoute(['PATCH'], '/users/validate/{id}', UsersController::class, 'validateUser', 'admin');
 $routeur->addRoute(['PATCH'], '/users/suspended/{id}/{end_date}', UsersController::class, 'suspendUser', 'admin');
-$routeur->addRoute(['GET'], '/users/compatible/{x}/{y}', UsersController::class, 'getUsersCompatible', 'users');
+$routeur->addRoute(['GET'], '/users/compatible/{x}/{y}/{id}', UsersController::class, 'getUsersCompatible', 'users');
 $routeur->addRoute(['POST'], '/users/login', UsersController::class, 'loginUser', 'none');
 
 //Routes for like and un_like
-
 
 new Kernel($routeur);
