@@ -3,6 +3,7 @@ import {SignInViews} from "../views/SignInViews.js";
 import {HomeViews} from "../views/HomeViews.js";
 import {InboxViews} from "../views/InboxViews.js";
 import {SettingsViews} from "../views/SettingsViews.js";
+import {CheckoutViews} from "../views/CheckoutViews.js";
 
 export class PageController
 {
@@ -22,6 +23,9 @@ export class PageController
             },
             settings: () => {
                 new SettingsViews().render(this.navigate.bind(this))
+            },
+            checkout: () => {
+                new CheckoutViews().render(this.navigate.bind(this))
             }
         }
     }
@@ -35,6 +39,6 @@ export class PageController
     }
 
     start() {
-        this.navigate( "login")
+        this.navigate( "checkout")
     }
 }
