@@ -1,8 +1,12 @@
 import {NavComponent} from "../component/NavComponent.js";
+import {ReportControllers} from "../controlers/ReportControllers.js";
 
 export class ReportViews
 {
-    render(navigate) {
+    constructor() {
+        this.controller = new ReportControllers()
+    }
+    async render(navigate) {
         const nav = new NavComponent()
         const el  = document.querySelector(".app")
         el.innerHTML = ''
@@ -13,7 +17,7 @@ export class ReportViews
         title.textContent = "Signalement";
         main.classList.add("flex-1")
         main.appendChild(title)
-        //main.appendChild(await this.controller.getUsersList())
+        main.appendChild(await this.controller.getAllReports())
         el.appendChild(main)
     }
 }

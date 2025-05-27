@@ -7,7 +7,7 @@ export class ListAdmin {
             const li = document.createElement("li")
             li.className = "list-row"
             li.innerHTML = `
-            <div><img class="size-10 rounded-box" src=""/></div>
+            <div><img class="size-10 rounded-box" src="../asset/Anonymous_emblem.svg.png"/></div>
             <div>
               <div>${user.username}</div>
             </div>
