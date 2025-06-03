@@ -47,6 +47,6 @@ abstract class BaseRepositories {
         }
 
         $this->current_statement->execute();
-        return $this->current_statement->fetchAll();
+        return $this->current_statement->fetchAll(PDO::FETCH_ASSOC);
     }
 }

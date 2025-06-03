@@ -7,7 +7,6 @@ session_set_cookie_params([
     'httponly' => false,
     'samesite' => 'None'
 ]);
-session_start();
 $allowed_origins = [
     "https://admin.clink.test",
     "https://clink.test",
@@ -40,7 +39,7 @@ if (preg_match('#^/uploads/(.+)$#', $_SERVER['REQUEST_URI'], $matches)) {
     }
 }
 
-use App\Controllers\{UsersAdminController, ReportsController, UsersController, HomeController};
+use App\Controllers\{UsersAdminController, ReportsController, UsersController, HomeController, ConvController, LikeController};
 use App\Core\Routeur;
 use App\Kernel;
 
@@ -70,7 +69,7 @@ $routeur->addRoute(['POST'], '/reports/finish/{id}', ReportsController::class, '
 
 //Routes for users
 $routeur->addRoute(['GET'], '/users', UsersController::class, 'getAll', 'admin');
-$routeur->addRoute(['GET'], '/users/{id}', UsersController::class, 'getOne', 'admin');
+$routeur->addRoute(['GET'], '/users/{id}', UsersController::class, 'getOne', 'users');
 $routeur->addRoute(['POST'], '/users/new', UsersController::class, 'newUser', 'none');
 $routeur->addRoute(['PUT'], '/users/edit/{id}', UsersController::class, 'updateUser', 'users');
 $routeur->addRoute(['PATCH'], '/users/edit/password/{id}', UsersController::class, 'updatePassword', 'users');
@@ -83,5 +82,10 @@ $routeur->addRoute(['GET'], '/users/compatible/{x}/{y}/{id}', UsersController::c
 $routeur->addRoute(['POST'], '/users/login', UsersController::class, 'loginUser', 'none');
 
 //Routes for like and un_like
+$routeur->addRoute(['GET'], '/like/{id}/{idLiked}', LikeController::class, 'LikeAnUser', 'users');
+$routeur->addRoute(['GET'], '/unlike/{id}/{idUnLiked}', LikeController::class, 'setUnlike', 'users');
+
+//Conv and messages
+$routeur->addRoute(['GET'], '/conv/{id}', ConvController::class, 'getMyConvs', 'users');
 
 new Kernel($routeur);

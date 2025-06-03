@@ -120,8 +120,6 @@ class UsersController extends BaseController
 
         $image = $this->userRepo->getImage(intval($id));
 
-        var_dump($image);
-
         $data['image'] = null;
         if (!empty($request->files)) {
             if (!empty($image)) {
@@ -196,19 +194,19 @@ class UsersController extends BaseController
     public function getUsersCompatible(string $x, string $y, string $id)
     {
         $user = $this->userRepo->getById(intval($id));
-        $cityOfUser = $this->userRepo->getCityFrance($user->city);
+        $cityOfUser = $this->userRepo->getCityFrance($user[0]->city);
         if (empty($x) || empty($y)) {
-            $x = $cityOfUser['ville_longitude_deg'];
-            $y = $cityOfUser['ville_latitude_deg'];
+            $x = $cityOfUser[0]['ville_longitude_deg'];
+            $y = $cityOfUser[0]['ville_latitude_deg'];
         }
-        $coorOfCityUser = new \Geotools\Coordinate\Coordinate([$x, $y]);
+        $coorOfCityUser = new \Geotools\Coordinate\Coordinate([(int) $x, (int) $y]);
 
         $result = $this->userRepo->getUsersCompatible(intval($id));
         $compatibleUsers = [];
 
         foreach ($result as $user) {
-            $city = $this->userRepo->getCityFrance($user->city);
-            $coorCity = new \Geotools\Coordinate\Coordinate([$city['ville_longitude_deg'], $city['ville_latitude_deg']]);
+            $city = $this->userRepo->getCityFrance($user[0]->city);
+            $coorCity = new \Geotools\Coordinate\Coordinate([(int) $city[0]['ville_longitude_deg'], (int) $city[0]['ville_latitude_deg']]);
 
             $distance = new \Geotools\Distance\Distance();
             if ($distance->setFrom($coorOfCityUser)->setTo($coorCity)->in('km')->haversine() < 20) {
@@ -244,6 +242,8 @@ class UsersController extends BaseController
 
         $token = JWTFunctions::createJWTToken(intval($user[0]), $email, 'users');
 
+        session_start();
+
         $_SESSION['authenticated'] = true;
         $_SESSION['jwt-token'] = $token;
         $_SESSION["username"] = $email;
@@ -254,6 +254,6 @@ class UsersController extends BaseController
         $this->logger->info("Token created for an users [username => $email]");
 
         http_response_code(200);
-        return json_encode(['token' => $token]);
+        return json_encode(['token' => $token, 'id' => $user[0]]);
     }
 }

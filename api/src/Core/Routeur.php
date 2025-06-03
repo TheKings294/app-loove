@@ -86,9 +86,10 @@ class Routeur {
     {
         if ($route->getRole() !== 'none' && !is_string($token)) {
             return ['code' => 401,'message' => 'Token not provided' ];
-        } elseif (is_string($token)) {
+        } elseif (is_string($token) && $route->getRole() !== 'none') {
             $decoded = JWTFunctions::decodeJWTToken($token);
-            if (is_object($decoded) && $_SESSION['role'] !== $decoded->data->role && $decoded->data->role !== $route->getRole()) {
+            session_start();
+                if (is_object($decoded) && $_SESSION['role'] !== $decoded->data->role && $decoded->data->role !== $route->getRole()) {
                 return ['code' => 403, 'message' => 'You don\'t have permission to access this route'];
             } elseif (is_array($decoded)) {
                 return $decoded;

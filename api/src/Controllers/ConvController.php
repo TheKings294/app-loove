@@ -22,6 +22,6 @@ class ConvController extends BaseController
     public function getMyConvs(string $user_id)
     {
         $user_id = intval(Functions::cleanCodeString($user_id));
-        return json_encode(['result' => $this->convRepo->getMyConv($user_id)]);
+        return json_encode(['data' => $this->convRepo->getMyConv($user_id)]);
     }
 }

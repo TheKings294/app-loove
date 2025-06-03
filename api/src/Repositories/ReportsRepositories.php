@@ -15,7 +15,7 @@ class ReportsRepositories extends BaseRepositories {
 
         $data = [];
         foreach ($result as $item) {
-            $data[] = new Report($item['id'], $item['user_reported'], $item['user'], $item['why_reported'], $item['images']);
+            $data[] = new Report($item['id'], $item['user_reported'], $item['user'], $item['why_reported'], $item['images'], new \DateTime($item['date_of_creation']), $item['is_finish']);
         }
 
         return $data;
