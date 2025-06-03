@@ -13,8 +13,8 @@ export class ReportControllers {
         grid.className = "ml-2 mr-2 grid grid-cols-4 gap-4"
 
         result.data.forEach((element) => {
-            new ReportList('Report ' + element.id, element.why_reported).render(grid)
-            console.log(element)
+            const report = new ReportList('Report ' + element.id, element.why_reported)
+            report.render(grid)
         })
 
         return grid

@@ -48,6 +48,6 @@ export class PageController
     }
 
     async start() {
-        this.navigate(await this.auth.checkAuth() ? "users" : "login")
+        this.navigate(await this.auth.checkAuth('admin') ? "users" : "login")
     }
 }
