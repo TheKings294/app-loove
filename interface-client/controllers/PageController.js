@@ -4,12 +4,15 @@ import {HomeViews} from "../views/HomeViews.js";
 import {InboxViews} from "../views/InboxViews.js";
 import {SettingsViews} from "../views/SettingsViews.js";
 import {CheckoutViews} from "../views/CheckoutViews.js";
+import {AuthController} from "./AuthController.js";
 
 export class PageController
 {
     constructor() {
+        this.auth = new AuthController()
         this.routes = {
             home: () => {
+                if (!this.auth.checkAuth("user")) return this.navigate("login") && this.auth.logout()
                 new HomeViews().render(this.navigate.bind(this))
             },
             login: () => {
@@ -19,12 +22,15 @@ export class PageController
                 new SignInViews().render(this.navigate.bind(this))
             },
             inbox: () => {
+                if (!this.auth.checkAuth("user")) return this.navigate("login") && this.auth.logout()
                 new InboxViews().render(this.navigate.bind(this))
             },
             settings: () => {
+                if (!this.auth.checkAuth("user")) return this.navigate("login") && this.auth.logout()
                 new SettingsViews().render(this.navigate.bind(this))
             },
             checkout: () => {
+                if (!this.auth.checkAuth("user")) return this.navigate("login") && this.auth.logout()
                 new CheckoutViews().render(this.navigate.bind(this))
             }
         }
@@ -38,7 +44,8 @@ export class PageController
         }
     }
 
-    start() {
-        this.navigate( "checkout")
+    async start() {
+        this.navigate( await this.auth.checkAuth('user') ? "home": "login")
     }
+
 }

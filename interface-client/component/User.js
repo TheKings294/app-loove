@@ -1,13 +1,13 @@
 export class User
 {
-    constructor(userName) {
+    constructor(userName, imageURL ) {
         this.el = document.createElement("div")
         this.el.className = "card bg-base-100 w-75 shadow-sm"
 
         this.el.innerHTML = `
         <figure>
             <img
-              src="https://img.daisyui.com/images/stock/photo-1606107557195-0e29a4b5b4aa.webp"
+              src="https://api.clink.test/uploads/${imageURL}"
               alt="Photo de l'utilisateur" />
         </figure>
         <div class="card-body">

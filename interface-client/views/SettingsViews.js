@@ -1,13 +1,17 @@
 import {Dock} from "../component/Dock.js";
 import {Modal} from "../component/Modal.js";
+import {SettingController} from "../controllers/SettingController.js";
 
 export class SettingsViews
 {
     constructor() {
         this.app = document.querySelector(".app")
+        this.controller = new SettingController()
     }
-    render(navigate)
+    async render(navigate)
     {
+        const dataUser = await this.controller.getUserInfo()
+        localStorage.setItem("email", dataUser.data[0].email)
         this.app.innerHTML = ""
         const title = document.createElement("p")
         title.textContent = "Settings"
@@ -39,6 +43,10 @@ export class SettingsViews
         buttonDelete.textContent = "Suppression du compte"
         buttonDelete.className = "btn btn-primary"
 
+        const unCo = document.createElement("button")
+        unCo.textContent = "Deconexion"
+        unCo.className = "btn btn-outline btn-primary"
+
         const infoDiv = document.createElement("div")
         infoDiv.style.display = 'none'
         infoDiv.id = "info"
@@ -57,19 +65,34 @@ export class SettingsViews
         <ul class="space-y-3">
           <li class="flex justify-between border-b pb-2">
             <span class="font-medium text-gray-600">Nom :</span>
-            <span class="text-gray-800">Jean Dupont</span>
+            <span class="text-gray-800">${dataUser.data[0].first_name} ${dataUser.data[0].last_name}</span>
           </li>
           <li class="flex justify-between border-b pb-2">
             <span class="font-medium text-gray-600">Email :</span>
-            <span class="text-gray-800">jean.dupont@email.com</span>
+            <span class="text-gray-800">${dataUser.data[0].email}</span>
           </li>
           <li class="flex justify-between border-b pb-2">
-            <span class="font-medium text-gray-600">Rôle :</span>
-            <span class="text-gray-800">Utilisateur</span>
+            <span class="font-medium text-gray-600">Ville :</span>
+            <span class="text-gray-800">${dataUser.data[0].city}</span>
+          </li>
+          <li class="flex justify-between border-b pb-2">
+            <span class="font-medium text-gray-600">Date de naissance :</span>
+            <span class="text-gray-800">${
+                new Date(dataUser.data[0].birthday.date.replace(" ", "T").split(".")[0])
+                    .toLocaleDateString('fr-FR', { year: 'numeric', month: 'long', day: 'numeric' })}
+            </span>
+          </li>
+          <li class="flex justify-between border-b pb-2">
+            <span class="font-medium text-gray-600">Type de relation :</span>
+            <span class="text-gray-800">${dataUser.data[0].relation_type}</span>
+          </li>
+          <li class="flex justify-between border-b pb-2">
+            <span class="font-medium text-gray-600">Genre recherché :</span>
+            <span class="text-gray-800">${dataUser.data[0].gender_attraction}</span>
           </li>
           <li class="flex justify-between">
-            <span class="font-medium text-gray-600">Date d'inscription :</span>
-            <span class="text-gray-800">23 mai 2025</span>
+            <span class="font-medium text-gray-600">Age recherché :</span>
+            <span class="text-gray-800">${dataUser.data[0].age_attraction}</span>
           </li>
         </ul>
         `
@@ -80,6 +103,7 @@ export class SettingsViews
 
         content.appendChild(settings)
         content.appendChild(buttonDelete)
+        content.appendChild(unCo)
         this.app.appendChild(title)
         this.app.appendChild(content)
         this.app.appendChild(infoDiv)
@@ -88,8 +112,9 @@ export class SettingsViews
 
         const formPassword = `
             <form class="flex flex-col items-center gap-4">
-                <input class="input" type="password" placeholder="*********">
-                <input class="input" type="password" placeholder="*********">
+                <input class="input" type="password" placeholder="Ancien mot de passe" id="actual_mp">
+                <input class="input" type="password" placeholder="Nouveau mot de passe" id="new_mp">
+                <input class="input" type="password" placeholder="Nouveau mot de passe" id="confirm_new_mp">
                 <button class="btn btn-primary rounded-lg" id="editPassword">Modifier</button>
             </form>
             `
@@ -99,35 +124,33 @@ export class SettingsViews
         const formEditUser = `
         <form class="flex flex-col items-center gap-4">
             <div class="grid grid-cols-2 gap-4">
-              <input type="text" placeholder="Nom" class="input input-bordered w-full rounded-lg" />
-              <input type="text" placeholder="Prénom" class="input input-bordered w-full rounded-lg" />
+              <input type="text" placeholder="Nom" class="input input-bordered w-full rounded-lg" value="${dataUser.data[0].last_name}" required id="last_name"/>
+              <input type="text" placeholder="Prénom" class="input input-bordered w-full rounded-lg" value="${dataUser.data[0].first_name}" required id="first_name"/>
             </div>
             <div class="grid grid-cols-2 gap-4">
-              <input type="date" placeholder="Date de naissance" class="input input-bordered w-full rounded-lg" />
-              <select class="select w-full rounded-lg">
-                  <option disabled selected>Choisir un genre</option>
-                  <option value="man">Homme</option>
-                  <option value="woman">Femme</option>
-                  <option value="other">Autre</option>
+              <input type="date" placeholder="Date de naissance" class="input input-bordered w-full rounded-lg" required value="${dataUser.data[0].birthday.date.split(" ")[0]}" id="date_of_birth" />
+              <select class="select w-full rounded-lg" required id="gender">
+                  <option value="man" ${dataUser.data[0].gender === "man" ? 'selected' : ''}>Homme</option>
+                  <option value="woman" ${dataUser.data[0].gender === "woman" ? 'selected' : ''}>Femme</option>
+                  <option value="other" ${dataUser.data[0].gender === "other" ? 'selected' : ''}>Autre</option>
               </select>
             </div>
-            <input type="text" placeholder="Ville" class="input input-bordered w-full rounded-lg" />
-            <textarea placeholder="Biographie" class="textarea textarea-bordered w-full h-24 rounded-lg"></textarea>
-            <select class="select w-full rounded-lg">
-              <option disabled selected>Choisir un genre</option>
-              <option value="man">Homme</option>
-              <option value="woman">Femme</option>
-              <option value="other">Autre</option>
+            <input type="text" placeholder="Ville" class="input input-bordered w-full rounded-lg" value="${dataUser.data[0].city}" required id="city"/>
+            <textarea placeholder="Biographie" class="textarea textarea-bordered w-full h-24 rounded-lg" required id="bio">${dataUser.data[0].description}</textarea>
+            <select class="select w-full rounded-lg" required id="gender_attraction">
+              <option value="man" ${dataUser.data[0].gender_attraction === "man" ? 'selected' : ''}>Homme</option>
+              <option value="woman" ${dataUser.data[0].gender_attraction === "woman" ? 'selected' : ''}>Femme</option>    
+              <option value="other" ${dataUser.data[0].gender_attraction === "other" ? 'selected' : ''}>Autre</option>
             </select>
-            <input type="number" class="input validator w-full rounded-lg" required/>
-            <select class="select w-full rounded-lg">
-              <option disabled selected>Choisir un type de relation</option>
-              <option value="1">Sérieuse</option>
-              <option value="2">Relation courte</option>
-              <option value="3">Rencontre</option>
-              <option value="4">Cout d'un soir</option>
-              <option value="5">Amis</option>
+            <input type="number" class="input validator w-full rounded-lg" required value="${dataUser.data[0].age_attraction}" id="age_attraction"/>
+            <select class="select w-full rounded-lg" required id="relation_type">
+              <option value="serious" ${dataUser.data[0].relation_type === "serious" ? 'selected' : ''}>Sérieuse</option>
+              <option value="short" ${dataUser.data[0].relation_type === "short" ? 'selected' : ''}>Relation courte</option>
+              <option value="chill" ${dataUser.data[0].relation_type === "chill" ? 'selected' : ''}>Rencontre</option>
+              <option value="hookup" ${dataUser.data[0].relation_type === "hookup" ? 'selected' : ''}>Cout d'un soir</option>
+              <option value="friends" ${dataUser.data[0].relation_type === "friends" ? 'selected' : ''}>Amis</option>
             </select>
+            <button type="button" class="btn btn-primary w-full rounded-lg" id="editUser">Envoyer</button>
         </form> 
         `
         const modalEditUser = new Modal("Modification de t'es information", formEditUser)
