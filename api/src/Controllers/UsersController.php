@@ -130,7 +130,7 @@ class UsersController extends BaseController
             $data['image'] = $imageName;
         }
 
-        $user = new User($id, $data['firstName'], $data['lastName'], new \DateTime($data['dateOfBirth']), $data['gender'],
+        $user = new User(intval($id), $data['firstName'], $data['lastName'], new \DateTime($data['dateOfBirth']), $data['gender'],
             $data['email'], '', $data['city'], $data['description'], $data['image'],
             $data['genderAttraction'], $data['ageAttraction'], $data['relationType'], false,
             false, false, false, false, new \DateTime());

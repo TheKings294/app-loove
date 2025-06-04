@@ -18,14 +18,17 @@ class ConvRepositories extends BaseRepositories
     public function getMyConv(string $user_A): array
     {
         $result = $this
-            ->query("SELECT * FROM conversation WHERE user_a = :user OR user_b = :user")
+            ->query("SELECT u.*, c.* FROM `conversation` c JOIN users u ON u.id = (
+                            CASE
+                                WHEN c.user_a = :user THEN c.user_b
+                                ELSE c.user_a
+                            END
+                            )
+                            WHERE c.user_a = :user OR c.user_b = :user")
             ->fetch([
                 'user' => $user_A,
             ]);
-        $convArray = [];
-        foreach ($result as $key => $value) {
-            $convArray[] = new Conv($value['id'], $value['user_a'], $value['user_b']);
-        }
-        return $convArray;
+
+        return $result;
     }
 }

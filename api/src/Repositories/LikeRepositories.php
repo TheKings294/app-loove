@@ -17,14 +17,24 @@ class LikeRepositories extends BaseRepositories
     }
     public function checkIfIsMatch(int $userId, int $userLiked)
     {
-        $result = $this
+        $sql = "SELECT * FROM `like` WHERE user = :userLiked AND user_liked = :user";
+        $stmt = $this->query($sql);
+        $stmt->execute([
+            'userLiked' => $userLiked,
+            'user' => $userId
+        ]);
+        return $stmt->fetch();
+
+        /*
+         *  $result = $this
             ->query("SELECT * FROM `like` WHERE user_liked = :userLiked AND user = :user")
             ->fetch([
                 'userLiked' => $userId,
                 'user' => $userLiked
             ]);
 
-        return $result;
+            return $result;
+         * */
     }
     public function setUnlike(int $userUnliked, int $userId)
     {
