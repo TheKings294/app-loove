@@ -19,17 +19,19 @@ export class InboxViews
         this.app.appendChild(title)
 
         const data = await this.controller.getConv()
+        console.log(data)
 
         const divInboxList = document.createElement("div")
         divInboxList.className = "flex flex-col items-center gap-4 my-8"
 
         if (data.data.length !== 0) {
             data.data.forEach((inbox) => {
-                const name = inbox[0].first_name + " " + inbox[0].last_name
-                const inboxComponent = new Inbox(name, localStorage.getItem("id"), inbox[0].image_url)
+                const name = inbox.first_name + " " + inbox.last_name
+                const inboxComponent = new Inbox(name, localStorage.getItem("id"), inbox.image)
                 inboxComponent.el.addEventListener('click', () => {
                     const messageView = new MessageViews()
                 })
+                inboxComponent.render(divInboxList)
             })
             this.app.appendChild(divInboxList)
         } else {

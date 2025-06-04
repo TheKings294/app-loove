@@ -191,17 +191,97 @@ export class UserModel {
                 return {success: false, message: error.message}
             })
     }
-    async editUser() {
-
+    async editUser(formData) {
+        return await fetch(`https://api.clink.test/users/edit/${this.id}`, {
+            method: 'PUT',
+            credentials: 'include',
+            headers: {
+                'Authorization': 'Bearer ' + this.token
+            },
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        localStorage.clear()
+                        this.token = null
+                        this.role = null
+                        this.id = null
+                        document.cookie = "session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.clink.local;"
+                        return {success: false, message: "login"}
+                    }
+                }
+                return response.json()
+            })
+            .then(data => {
+                return {success: true, data: data}
+            })
+            .catch(error => {
+                return {success: false, message: error.message}
+            })
     }
-    async editPassword() {
-
+    async editPassword(formData) {
+        return await fetch(`https://api.clink.test/users/edit/password/${this.id}`, {
+            method: 'PATCH',
+            credentials: 'include',
+            headers: {
+                'Authorization': 'Bearer ' + this.token
+            },
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        localStorage.clear()
+                        this.token = null
+                        this.role = null
+                        this.id = null
+                        document.cookie = "session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.clink.local;"
+                        return {success: false, message: "login"}
+                    }
+                }
+                return response.json()
+            })
+            .then(data => {
+                return {success: true, data: data}
+            })
+            .catch(error => {
+                return {success: false, message: error.message}
+            })
     }
     async deleteUser() {
-
+        return await fetch(`https://api.clink.test/users/delete/${this.id}`, {
+            method: 'DELETE',
+            credentials: 'include',
+            headers: {
+                'Authorization': 'Bearer ' + this.token
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        localStorage.clear()
+                        this.token = null
+                        this.role = null
+                        this.id = null
+                        document.cookie = "session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.clink.local;"
+                        return {success: false, message: "login"}
+                    }
+                }
+                return response.json()
+            })
+            .then(data => {
+                return {success: true, data: data}
+            })
+            .catch(error => {
+                return {success: false, message: error.message}
+            })
     }
     async unCo() {
-
+        await fetch('https://api.clink.test/logout', {
+            method: 'POST',
+            credentials: "include"
+        })
     }
     isAuthenticated() {
         return !!this.token

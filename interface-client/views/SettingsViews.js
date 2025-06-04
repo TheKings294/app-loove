@@ -42,10 +42,12 @@ export class SettingsViews
         const buttonDelete = document.createElement("button")
         buttonDelete.textContent = "Suppression du compte"
         buttonDelete.className = "btn btn-primary"
+        buttonDelete.id = 'deleteButton'
 
         const unCo = document.createElement("button")
         unCo.textContent = "Deconexion"
         unCo.className = "btn btn-outline btn-primary"
+        unCo.id = "unCoButton"
 
         const infoDiv = document.createElement("div")
         infoDiv.style.display = 'none'
@@ -115,7 +117,7 @@ export class SettingsViews
                 <input class="input" type="password" placeholder="Ancien mot de passe" id="actual_mp">
                 <input class="input" type="password" placeholder="Nouveau mot de passe" id="new_mp">
                 <input class="input" type="password" placeholder="Nouveau mot de passe" id="confirm_new_mp">
-                <button class="btn btn-primary rounded-lg" id="editPassword">Modifier</button>
+                <button class="btn btn-primary rounded-lg" id="sendEditPassword">Modifier</button>
             </form>
             `
         const modalPassword = new Modal("Modification du mot de passe", formPassword)
@@ -150,7 +152,7 @@ export class SettingsViews
               <option value="hookup" ${dataUser.data[0].relation_type === "hookup" ? 'selected' : ''}>Cout d'un soir</option>
               <option value="friends" ${dataUser.data[0].relation_type === "friends" ? 'selected' : ''}>Amis</option>
             </select>
-            <button type="button" class="btn btn-primary w-full rounded-lg" id="editUser">Envoyer</button>
+            <button type="button" class="btn btn-primary w-full rounded-lg" id="sendEditUser">Envoyer</button>
         </form> 
         `
         const modalEditUser = new Modal("Modification de t'es information", formEditUser)
@@ -163,5 +165,9 @@ export class SettingsViews
         document.querySelector("#return").addEventListener("click", () => navigate("settings"))
         document.querySelector("#editPassword").addEventListener("click", () => modalPassword.open())
         document.querySelector("#editUser").addEventListener("click", () => modalEditUser.open())
+        document.getElementById("sendEditUser").addEventListener('click', async () => await this.controller.editUser())
+        document.getElementById("sendEditPassword").addEventListener('click', async () => await this.controller.editPassword())
+        document.getElementById("deleteButton").addEventListener('click', async () => await this.controller.deleteUser())
+        document.getElementById("unCoButton").addEventListener('click', async () => await this.controller.unCo())
     }
 }

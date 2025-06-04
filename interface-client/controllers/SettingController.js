@@ -43,21 +43,65 @@ export class SettingController {
         formData.append("ageAttraction", AA)
         formData.append("relationType", RT)
         formData.append("email", localStorage.getItem("email"))
+        formData.append("isVerified", 'false')
+        formData.append("isSuspended", 'false')
+        formData.append("isBan", 'false')
+        formData.append("isDeleted", 'false')
+        formData.append("isPremium", 'false')
+        formData.append("endSuspendedDate", 'false')
 
+        const result = await this.model.editUser(formData)
+
+        if (!result.success) {
+            new Toast(result.message, 'alert-error').render()
+            return false
+        }
+
+        new Toast(result.data.message, 'alert-success').render()
+        return false
     }
     async editPassword() {
+        const AP = document.getElementById("actual_mp").value
+        const NP = document.getElementById("new_mp").value
+        const CNP = document.getElementById("confirm_new_mp").value
 
+        if (!AP === NP) {
+            new Toast("Le mot de passe doit être différant de l'acien", 'alert-error').render()
+            return false
+        }
+
+        if (!NP === CNP) {
+            new Toast("Le mot de passe et sa confirmation doivent être identique", 'alert-error').render()
+            return false
+        }
+
+        const formData = new FormData()
+        formData.append("password", NP)
+        const result = await this.model.editPassword(formData)
+
+        if (!result.success) {
+            new Toast(result.message, 'alert-error').render()
+            return false
+        }
+
+        new Toast(result.data.message, 'alert-success').render()
+        return false
     }
     async deleteUser() {
+        const result = await this.model.deleteUser()
 
+        if (!result.success) {
+            new Toast(result.message, 'alert-error').render()
+            return false
+        }
+
+        new Toast(result.data.message, 'alert-success').render()
+        return false
     }
     async unCo() {
-
+        await this.model.unCo()
+        localStorage.clear()
+        document.cookie = "session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.clink.local;"
+        window.location.reload()
     }
 }
-
-/*
-*     private array $inputFields = ["firstName", "lastName", "dateOfBirth", "gender", "email", "password", "city",
-        "description", "image", "genderAttraction", "ageAttraction", "relationType", "isVerified", "isSuspended",
-        "isBan", "isDeleted", "isPremium", "endSuspendedDate"];
-* */

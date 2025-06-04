@@ -14,7 +14,7 @@ export class Inbox
     `
     }
 
-    render(navigate, parent) {
+    render(parent) {
         parent.appendChild(this.el)
     }
 }
