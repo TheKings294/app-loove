@@ -39,4 +39,10 @@ class Functions
             return false;
         }
     }
+    static function getPrivateChannelName($userId1, $userId2) {
+        $ids = [$userId1, $userId2];
+        sort($ids);
+        return "private-chat." . $ids[0] . "_" . $ids[1];
+    }
+
 }

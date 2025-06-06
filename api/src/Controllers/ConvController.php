@@ -16,7 +16,8 @@ class ConvController extends BaseController
     }
     public function newConv(int $user_A, int $user_B): bool
     {
-        $this->convRepo->newConv($user_A, $user_B);
+        $chanelName = Functions::getPrivateChannelName($user_A, $user_B);
+        $this->convRepo->newConv($user_A, $user_B, $chanelName);
         return true;
     }
     public function getMyConvs(string $user_id)

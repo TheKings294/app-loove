@@ -44,7 +44,7 @@ if (preg_match('#^/uploads/(.+)$#', $_SERVER['REQUEST_URI'], $matches)) {
     }
 }
 
-use App\Controllers\{UsersAdminController, ReportsController, UsersController, HomeController, ConvController, LikeController};
+use App\Controllers\{UsersAdminController, ReportsController, UsersController, HomeController, ConvController, LikeController, MessageController};
 use App\Core\Routeur;
 use App\Kernel;
 
@@ -92,5 +92,8 @@ $routeur->addRoute(['GET'], '/unlike/{id}/{idUnLiked}', LikeController::class, '
 
 //Conv and messages
 $routeur->addRoute(['GET'], '/conv/{id}', ConvController::class, 'getMyConvs', 'users');
+$routeur->addRoute(['POST'], '/pusher/auth', MessageController::class, 'pusherAuth', 'users');
+$routeur->addRoute(['POST'], '/message/new/{idA}/{idB}/{convID}', MessageController::class, 'sendMessage', 'users');
+$routeur->addRoute(['GET'], '/messages/{convID}', MessageController::class, 'getAllMessagesOfConv', 'users');
 
 new Kernel($routeur);
