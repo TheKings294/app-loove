@@ -282,6 +282,82 @@ export class UserModel {
             method: 'POST',
             credentials: "include"
         })
+            .then(response => {
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        localStorage.clear()
+                        this.token = null
+                        this.role = null
+                        this.id = null
+                        document.cookie = "session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.clink.local;"
+                        return {success: false, message: "login"}
+                    }
+                }
+                return response.json()
+            })
+            .then(data => {
+                return {success: true, data: data}
+            })
+            .catch(error => {
+                return {success: false, message: error.message}
+            })
+    }
+    async getAllMessages(convID) {
+        return await fetch(`https://api.clink.test/messages/${convID}`, {
+            method: 'GET',
+            credentials: "include",
+            headers: {
+                'Authorization': 'Bearer ' + this.token
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        localStorage.clear()
+                        this.token = null
+                        this.role = null
+                        this.id = null
+                        document.cookie = "session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.clink.local;"
+                        return {success: false, message: "login"}
+                    }
+                }
+                return response.json()
+            })
+            .then(data => {
+                return {success: true, data: data}
+            })
+            .catch(error => {
+                return {success: false, message: error.message}
+            })
+    }
+    async sendMessage(formData, idA, idB, convID) {
+        return await fetch(`https://api.clink.test/message/new/${idA}/${idB}/${convID}`, {
+            method: 'POST',
+            credentials: "include",
+            headers: {
+                'Authorization': 'Bearer ' + this.token
+            },
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        localStorage.clear()
+                        this.token = null
+                        this.role = null
+                        this.id = null
+                        document.cookie = "session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.clink.local;"
+                        return {success: false, message: "login"}
+                    }
+                }
+                return response.json()
+            })
+            .then(data => {
+                return {success: true, data: data}
+            })
+            .catch(error => {
+                return {success: false, message: error.message}
+            })
     }
     isAuthenticated() {
         return !!this.token

@@ -30,6 +30,12 @@ export class InboxViews
                 const inboxComponent = new Inbox(name, localStorage.getItem("id"), inbox.image)
                 inboxComponent.el.addEventListener('click', () => {
                     const messageView = new MessageViews()
+                    messageView.render(navigate,
+                        localStorage.getItem('id'),
+                        inbox.first_name,
+                        localStorage.getItem('id') == inbox.user_a? inbox.user_b : inbox.user_a,
+                        inbox.id,
+                        inbox.chanel_name)
                 })
                 inboxComponent.render(divInboxList)
             })
