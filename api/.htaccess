@@ -3,6 +3,9 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^ index.php [QSA,L]
 SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+<FilesMatch "^\.env">
+    Require all denied
+</FilesMatch>
 <IfModule mod_headers.c>
     # Vérifie si l'en-tête Origin est une des deux autorisées
     SetEnvIf Origin "^http://(clink\.local|admin\.clink\.local)$" AccessControlAllowOrigin=$0
@@ -13,4 +16,3 @@ SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
     Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, PATCH"
     Header set Access-Control-Allow-Headers "Content-Type, Authorization"
 </IfModule>
-
