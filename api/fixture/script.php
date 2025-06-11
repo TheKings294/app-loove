@@ -28,7 +28,6 @@ $stmtUser = $pdo->prepare('INSERT INTO users (first_name, last_name, date_of_bir
                    description, image, gender_attraction, age_attraction, relation_type) 
                                 VALUES(:first_name, :last_name, :date_of_birth, :gender, :email, :password, :city, 
                                        :description, :image, :gender_attraction, :age_attraction, :relation_type)');
-$stmtLastId = $pdo->prepare('SELECT id FROM users ORDER BY id DESC LIMIT 1');
 $stmtRank = $pdo->prepare('INSERT INTO rank_soft_skills (user_id,soft_1,soft_2,soft3,soft4,soft5,soft6,soft7,soft8,soft9,soft10) 
                             VALUES(:user_id, :skill1, :skill2, :skill3, :skill4, :skill5, :skill6, :skill7, :skill8, :skill9, :skill10)');
 
@@ -47,7 +46,7 @@ for ($i = 0; $i < 100; $i++) {
         $stmtUser->bindValue(':age_attraction', $faker->numberBetween(18, 100), PDO::PARAM_STR);
         $stmtUser->bindValue(':relation_type', $faker->randomElement(['serious', 'short', 'chill', 'hookup', 'friends']), PDO::PARAM_STR);
         $stmtUser->execute();
-        $result  = $stmtLastId->execute();
+        $result  = $pdo->lastInsertId();
         $stmtRank->bindValue(':user_id', $result, PDO::PARAM_INT);
         $stmtRank->bindValue(':skill1', $faker->numberBetween(0, 5));
         $stmtRank->bindValue(':skill2', $faker->numberBetween(0, 5));
