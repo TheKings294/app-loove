@@ -37,7 +37,7 @@ class ReportsController extends BaseController
             return json_encode(['message' => "All fields are required."]);
         }
 
-        $imageName = uniqid() . $_FILES['image']['name'] . pathinfo($_FILES['image']['name'], PATHINFO_EXTENSION);
+        $imageName = uniqid() . $_FILES['image']['name'];
 
         ImageFunctions::MoveImage($_FILES['image']['tmp_name'],$imageName);
 

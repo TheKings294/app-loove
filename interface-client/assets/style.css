@@ -38,4 +38,7 @@
     .messages {
         overflow: hidden;
     }
+    .chat-bubble {
+        overflow-wrap:  break-word;
+    }
 }

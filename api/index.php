@@ -61,7 +61,7 @@ $routeur->addRoute(['DELETE'], '/users-admin/delete/{id}', UsersAdminController:
 //Routes for report
 $routeur->addRoute(['GET'], '/reports', ReportsController::class, 'getAll', 'admin');
 $routeur->addRoute(['GET'], '/reports/{id}', ReportsController::class, 'getOne', 'admin');
-$routeur->addRoute(['POST'], '/reports/new', ReportsController::class, 'new_report', 'users');
+$routeur->addRoute(['POST'], '/reports/new', ReportsController::class, 'newReport', 'users');
 $routeur->addRoute(['POST'], '/reports/finish/{id}', ReportsController::class, 'finish_report', 'admin');
 
 //Routes for users

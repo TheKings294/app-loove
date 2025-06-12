@@ -36,15 +36,14 @@ class ReportsRepositories extends BaseRepositories {
     public function add(Report $report): void
     {
         $this
-            ->query("INSERT INTO `report` (user_reported, user, why_reported, images, date_of_creation, is_finish) 
-                                VALUES (:ur, :u, :wr, :i, :doc, :if)")
+            ->query("INSERT INTO `report` (user_reported, user, why_reported, images, date_of_creation) 
+                                VALUES (:ur, :u, :wr, :i, :doc)")
             ->execute([
                 'ur' => $report->user,
                 'u' => $report->user,
                 'wr' => $report->why_reported,
                 'i' => $report->image,
-                'doc' => $report->date,
-                'if' => $report->is_finish
+                'doc' => $report->date->format('Y-m-d'),
             ]);
     }
 }
