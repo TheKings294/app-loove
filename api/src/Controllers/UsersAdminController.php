@@ -42,18 +42,10 @@ class UsersAdminController extends BaseController {
         $user->id = $result->id;
 
         $this->logger->info("User logged in [username => $user->username]");
-
         $jwt = JWTFunctions::createJWTToken($user->id, $user->username, "admin");
-
-        $_SESSION['authenticated'] = true;
-        $_SESSION['jwt-token'] = $jwt;
-        $_SESSION["username"] = $user->username;
-        $_SESSION["user_id"] = $user->id;
-        $_SESSION["role"] = "admin";
-
         $this->logger->info("Token created for an user [username => $user->username]");
 
-        return json_encode(["token" => $jwt, "role" => "admin"]);
+        return json_encode(["token" => $jwt, "role" => "admin", 'id' => $user->id]);
     }
 
     public function new_users_admin()

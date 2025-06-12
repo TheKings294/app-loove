@@ -1,12 +1,4 @@
 <?php
-session_set_cookie_params([
-    'lifetime' => 0,
-    'path' => '/',
-    'domain' => '.clink.test',
-    'secure' => true,
-    'httponly' => false,
-    'samesite' => 'None'
-]);
 $allowed_origins = [
     "https://admin.clink.test",
     "https://clink.test",
@@ -20,10 +12,10 @@ header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH, OPTION");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Credentials: true");
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === '/logout') {
+/*if ($_SERVER['REQUEST_METHOD'] === 'POST' && parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === '/logout') {
     session_start();
     session_destroy();
-}
+}*/
 
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(204); // No Content

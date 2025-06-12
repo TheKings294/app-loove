@@ -241,15 +241,6 @@ class UsersController extends BaseController
         }
 
         $token = JWTFunctions::createJWTToken(intval($user[0]), $email, 'users');
-
-        session_start();
-
-        $_SESSION['authenticated'] = true;
-        $_SESSION['jwt-token'] = $token;
-        $_SESSION["username"] = $email;
-        $_SESSION["user_id"] = $user[0];
-        $_SESSION["role"] = "users";
-
         $this->logger->info("Users login success [username => $email]");
         $this->logger->info("Token created for an users [username => $email]");
 

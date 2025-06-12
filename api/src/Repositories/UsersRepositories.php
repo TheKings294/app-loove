@@ -11,18 +11,52 @@ class UsersRepositories extends BaseRepositories
     public function getAll(): array
     {
         $result = $this
-            ->query("SELECT * FROM users LEFT JOIN rank_soft_skills rss on users.id = rss.user_id")
+            ->query("SELECT 
+              u.id AS user_id,
+              u.first_name,
+              u.last_name,
+              u.date_of_birth,
+              u.gender,
+              u.email,
+              u.password,
+              u.city,
+              u.description,
+              u.image,
+              u.gender_attraction,
+              u.age_attraction,
+              u.relation_type,
+              u.is_verified,
+              u.is_suspended,
+              u.is_ban,
+              u.is_delete,
+              u.is_premium,
+              u.end_suspended_date,
+            
+              r.id AS rank_id,
+              r.soft_1,
+              r.soft_2,
+              r.soft3,
+              r.soft4,
+              r.soft5,
+              r.soft6,
+              r.soft7,
+              r.soft8,
+              r.soft9,
+              r.soft10
+            
+            FROM users u
+            LEFT JOIN rank_soft_skills r ON u.id = r.user_id")
             ->fetch();
 
         $data = [];
 
         foreach ($result as $user) {
             $data[] = [
-                new User(0, $user['first_name'], $user['last_name'], new \DateTime($user['date_of_birth']),
-                    $user['gender'],$user['email'], $user['password'],$user['city'], $user['description'], $user['image'],
-                    $user['gender_attraction'], $user['age_attraction'], $user['relation_type'],$user['is_verified'],
-                    $user['is_suspended'], $user['is_ban'], $user['is_delete'], $user['is_premium'], $user['end_suspended_date'] ? new \DateTime($user['end_suspended_date']) : null,),
-                new SoftSkill(0, $user['user_id'], $user['soft_1'], $user['soft_2'], $user['soft3'],
+                new User($user['user_id'], $user['first_name'], $user['last_name'], new \DateTime($user['date_of_birth']),
+                    $user['gender'], $user['email'], $user['password'], $user['city'], $user['description'], $user['image'],
+                    $user['gender_attraction'], $user['age_attraction'], $user['relation_type'], $user['is_verified'],
+                    $user['is_suspended'], $user['is_ban'], $user['is_delete'], $user['is_premium'], $user['end_suspended_date'] ? new \DateTime($user['end_suspended_date']) : null),
+                new SoftSkill($user['rank_id'], $user['user_id'], $user['soft_1'], $user['soft_2'], $user['soft3'],
                     $user['soft4'], $user['soft5'], $user['soft6'], $user['soft7'], $user['soft8'],
                     $user['soft9'], $user['soft10'])
             ];
