@@ -9,37 +9,26 @@ export class UserModel
     }
     async login(email, password)
     {
-        try {
-            const response = await fetch('https://api.clink.test/login-admin', {
-                method: 'POST',
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                },
-                credentials: 'include',
-                body: new URLSearchParams({
-                    email: email,
-                    password: password
-                })
+        return await fetch('https://api.clink.test/login-admin', {
+            method: 'POST',
+            body: new URLSearchParams({
+                email: email,
+                password: password
             })
-            const data = await response.json()
-
-            if (!response.ok) throw new Error(data.message)
-
-            localStorage.setItem("token", data.token)
-            localStorage.setItem("role", data.role)
-            this.token = data.token
-            this.role = data.role
-            return { success: true }
-        } catch (error) {
-            return { success: false, message: error.message }
-        }
+        })
+            .then(response => response.json())
+            .then(data => {
+                return {success: true, data: data}
+            })
+            .catch(error => {
+                return {success: false, message: error.message}
+            })
     }
 
     async getAll()
     {
-             return fetch("https://api.clink.test/users", {
+             return await fetch("https://api.clink.test/users", {
                  method: 'GET',
-                 credentials: "include",
                 headers: {
                     'Authorization': this.token
                 }
@@ -68,7 +57,6 @@ export class UserModel
     async checkIsGood() {
         return await fetch("https://api.clink.test", {
             method: 'GET',
-            credentials: 'include',
             headers: {
                 'Authorization': localStorage.getItem("token") ? this.token : 0
             }

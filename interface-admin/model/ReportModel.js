@@ -8,7 +8,6 @@ export class ReportModel {
             headers: {
                 'Authorization': this.token
             },
-            credentials: 'include',
         })
             .then(reponse => {
                 if (!reponse.ok) {

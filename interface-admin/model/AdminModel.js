@@ -6,7 +6,6 @@ export class AdminModel
     async getAllAdmins() {
         return await fetch('https://api.clink.test/users-admin', {
             method: 'GET',
-            credentials: 'include',
             headers:  {
                 'Authorization': this.token
             }
@@ -33,7 +32,6 @@ export class AdminModel
     async newAdmin(email, password) {
         return await fetch('https://api.clink.test/users-admin/new', {
             method: 'POST',
-            credentials: 'include',
             headers: {
                 'Authorization': this.token
             },
@@ -59,6 +57,21 @@ export class AdminModel
             })
             .catch(error => {
                 return {success: false, message: error.message}
+            })
+    }
+    async checkIsGood() {
+        return await fetch("https://api.clink.test", {
+            method: 'GET',
+            headers: {
+                'Authorization': localStorage.getItem("token") ? 'Bearer ' + localStorage.getItem("token") : 0
+            }
+        })
+            .then(reponse => reponse.json())
+            .then(data => {
+                return {success: true, data: data}
+            })
+            .catch(error => {
+                return { success: false, message: error.message }
             })
     }
 }

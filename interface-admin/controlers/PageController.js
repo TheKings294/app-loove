@@ -14,23 +14,23 @@ export class PageController
         this.auth = new AuthController()
         this.routes = {
             users: () => {
-                if (!this.auth.checkAuth()) return this.navigate("login") && this.auth.logout()
+                if (!this.auth.checkAuth('admin')) return this.navigate("login") && this.auth.logout()
                 new UsersViews().render(this.navigate.bind(this))
             },
             stats: () => {
-                if (!this.auth.checkAuth()) return this.navigate("login") && this.auth.logout()
+                if (!this.auth.checkAuth('admin')) return this.navigate("login") && this.auth.logout()
                 new StatsViews().render(this.navigate.bind(this))
             },
             report: () => {
-                if (!this.auth.checkAuth()) return this.navigate("login") && this.auth.logout()
+                if (!this.auth.checkAuth('admin')) return this.navigate("login") && this.auth.logout()
                 new ReportViews().render(this.navigate.bind(this))
             },
             premium: () => {
-                if (!this.auth.checkAuth()) return this.navigate("login") && this.auth.logout()
+                if (!this.auth.checkAuth('admin')) return this.navigate("login") && this.auth.logout()
                 new PremiumViews().render(this.navigate.bind(this))
             },
             admin: () => {
-                if (!this.auth.checkAuth()) return this.navigate("login") && this.auth.logout()
+                if (!this.auth.checkAuth('admin')) return this.navigate("login") && this.auth.logout()
                 new AdminViews().render(this.navigate.bind(this))
             },
             login: () => {

@@ -40,10 +40,7 @@ export class LoginViews
             e.preventDefault()
         })
         document.getElementById('btnLogin').addEventListener('click', async () => {
-            const result = await this.controller.login(document.getElementById('email').value, document.getElementById('password').value)
-            if (result === true) {
-                navigate('users')
-            }
+            await this.controller.login(document.getElementById('email').value, document.getElementById('password').value, navigate)
         })
     }
 }
