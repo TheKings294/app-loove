@@ -2,6 +2,16 @@
 
 Clink est une application de rencontres originale développée dans le cadre d’un projet de fin d’année à CODA. Elle propose une expérience unique : les utilisateurs choisissent un type d’alcool correspondant à leur type de relation recherchée, puis établissent une **tier list** de leurs préférences. Un **match** est créé si les choix sont compatibles et les préférences alignées.
 
+[[USER.md]]
+
+---
+
+![PHP Version](https://img.shields.io/badge/php-8.0+-purple.svg)
+![JS Vanilla](https://img.shields.io/badge/JavaScript-OOP-blue.svg)
+![MySQL](https://img.shields.io/badge/database-MySQL-orange.svg)
+
+---
+
 ## 🚀 Fonctionnalités
 
 - 🔐 Système d’authentification sécurisé
@@ -28,6 +38,7 @@ Clink est une application de rencontres originale développée dans le cadre d�
 
 ## 📁 Architecture du projet
 
+```
 clink/
 ├── api/
 │ ├── Controller/
@@ -47,7 +58,9 @@ clink/
 │ ├── views/
 │ └── index.html
 └── README.md
+```
 
+[[TECHNIC.md]]
 
 ## 📸 Aperçu
 
@@ -66,7 +79,7 @@ Ce projet a été réalisé en autonomie dans le cadre de ma soutenance de fin d
 
 ## 📝 Licence
 
-Ce projet est sous licence MIT. Consultez le fichier `LICENSE` pour plus d’informations.
+Ce projet est sous licence MIT. Consultez le fichier [[LICENSE]] pour plus d’informations.
 
 ---
 
