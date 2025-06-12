@@ -2,7 +2,7 @@
 
 Clink est une application de rencontres originale développée dans le cadre d’un projet de fin d’année à CODA. Elle propose une expérience unique : les utilisateurs choisissent un type d’alcool correspondant à leur type de relation recherchée, puis établissent une **tier list** de leurs préférences. Un **match** est créé si les choix sont compatibles et les préférences alignées.
 
-[[USER.md]]
+[Documentation utilisateur](./USER.md)
 
 ---
 
@@ -60,7 +60,7 @@ clink/
 └── README.md
 ```
 
-[[TECHNIC.md]]
+[documentation technique](./TECHNIC.md)
 
 ## 📸 Aperçu
 
