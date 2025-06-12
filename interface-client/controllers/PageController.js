@@ -5,6 +5,7 @@ import {InboxViews} from "../views/InboxViews.js";
 import {SettingsViews} from "../views/SettingsViews.js";
 import {CheckoutViews} from "../views/CheckoutViews.js";
 import {AuthController} from "./AuthController.js";
+import {PremiumViews} from "../views/PremiumViews.js";
 
 export class PageController
 {
@@ -32,6 +33,10 @@ export class PageController
             checkout: () => {
                 if (!this.auth.checkAuth("user")) return this.navigate("login") && this.auth.logout()
                 new CheckoutViews().render(this.navigate.bind(this))
+            },
+            premium: () => {
+                if (!this.auth.checkAuth("user")) return this.navigate("login") && this.auth.logout()
+                new PremiumViews().render(this.navigate.bind(this))
             }
         }
     }

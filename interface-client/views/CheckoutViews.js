@@ -1,9 +1,14 @@
+import {Toast} from "../component/Toast.js";
+import {CheckoutController} from "../controllers/CheckoutController.js";
+
 export class CheckoutViews {
     constructor() {
         this.app = document.querySelector(".app")
+        this.controller = new CheckoutController()
     }
 
-    render(navigate) {
+    async render(navigate) {
+        this.app.innerHTML = ""
         const paimentDiv = document.createElement("div")
         paimentDiv.className = "mx-auto"
         paimentDiv.innerHTML = `
@@ -29,7 +34,7 @@ export class CheckoutViews {
         this.app.appendChild(RetunrnHome)
         this.app.appendChild(paimentDiv)
 
-        document.getElementById("returnHome").addEventListener("click", () => navigate("home"))
+        document.getElementById("returnHome").addEventListener("click", () => navigate("settings"))
 
         let selectedAmount = "10";
 
@@ -66,8 +71,15 @@ export class CheckoutViews {
                 onApprove: function(data, actions) {
                     return actions.order.capture().then(function(details) {
                         resultMessage("Paiement validé !");
-                        setTimeout(() => {
-                            navigate('home');
+                        setTimeout(async () => {
+                            const result = await this.controller.setPremium()
+                            if (!result.success) {
+                                new Toast("Erreur lors de l'enregistrement", "alert-error")
+                                return
+                            }
+                            new Toast("Payment validé").render()
+                            localStorage.setItem('premium', true)
+                            navigate('premium')
                         }, 3000);
                     });
                 },

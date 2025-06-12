@@ -359,6 +359,32 @@ export class UserModel {
                 return {success: false, message: error.message}
             })
     }
+    async setPremium() {
+        return await fetch(`https://api.clink.test/premium/${this.ids}`, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': 'Bearer ' + this.token
+            }
+        })
+            .then(response => {
+                if (!response.ok) {
+                    if (response.status === 401) {
+                        localStorage.clear()
+                        this.token = null
+                        this.role = null
+                        this.id = null
+                        return {success: false, message: "login"}
+                    }
+                }
+                return response.json()
+            })
+            .then(data => {
+                return {success: true, data: data}
+            })
+            .catch(error => {
+                return {success: false, message: error.message}
+            })
+    }
     isAuthenticated() {
         return !!this.token
     }

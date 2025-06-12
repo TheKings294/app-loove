@@ -8,7 +8,6 @@ export class SettingController {
     async getUserInfo() {
         const data = await this.model.getUserInfo()
 
-        console.log(data)
         return data
     }
     async editUser() {

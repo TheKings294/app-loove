@@ -19,7 +19,6 @@ export class InboxViews
         this.app.appendChild(title)
 
         const data = await this.controller.getConv()
-        console.log(data)
 
         const divInboxList = document.createElement("div")
         divInboxList.className = "flex flex-col items-center gap-4 my-8"
