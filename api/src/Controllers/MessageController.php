@@ -53,7 +53,7 @@ class MessageController extends BaseController {
         $message = !empty($_POST['message']) ? Functions::cleanCodeString($_POST['message']) : null;
 
         if (!Functions::checkIfIsNotNull([$message])) {
-            http_response_code(400);
+            http_response_code(406);
             return json_encode(['message' => 'Message cannot be empty.']);
         }
 

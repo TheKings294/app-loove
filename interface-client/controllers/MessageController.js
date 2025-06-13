@@ -62,7 +62,6 @@ export class MessageController {
          this.chanel = this.pusher.subscribe(chanelName)
 
          this.chanel.bind('new-message', (data) => {
-             console.log("Nouveau message privé reçu", data)
              if (localStorage.getItem('id') == data.to) {
                  new Chat(data.message, 'start').render(this.messageContent)
              }
