@@ -10,7 +10,7 @@ class ReportsRepositories extends BaseRepositories {
     public function getAll()
     {
         $result = $this
-            ->query("SELECT * FROM `report`")
+            ->query("SELECT * FROM `report` WHERE is_finish = 0")
             ->fetch();
 
         $data = [];
@@ -44,6 +44,14 @@ class ReportsRepositories extends BaseRepositories {
                 'wr' => $report->why_reported,
                 'i' => $report->image,
                 'doc' => $report->date->format('Y-m-d'),
+            ]);
+    }
+    public function markFinished(int $id): void
+    {
+        $this
+            ->query("UPDATE `report` SET is_finish = 1 WHERE id = :id")
+            ->execute([
+                'id' => $id,
             ]);
     }
 }

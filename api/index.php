@@ -12,11 +12,6 @@ header("Access-Control-Allow-Methods: GET, POST, PUT, DELETE, PATCH, OPTION");
 header("Access-Control-Allow-Headers: Content-Type, Authorization");
 header("Access-Control-Allow-Credentials: true");
 
-/*if ($_SERVER['REQUEST_METHOD'] === 'POST' && parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) === '/logout') {
-    session_start();
-    session_destroy();
-}*/
-
 if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     http_response_code(204); // No Content
     exit;
@@ -62,7 +57,7 @@ $routeur->addRoute(['DELETE'], '/users-admin/delete/{id}', UsersAdminController:
 $routeur->addRoute(['GET'], '/reports', ReportsController::class, 'getAll', 'admin');
 $routeur->addRoute(['GET'], '/reports/{id}', ReportsController::class, 'getOne', 'admin');
 $routeur->addRoute(['POST'], '/reports/new', ReportsController::class, 'newReport', 'users');
-$routeur->addRoute(['POST'], '/reports/finish/{id}', ReportsController::class, 'finish_report', 'admin');
+$routeur->addRoute(['POST'], '/reports/finish/{id}', ReportsController::class, 'markAsFinished', 'admin');
 
 //Routes for users
 $routeur->addRoute(['GET'], '/users', UsersController::class, 'getAll', 'admin');

@@ -47,8 +47,9 @@ class ReportsController extends BaseController
 
         return json_encode(['success' => true, 'message' => "Report added."]);
     }
-    public function markAsFinished(string $id,string $action)
+    public function markAsFinished(string $id)
     {
-        
+        $this->reportsRepo->markFinished(intval($id));
+        return json_encode(['success' => true, 'message' => "Report marked as finished."]);
     }
 }

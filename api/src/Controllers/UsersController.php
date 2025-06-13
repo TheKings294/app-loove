@@ -166,7 +166,8 @@ class UsersController extends BaseController
     }
     public function suspendUser(string $id, string $end_date)
     {
-        $this->userRepo->setSuspended(intval($id), $end_date);
+        $dateobj = new \DateTime($end_date);
+        $this->userRepo->setSuspended(intval($id), $dateobj->format("Y-m-d"));
         $this->logger->info("Users suspended [username => $id] until $end_date");
         http_response_code(200);
         return json_encode(["success" => true, 'message' => 'User suspended']);

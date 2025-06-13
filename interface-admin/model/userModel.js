@@ -51,7 +51,6 @@ export class UserModel
                  .catch(error => {
                      return { success: false, message: error.message }
                  })
-
     }
 
     async checkIsGood() {
@@ -62,6 +61,56 @@ export class UserModel
             }
         })
             .then(reponse => reponse.json())
+            .then(data => {
+                return {success: true, data: data}
+            })
+            .catch(error => {
+                return { success: false, message: error.message }
+            })
+    }
+    async ban(id) {
+        return await fetch(`https://api.clink.test/users/ban/${id}`, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': this.token
+            }
+        })
+            .then(reponse => {
+                if (!reponse.ok) {
+                    if (reponse.status === 401) {
+                        localStorage.clear()
+                        this.token = null
+                        this.role = null
+                        return {success: false, message: "login"}
+                    }
+                }
+                return reponse.json()
+            })
+            .then(data => {
+                return {success: true, data: data}
+            })
+            .catch(error => {
+                return { success: false, message: error.message }
+            })
+    }
+    async suspend(id, date) {
+        return await fetch(`https://api.clink.test/users/suspended/${id}/${date}`, {
+            method: 'PATCH',
+            headers: {
+                'Authorization': this.token
+            }
+        })
+            .then(reponse => {
+                if (!reponse.ok) {
+                    if (reponse.status === 401) {
+                        localStorage.clear()
+                        this.token = null
+                        this.role = null
+                        return {success: false, message: "login"}
+                    }
+                }
+                return reponse.json()
+            })
             .then(data => {
                 return {success: true, data: data}
             })

@@ -19,5 +19,6 @@ export class ReportViews
         main.appendChild(title)
         main.appendChild(await this.controller.getAllReports())
         el.appendChild(main)
+        this.controller.bindModal()
     }
 }
