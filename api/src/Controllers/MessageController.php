@@ -4,8 +4,10 @@ namespace App\Controllers;
 
 use App\Repositories\MessageRepositories;
 use App\Utils\Functions;
+use App\Utils\JWTFunctions;
 use Monolog\Logger;
 use Pusher\Pusher;
+use App\Utils\Notif;
 
 class MessageController extends BaseController {
     private $messageRepo;
@@ -26,11 +28,14 @@ class MessageController extends BaseController {
             ]
         );
 
-        $currentUserId = $_SESSION['user_id'] ?? null;
+        $token = JWTFunctions::checkInBearerToken();
+        $tokenData = JWTFunctions::decodeJWTToken($token);
+
+        $currentUserId = $tokenData->data->userId ?? null;
 
         if (!$currentUserId) {
             http_response_code(403);
-            return json_encode(['message' => 'You are not authorized to access this page.']);
+            return json_encode(['message' => $tokenData]);
         }
 
         $channel = $_POST["channel_name"];
@@ -71,12 +76,17 @@ class MessageController extends BaseController {
 
         $channelName = "private-chat." . min($idA, $idB) . "_" . max($idA, $idB);
 
+        $messageID = uniqid();
+
         $pusher->trigger($channelName, 'new-message', [
             'from' => $idA,
             'to' => $idB,
             'message' => $message,
-            'timestamp' => date('Y-m-d H:i:s')
+            'timestamp' => date('Y-m-d H:i:s'),
+            'message_id' => $messageID
         ]);
+
+        Notif::newNotification("Nouveau message", $message, $idB, intval($messageID));
 
         return json_encode(['message' => 'Message sent.']);
     }

@@ -16,6 +16,7 @@
         "notihnio/php-multipart-form-data-parser": "^2.0",
         "league/geotools": "^0.1.5",
         "pusher/pusher-php-server": "^7.2",
-        "fakerphp/faker": "^1.24"
+        "fakerphp/faker": "^1.24",
+        "pusher/pusher-push-notifications": "^2.0"
     }
 }

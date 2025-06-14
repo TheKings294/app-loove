@@ -1,5 +1,6 @@
 import {UserModel} from "../models/UserModel.js";
 import {Toast} from "../component/Toast.js";
+import {NotifController} from "./NotifController.js";
 
 export class LoginController {
     constructor() {
@@ -18,6 +19,10 @@ export class LoginController {
         localStorage.setItem("token", result.data.token)
         localStorage.setItem("role", "user")
         localStorage.setItem("id", result.data.id)
+        const notif = new NotifController()
+        notif.register()
+            .then(() => notif.suscribe(result.data.id))
+            .catch(console.error)
         navigate("home")
     }
 }

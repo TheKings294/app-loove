@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Utils\Notif;
 use Monolog\Logger;
 use App\Repositories\LikeRepositories;
 use App\Utils\Functions;
@@ -26,6 +27,8 @@ class LikeController extends BaseController
             $conv = new ConvController($this->logger);
             $match->newMatch($userId, $userLiked);
             $conv->newConv($userId, $userLiked);
+
+            Notif::newNotification("Match !!!", "Vous avez un nouveau match", $userLiked, 1);
 
             http_response_code(200);
             return json_encode(['message' => 'Is match']);
