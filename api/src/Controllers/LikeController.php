@@ -2,6 +2,7 @@
 
 namespace App\Controllers;
 
+use App\Utils\JWTFunctions;
 use App\Utils\Notif;
 use Monolog\Logger;
 use App\Repositories\LikeRepositories;
@@ -46,5 +47,27 @@ class LikeController extends BaseController
 
         http_response_code(200);
         return json_encode(['message' => 'Unliked is save']);
+    }
+    public function getLikeME(string $id)
+    {
+        $token = JWTFunctions::checkInBearerToken();
+        $decoded = JWTFunctions::decodeJWTToken($token);
+        if (!$decoded->data->premium) {
+            http_response_code(401);
+            return json_encode(['message' => 'You need to be premium']);
+        }
+
+        return json_encode(["data" => $this->likeRepo->getMyLikes(intval($id))]);
+    }
+    public function getUnlikeME(string $id)
+    {
+        $token = JWTFunctions::checkInBearerToken();
+        $decoded = JWTFunctions::decodeJWTToken($token);
+        if (!$decoded->data->premium) {
+            http_response_code(401);
+            return json_encode(['message' => 'You need to be premium']);
+        }
+        
+        return json_encode(["data" => $this->likeRepo->getMyUnlikes(intval($id))]);
     }
 }

@@ -76,6 +76,8 @@ $routeur->addRoute(['POST'], '/users/login', UsersController::class, 'loginUser'
 //Routes for like and un_like
 $routeur->addRoute(['GET'], '/like/{id}/{idLiked}', LikeController::class, 'LikeAnUser', 'users');
 $routeur->addRoute(['GET'], '/unlike/{id}/{idUnLiked}', LikeController::class, 'setUnlike', 'users');
+$routeur->addRoute(['GET'], '/like/{id}', LikeController::class, 'getLikeME', 'users');
+$routeur->addRoute(['GET'], '/unlike/{id}', LikeController::class, 'getUnlikeME', 'users');
 
 //Conv and messages
 $routeur->addRoute(['GET'], '/conv/{id}', ConvController::class, 'getMyConvs', 'users');

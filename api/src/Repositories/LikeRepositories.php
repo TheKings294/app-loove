@@ -24,17 +24,6 @@ class LikeRepositories extends BaseRepositories
             'user' => $userId
         ]);
         return $stmt->fetch();
-
-        /*
-         *  $result = $this
-            ->query("SELECT * FROM `like` WHERE user_liked = :userLiked AND user = :user")
-            ->fetch([
-                'userLiked' => $userId,
-                'user' => $userLiked
-            ]);
-
-            return $result;
-         * */
     }
     public function setUnlike(int $userUnliked, int $userId)
     {
@@ -42,6 +31,42 @@ class LikeRepositories extends BaseRepositories
             ->query("INSERT INTO `un_like` (user_unlike, user) VALUES (:userLiked, :user)")
             ->execute([
                 'userLiked' => $userUnliked,
+                'user' => $userId
+            ]);
+    }
+    public function getMyLikes(int $userId)
+    {
+        return $this
+            ->query("SELECT 
+            l.*, 
+            u.id, 
+            u.first_name, 
+            u.last_name, 
+            u.date_of_birth, 
+            u.gender, 
+            u.city, 
+            u.description, 
+            u.image 
+            FROM `like` l LEFT JOIN users u ON l.user = u.id WHERE l.user_liked = :user")
+            ->fetch([
+                'user' => $userId
+            ]);
+    }
+    public function getMyUnLikes(int $userId)
+    {
+        return $this
+            ->query("SELECT 
+            l.*, 
+            u.id, 
+            u.first_name, 
+            u.last_name, 
+            u.date_of_birth, 
+            u.gender, 
+            u.city, 
+            u.description, 
+            u.image 
+            FROM `un_like` l LEFT JOIN users u ON l.user = u.id WHERE l.user_unliked = :user")
+            ->fetch([
                 'user' => $userId
             ]);
     }
