@@ -185,12 +185,13 @@ class UsersRepositories extends BaseRepositories
                 'id' => $id,
             ]);
     }
-    public function setPremium(int $id): void
+    public function setPremium(int $id, string $date): void
     {
         $this
-            ->query("UPDATE users SET is_premium = 1 WHERE id = :id")
+            ->query("UPDATE users SET is_premium = 1 AND SET end_premium_date = :date WHERE id = :id")
             ->execute([
                 'id' => $id,
+                'date' => $date,
             ]);
     }
     public function update(User $user): void
@@ -332,6 +333,15 @@ class UsersRepositories extends BaseRepositories
             ->query('SELECT * FROM `villes_france_free` WHERE LOWER(ville_slug) LIKE LOWER(:search)')
             ->fetch([
                 'search' => $city
+            ]);
+    }
+    public function setVerifCode(int $id, int $code) :void
+    {
+        $this
+            ->query('INSERT INTO `verification_code` (`user_id`, `code`) VALUES (:id, :code)')
+            ->fetch([
+                'id' => $id,
+                'code' => $code
             ]);
     }
 }

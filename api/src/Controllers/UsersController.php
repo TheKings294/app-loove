@@ -13,6 +13,7 @@ use App\Utils\JWTFunctions;
 use Notihnio\MultipartFormDataParser;
 use League\Geotools\Coordinate\Coordinate;
 use League\Geotools\Distance\Distance;
+use App\Services\MailService;
 
 class UsersController extends BaseController
 {
@@ -99,6 +100,16 @@ class UsersController extends BaseController
 
         $this->logger->info("Users created [username => $user->email]");
 
+        $code = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
+        $this->userRepo->setVerifCode($code, $user_id);
+
+        $mailService = new MailService();
+        $name = $user->first_name . " " . $user->last_name;
+        $mailService->send_to($user->email, $name);
+        $mailService->add_subject("Code de vérification");
+        $mailService->set_body("/src/MailTemplate/VerifCode.php", ["code" => $code]);
+        $mailService->send_mail();
+
         return json_encode(["success" => true, 'message' => 'User created']);
     }
     public function updateUser(string $id)
@@ -172,9 +183,9 @@ class UsersController extends BaseController
         http_response_code(200);
         return json_encode(["success" => true, 'message' => 'User suspended']);
     }
-    public function premiumUser(string $id)
+    public function premiumUser(string $id, string $end_date)
     {
-        $this->userRepo->setPremium(intval($id));
+        $this->userRepo->setPremium(intval($id), $end_date);
         $this->logger->info("Users premium [username => $id]");
         http_response_code(200);
         return json_encode(["success" => true, 'message' => 'User passed to premium']);

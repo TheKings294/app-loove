@@ -66,7 +66,7 @@ $routeur->addRoute(['POST'], '/users/new', UsersController::class, 'newUser', 'n
 $routeur->addRoute(['PUT'], '/users/edit/{id}', UsersController::class, 'updateUser', 'users');
 $routeur->addRoute(['PATCH'], '/users/edit/password/{id}', UsersController::class, 'updatePassword', 'users');
 $routeur->addRoute(['DELETE'], '/users/delete/{id}', UsersController::class, 'deleteUser', 'users');
-$routeur->addRoute(['PATCH'], '/users/premium/{id}', UsersController::class, 'premiumUser', 'users');
+$routeur->addRoute(['PATCH'], '/users/premium/{id}/{end-date}', UsersController::class, 'premiumUser', 'users');
 $routeur->addRoute(['PATCH'], '/users/ban/{id}', UsersController::class, 'banUser', 'admin');
 $routeur->addRoute(['PATCH'], '/users/validate/{id}', UsersController::class, 'validateUser', 'admin');
 $routeur->addRoute(['PATCH'], '/users/suspended/{id}/{end_date}', UsersController::class, 'suspendUser', 'admin');

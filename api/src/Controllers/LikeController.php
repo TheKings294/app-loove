@@ -67,7 +67,7 @@ class LikeController extends BaseController
             http_response_code(401);
             return json_encode(['message' => 'You need to be premium']);
         }
-        
+
         return json_encode(["data" => $this->likeRepo->getMyUnlikes(intval($id))]);
     }
 }
