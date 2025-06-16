@@ -11,14 +11,14 @@ class MailService {
     public function __construct()
     {
         $this->mailer = new PHPMailer(true);
-        $this->mailer->SMTPDebug = SMTP::DEBUG_SERVER;
+        $this->mailer->SMTPDebug = 0;
         $this->mailer->isSMTP();
         $this->mailer->CharSet = 'UTF-8';
         $this->mailer->Host = $_ENV['MAIL_SMTP_HOST'];
-        $this->mailer->SMTPAuth = $_ENV['MAIL_SMTP_AUTH'];
+        $this->mailer->SMTPAuth = boolval($_ENV['MAIL_SMTP_AUTH']);
         $this->mailer->Username = $_ENV['MAIL_SMTP_USER'];
         $this->mailer->Password = $_ENV['MAIL_SMTP_PASS'];
-        $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;
+        $this->mailer->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $this->mailer->Port = $_ENV['MAIL_SMTP_PORT'];
         $this->mailer->setFrom($_ENV['MAIL_SMTP_USER'], "CLink");
     }
@@ -31,7 +31,7 @@ class MailService {
     }
     public function set_body(string $templateName, array $data) :void
     {
-        $templatePath = realpath(__DIR__ . $templateName);
+        $templatePath = realpath(TEMPLATE_DIRECTORY . $templateName);
 
         if (!$templatePath || !file_exists($templatePath)) {
             throw new \Exception("Template introuvable : " . $templatePath);

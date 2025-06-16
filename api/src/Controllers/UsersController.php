@@ -5,6 +5,7 @@ namespace App\Controllers;
 use App\Controllers\BaseController;
 use App\Models\SoftSkill;
 use App\Models\User;
+use App\Repositories\ValidateRepositories;
 use App\Utils\ImageFunctions;
 use Monolog\Logger;
 use App\Repositories\UsersRepositories;
@@ -18,6 +19,7 @@ use App\Services\MailService;
 class UsersController extends BaseController
 {
     private UsersRepositories $userRepo;
+    private ValidateRepositories $validateRepo;
     private array $inputFields = ["firstName", "lastName", "dateOfBirth", "gender", "email", "password", "city",
         "description", "image", "genderAttraction", "ageAttraction", "relationType", "isVerified", "isSuspended",
         "isBan", "isDeleted", "isPremium", "endSuspendedDate"];
@@ -25,6 +27,7 @@ class UsersController extends BaseController
     {
         parent::__construct($logger);
         $this->userRepo = new UsersRepositories();
+        $this->validateRepo = new ValidateRepositories();
     }
     public function getAll()
     {
@@ -101,16 +104,16 @@ class UsersController extends BaseController
         $this->logger->info("Users created [username => $user->email]");
 
         $code = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
-        $this->userRepo->setVerifCode($code, $user_id);
+        $this->validateRepo->setVerifCode($code, $user_id);
 
         $mailService = new MailService();
         $name = $user->first_name . " " . $user->last_name;
         $mailService->send_to($user->email, $name);
         $mailService->add_subject("Code de vérification");
-        $mailService->set_body("/src/MailTemplate/VerifCode.php", ["code" => $code]);
+        $mailService->set_body("VerifCode.php", ["code" => $code]);
         $mailService->send_mail();
 
-        return json_encode(["success" => true, 'message' => 'User created']);
+        return json_encode(["success" => true, 'message' => 'User created', 'user_id' => $user_id]);
     }
     public function updateUser(string $id)
     {
@@ -197,9 +200,21 @@ class UsersController extends BaseController
         http_response_code(200);
         return json_encode(["success" => true, 'message' => 'User banned']);
     }
-    public function validateUser(string $id)
+    public function validateUser(string $id, string $code)
     {
+        $codeBase = $this->validateRepo->getCode(intval($id));
+
+        if (empty($codeBase)) {
+            http_response_code(406);
+            return json_encode(['message' => "Please create an user before"]);
+        }
+
+        if (intval($code) != $codeBase[0]['code']) {
+            http_response_code(400);
+            return json_encode(['message' => "Code doesn't match"]);
+        }
         $this->userRepo->setValidate(intval($id));
+
         http_response_code(200);
         return json_encode(["success" => true, 'message' => 'User validated']);
     }
@@ -244,6 +259,11 @@ class UsersController extends BaseController
         {
             http_response_code(406);
             return json_encode(['message' => "This user does not exist"]);
+        }
+
+        if ($user[2] === 0) {
+            http_response_code(406);
+            return json_encode(['message' => "Need Verification", 'id' => $user[0]]);
         }
 
         if (!password_verify($password, $user[1]))

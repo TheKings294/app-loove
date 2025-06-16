@@ -86,7 +86,7 @@ class MessageController extends BaseController {
             'message_id' => $messageID
         ]);
 
-        Notif::newNotification("Nouveau message", $message, $idB, intval($messageID));
+        Notif::newNotification("Nouveau message", $message, $idB, intval($messageID), 1);
 
         return json_encode(['message' => 'Message sent.']);
     }

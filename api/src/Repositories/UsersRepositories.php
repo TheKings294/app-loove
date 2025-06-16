@@ -120,7 +120,7 @@ class UsersRepositories extends BaseRepositories
     public function getByEmail(string $email): array | null
     {
         $result = $this
-            ->query("SELECT `id`, `password` FROM users WHERE email = :email")
+            ->query("SELECT `id`, `password`, `is_verified` FROM users WHERE email = :email")
             ->fetch([
                 'email' => $email,
             ]);
@@ -128,7 +128,7 @@ class UsersRepositories extends BaseRepositories
         if (empty($result)) {
             return null;
         }
-        return [$result[0]['id'], $result[0]['password']];
+        return [$result[0]['id'], $result[0]['password'], $result[0]['is_verified']];
     }
     public function new(User $user): void
     {

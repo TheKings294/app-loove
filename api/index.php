@@ -68,7 +68,7 @@ $routeur->addRoute(['PATCH'], '/users/edit/password/{id}', UsersController::clas
 $routeur->addRoute(['DELETE'], '/users/delete/{id}', UsersController::class, 'deleteUser', 'users');
 $routeur->addRoute(['PATCH'], '/users/premium/{id}/{end-date}', UsersController::class, 'premiumUser', 'users');
 $routeur->addRoute(['PATCH'], '/users/ban/{id}', UsersController::class, 'banUser', 'admin');
-$routeur->addRoute(['PATCH'], '/users/validate/{id}', UsersController::class, 'validateUser', 'admin');
+$routeur->addRoute(['PATCH'], '/users/validate/{id}/{code}', UsersController::class, 'validateUser', 'none');
 $routeur->addRoute(['PATCH'], '/users/suspended/{id}/{end_date}', UsersController::class, 'suspendUser', 'admin');
 $routeur->addRoute(['GET'], '/users/compatible/{x}/{y}/{id}', UsersController::class, 'getUsersCompatible', 'users');
 $routeur->addRoute(['POST'], '/users/login', UsersController::class, 'loginUser', 'none');
