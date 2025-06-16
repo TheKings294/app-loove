@@ -76,12 +76,15 @@ export class SingInController {
 
         const result  = await this.model.singin(formData)
 
+        console.log(result.message)
+
         if (!result.success) {
             new Toast(result.message, "alert-error").render()
             return false
         }
 
-        new Toast(result.data).render()
-        navigate("login")
+        new Toast(result.message.message).render()
+        localStorage.setItem("id", result.message.user_id)
+        navigate("validate")
     }
 }

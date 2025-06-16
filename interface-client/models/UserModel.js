@@ -359,8 +359,8 @@ export class UserModel {
                 return {success: false, message: error.message}
             })
     }
-    async setPremium() {
-        return await fetch(`https://api.clink.test/premium/${this.ids}`, {
+    async setPremium(date) {
+        return await fetch(`https://api.clink.test/users/premium/${this.id}/${date}`, {
             method: 'PATCH',
             headers: {
                 'Authorization': 'Bearer ' + this.token
@@ -378,6 +378,18 @@ export class UserModel {
                 }
                 return response.json()
             })
+            .then(data => {
+                return {success: true, data: data}
+            })
+            .catch(error => {
+                return {success: false, message: error.message}
+            })
+    }
+    async validate(code, id) {
+        return await fetch(`https://api.clink.test/users/validate/${id}/${code}`, {
+            method: 'PATCH',
+        })
+            .then(reponse => reponse.json())
             .then(data => {
                 return {success: true, data: data}
             })
