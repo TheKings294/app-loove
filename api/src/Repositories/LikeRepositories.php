@@ -65,7 +65,7 @@ class LikeRepositories extends BaseRepositories
             u.city, 
             u.description, 
             u.image 
-            FROM `un_like` l LEFT JOIN users u ON l.user = u.id WHERE l.user_unliked = :user")
+            FROM `un_like` l LEFT JOIN users u ON l.user = u.id WHERE l.user_unlike = :user")
             ->fetch([
                 'user' => $userId
             ]);

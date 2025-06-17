@@ -272,7 +272,7 @@ class UsersController extends BaseController
             return json_encode(['message' => "Wrong password"]);
         }
 
-        $token = JWTFunctions::createJWTToken(intval($user[0]), $email, 'users');
+        $token = JWTFunctions::createJWTToken(intval($user[0]), $email, 'users', $user[3]);
         $this->logger->info("Users login success [username => $email]");
         $this->logger->info("Token created for an users [username => $email]");
 

@@ -8,7 +8,7 @@ use Exception;
 
 class JWTFunctions
 {
-    static function createJWTToken(int $userId, string $username, string $role): string
+    static function createJWTToken(int $userId, string $username, string $role, bool $premium): string
     {
         $payload = [
             'iss' => 'api.clink.local',
@@ -19,7 +19,8 @@ class JWTFunctions
             'data' => [
                 'userId' => $userId,
                 'username' => $username,
-                'role' => $role
+                'role' => $role,
+                'premium' => $premium
             ]
         ];
 
