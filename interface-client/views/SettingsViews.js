@@ -38,14 +38,6 @@ export class SettingsViews
         class="lucide lucide-chevron-right-icon lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
         </span>
         </div>
-        <div class="flex justify-between items-center bg-full-white rounded-lg border-solid p-4 m-5 border-black" id="premium">
-        <span>Premium</span>
-        <span>
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" 
-        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
-        class="lucide lucide-chevron-right-icon lucide-chevron-right"><path d="m9 18 6-6-6-6"/></svg>
-        </span>
-        </div>
         `
         const buttonDelete = document.createElement("button")
         buttonDelete.textContent = "Suppression du compte"
@@ -173,13 +165,7 @@ export class SettingsViews
         document.querySelector("#return").addEventListener("click", () => navigate("settings"))
         document.querySelector("#editPassword").addEventListener("click", () => modalPassword.open())
         document.querySelector("#editUser").addEventListener("click", () => modalEditUser.open())
-        document.querySelector("#premium").addEventListener("click", () => {
-            if (localStorage.getItem("premium") === true) {
-                navigate("premium")
-            } else {
-                navigate('checkout')
-            }
-        })
+
         document.getElementById("sendEditUser").addEventListener('click', async () => await this.controller.editUser())
         document.getElementById("sendEditPassword").addEventListener('click', async () => await this.controller.editPassword())
         document.getElementById("deleteButton").addEventListener('click', async () => await this.controller.deleteUser())

@@ -277,6 +277,6 @@ class UsersController extends BaseController
         $this->logger->info("Token created for an users [username => $email]");
 
         http_response_code(200);
-        return json_encode(['token' => $token, 'id' => $user[0]]);
+        return json_encode(['token' => $token, 'id' => $user[0], 'premium' => $user[3]]);
     }
 }

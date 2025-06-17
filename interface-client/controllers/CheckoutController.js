@@ -5,7 +5,7 @@ export class CheckoutController {
         this.model = new UserModel()
     }
 
-    async setPremium() {
-       return await this.model.setPremium()
+    async setPremium(endDate) {
+       return await this.model.setPremium(endDate)
     }
 }

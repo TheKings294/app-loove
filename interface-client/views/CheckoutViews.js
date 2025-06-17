@@ -16,10 +16,10 @@ export class CheckoutViews {
     <h3 class="text-xl font-semibold mb-4 text-center">Choisis un abonnement :</h3>
 
     <div class="flex flex-col sm:flex-row gap-4 mb-6" id="card-container">
-      <div class="card border-2 border-gray-300 rounded-xl p-4 text-center cursor-pointer w-full sm:w-1/4" data-amount="10">1 mois 10€</div>
-      <div class="card selected border-2 border-red-500 bg-red-50 rounded-xl p-4 text-center cursor-pointer w-full sm:w-1/4" data-amount="20">3 mois 20€</div>
-      <div class="card border-2 border-gray-300 rounded-xl p-4 text-center cursor-pointer w-full sm:w-1/4" data-amount="60">6 mois 60€</div>
-      <div class="card border-2 border-gray-300 rounded-xl p-4 text-center cursor-pointer w-full sm:w-1/4" data-amount="130">12 mois 130 €</div>
+      <div class="card border-2 border-gray-300 rounded-xl p-4 text-center cursor-pointer w-full sm:w-1/4" data-amount="10" data-month="1">1 mois 10€</div>
+      <div class="card selected border-2 border-red-500 bg-red-50 rounded-xl p-4 text-center cursor-pointer w-full sm:w-1/4" data-amount="20" data-month="3">3 mois 20€</div>
+      <div class="card border-2 border-gray-300 rounded-xl p-4 text-center cursor-pointer w-full sm:w-1/4" data-amount="60" data-month="6">6 mois 60€</div>
+      <div class="card border-2 border-gray-300 rounded-xl p-4 text-center cursor-pointer w-full sm:w-1/4" data-amount="130" data-month="12">12 mois 130 €</div>
     </div>
 
     <div id="paypal-button-container" class="mb-4"></div>
@@ -57,6 +57,8 @@ export class CheckoutViews {
         });
         renderPayPalButton();
 
+        const controller = this.controller
+
         function renderPayPalButton() {
             document.getElementById("paypal-button-container").innerHTML = "";
 
@@ -69,18 +71,21 @@ export class CheckoutViews {
                     });
                 },
                 onApprove: function(data, actions) {
-                    return actions.order.capture().then(function(details) {
+                    return actions.order.capture().then((details) => {
                         resultMessage("Paiement validé !");
                         setTimeout(async () => {
-                            const result = await this.controller.setPremium()
+                            const durationTime = document.querySelector(".selected").getAttribute("data-month")
+                            const now = new Date()
+                            const endDate = new Date(now.setMonth(now.getMonth() + Number(durationTime)))
+                            const result = await controller.setPremium(endDate.toISOString())
                             if (!result.success) {
                                 new Toast("Erreur lors de l'enregistrement", "alert-error")
                                 return
                             }
                             new Toast("Payment validé").render()
-                            localStorage.setItem('premium', true)
+                            localStorage.setItem('premium', 1)
                             navigate('premium')
-                        }, 3000);
+                        }, 2000);
                     });
                 },
                 onError: function(err) {

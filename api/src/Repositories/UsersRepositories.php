@@ -120,7 +120,7 @@ class UsersRepositories extends BaseRepositories
     public function getByEmail(string $email): array | null
     {
         $result = $this
-            ->query("SELECT `id`, `password`, `is_verified` FROM users WHERE email = :email")
+            ->query("SELECT `id`, `password`, `is_verified`, `is_premium` FROM users WHERE email = :email")
             ->fetch([
                 'email' => $email,
             ]);
@@ -128,7 +128,7 @@ class UsersRepositories extends BaseRepositories
         if (empty($result)) {
             return null;
         }
-        return [$result[0]['id'], $result[0]['password'], $result[0]['is_verified']];
+        return [$result[0]['id'], $result[0]['password'], $result[0]['is_verified'], $result[0]['is_premium']];
     }
     public function new(User $user): void
     {
@@ -187,11 +187,12 @@ class UsersRepositories extends BaseRepositories
     }
     public function setPremium(int $id, string $date): void
     {
+        $dateObject = new \DateTime($date);
         $this
-            ->query("UPDATE users SET is_premium = 1 AND SET end_premium_date = :date WHERE id = :id")
+            ->query("UPDATE users SET is_premium = 1, end_premium_date = :date WHERE id = :id")
             ->execute([
                 'id' => $id,
-                'date' => $date,
+                'date' => $dateObject->format('Y-m-d'),
             ]);
     }
     public function update(User $user): void
