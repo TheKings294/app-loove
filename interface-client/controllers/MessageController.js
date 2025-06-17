@@ -1,5 +1,6 @@
 import {UserModel} from "../models/UserModel.js";
 import {Chat} from "../component/Chat.js";
+import {addMessageId} from "../helper/db-helper.js";
 
 export class MessageController {
     constructor() {
@@ -61,9 +62,10 @@ export class MessageController {
 
          this.chanel = this.pusher.subscribe(chanelName)
 
-         this.chanel.bind('new-message', (data) => {
+         this.chanel.bind('new-message', async (data) => {
              if (localStorage.getItem('id') == data.to) {
                  new Chat(data.message, 'start').render(this.messageContent)
+                 await addMessageId(data.message_id)
              }
          })
      }

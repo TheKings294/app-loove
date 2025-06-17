@@ -5,11 +5,9 @@ export class NotifController {
         });
     }
     suscribe(userID) {
-        console.log(`user-${userID}`)
         this.register()
             .then(() => this.beamsClient.start())
             .then(() => this.beamsClient.addDeviceInterest(`user-${userID}`))
-            .then(() => console.log('Successfully registered and subscribed!'))
             .catch(console.error);
     }
     register() {

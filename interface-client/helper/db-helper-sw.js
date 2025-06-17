@@ -1,4 +1,4 @@
-export function openDatabase() {
+function openDatabase() {
     return new Promise((resolve, reject) => {
         const request = indexedDB.open('notif-db', 1);
         request.onupgradeneeded = (event) => {
@@ -12,7 +12,7 @@ export function openDatabase() {
     });
 }
 
-export async function hasMessageId(id) {
+async function hasMessageId(id) {
     const db = await openDatabase();
     return new Promise((resolve, reject) => {
         const read = db.transaction('messages', 'readonly');
@@ -23,7 +23,7 @@ export async function hasMessageId(id) {
     });
 }
 
-export async function addMessageId(id) {
+async function addMessageId(id) {
     const db = await openDatabase();
     const write = db.transaction('messages', 'readwrite');
     const store = write.objectStore('messages');

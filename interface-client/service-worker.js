@@ -1,14 +1,30 @@
 importScripts("https://js.pusher.com/beams/service-worker.js");
+importScripts('/helper/db-helper-sw.js')
+
 
 self.addEventListener('push', async (e) => {
-    console.log('Push received');
-    console.log('Push data:', event.data ? event.data.text() : 'No data');
+    const data = e.data ? e.data.json() : {};
 
-    const data = event.data ? event.data.json() : {};
+    console.log(data)
 
-    event.waitUntil(
-        self.registration.showNotification(data.title || 'New notification', {
-            body: data.body || 'You have a new message!',
-        })
-    );
+    if (data.data.type === 1) {
+        const alreadyReceived = await hasMessageId(data.data.id);
+        console.log(alreadyReceived)
+        if (!alreadyReceived) {
+            e.waitUntil(
+                (async () => {
+                    await self.registration.showNotification(data.title || 'Clink', {
+                        body: data.body || 'Vous avez un nouveau message',
+                    });
+                    await addMessageId(data.data.id);
+                })()
+            );
+        }
+    } else if (data.data.type === 2) {
+        e.waitUntil(
+            self.registration.showNotification(data.title || 'Clink', {
+                body: data.body || 'Vous avez un nouveau match',
+            })
+        );
+    }
 })

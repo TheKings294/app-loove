@@ -21,7 +21,7 @@ export class HomeViews
         document.querySelector(".app").appendChild(title)
 
         const divUsersList = document.createElement("div")
-        divUsersList.className = "flex flex-col items-center gap-4 my-8"
+            divUsersList.className = "flex flex-col items-center gap-4 my-8"
 
         const data = await this.controller.getUsers()
 
@@ -79,7 +79,6 @@ export class HomeViews
             document.querySelector(".app").appendChild(divNoUser)
         }
 
-        new Footer().render(navigate, this.app)
         new Dock().render(navigate, this.app)
     }
 }

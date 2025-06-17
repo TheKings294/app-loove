@@ -23,9 +23,11 @@ export class LoginController {
             return
         }
 
+        localStorage.clear()
         localStorage.setItem("token", result.data.token)
         localStorage.setItem("role", "user")
         localStorage.setItem("id", result.data.id)
+        localStorage.setItem('premium', result.data.premium)
         const notif = new NotifController()
         notif.register()
             .then(() => notif.suscribe(result.data.id))

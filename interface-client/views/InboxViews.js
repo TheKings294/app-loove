@@ -48,9 +48,6 @@ export class InboxViews
             this.app.appendChild(nothing)
         }
 
-
-
-        new Footer().render(navigate, this.app)
         new Dock().render(navigate, this.app)
         document.title = "Messagerie"
     }
