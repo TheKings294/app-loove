@@ -19,4 +19,7 @@ export class User
     render(navigate, parent) {
         parent.appendChild(this.el)
     }
+    listener(fonction) {
+        this.el.addEventListener("click", fonction)
+    }
 }
