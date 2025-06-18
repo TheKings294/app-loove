@@ -26,6 +26,17 @@ class StatsController extends BaseController
         $endDate->setTime(23, 59, 59);
 
         $result = $this->paypalMiddelware->getTransactions($startDate, $endDate);
+        $decodedResult = json_decode($result, true);
+
+        $total = 0;
+
+        foreach ($decodedResult['transaction_details'] as $transaction)
+        {
+            $info = $transaction['transaction_info'];
+            if ($info['transaction_event_code'] === 'T0006') {
+                $total += $info['transaction_amount']['value'];
+            }
+        }
 
         $json = [
           "gender" => $this->statsRepo->getGenderCount(),
@@ -33,6 +44,7 @@ class StatsController extends BaseController
            "age" => $this->statsRepo->getAverageAge(),
            "user" => $this->statsRepo->getCountUsers(),
            "premium" => $this->statsRepo->getCountPremium(),
+            "transaction" => $total
         ];
         return json_encode($json);
     }

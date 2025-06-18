@@ -49,6 +49,14 @@ export class StatsController {
         <\p>
         `
 
+        const total = document.createElement("div")
+        total.className = "bg-card rounded-lg shadow-md px-6 py-4 text-center"
+        total.innerHTML = `
+        <p class="text-foreground text-lg font-medium">Revenue du mois : 
+        <span class="text-primary font-bold">${Math.trunc(result.data.transaction)} €</span> 
+        <\p>
+        `
+
         new Chart(genderGraph, {
             type: 'doughnut',
             data: {
@@ -108,6 +116,7 @@ export class StatsController {
         divCount.appendChild(userCount)
         divCount.appendChild(premiumCount)
         divCount.appendChild(ageAverage)
+        divCount.appendChild(total)
 
         divGraph.appendChild(genderGraph)
         divGraph.appendChild(divCount)
