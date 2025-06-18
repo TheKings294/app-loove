@@ -1,3 +1,5 @@
+import {BASE_URL} from "../Constant.js";
+
 export class LikeRepo {
     constructor() {
         this.token = localStorage.getItem("token")
@@ -5,7 +7,7 @@ export class LikeRepo {
         this.id = localStorage.getItem("id")
     }
     async getMyLike() {
-        return await fetch(`https://api.clink.test/like/${this.id}`, {
+        return await fetch(`${BASE_URL}/like/${this.id}`, {
             method: "GET",
             headers: {
                 'Authorization': `Bearer ${this.token}`
@@ -20,7 +22,7 @@ export class LikeRepo {
             })
     }
     async getMyUnlike() {
-        return await fetch(`https://api.clink.test/unlike/${this.id}`, {
+        return await fetch(`${BASE_URL}/unlike/${this.id}`, {
             method: "GET",
             headers: {
                 'Authorization': `Bearer ${this.token}`

@@ -1,3 +1,5 @@
+import {BASE_URL} from "../Constant.js";
+
 export class UserModel {
     constructor() {
         this.token = localStorage.getItem("token")
@@ -5,7 +7,7 @@ export class UserModel {
         this.id = localStorage.getItem("id")
     }
     async login(email, password) {
-        return await fetch('https://api.clink.test/users/login', {
+        return await fetch(`${BASE_URL}/users/login`, {
             method: 'POST',
             credentials: 'include',
             body: new URLSearchParams({
@@ -22,7 +24,7 @@ export class UserModel {
             })
     }
     async singin(formData) {
-        return await fetch("https://api.clink.test/users/new", {
+        return await fetch(`${BASE_URL}/users/new`, {
             method: 'POST',
             credentials: 'include',
             body: formData
@@ -36,7 +38,7 @@ export class UserModel {
             })
     }
     async checkIsGood() {
-        return await fetch("https://api.clink.test", {
+        return await fetch(`${BASE_URL}`, {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -52,7 +54,7 @@ export class UserModel {
             })
     }
     async getUserCompatible(x, y) {
-        return await fetch(`https://api.clink.test/users/compatible/${x}/${y}/${this.id}`, {
+        return await fetch(`${BASE_URL}/users/compatible/${x}/${y}/${this.id}`, {
             method: 'GET',
             credentials: 'include',
             headers: {
@@ -80,7 +82,7 @@ export class UserModel {
             })
     }
     async getConv() {
-        return await fetch(`https://api.clink.test/conv/${localStorage.getItem('id')}`, {
+        return await fetch(`${BASE_URL}/conv/${localStorage.getItem('id')}`, {
             method: 'GET',
             credentials: "include",
             headers: {
@@ -108,7 +110,7 @@ export class UserModel {
             })
     }
     async setLike(user_ID, liked_ID) {
-        return await fetch(`https://api.clink.test/like/${user_ID}/${liked_ID}`, {
+        return await fetch(`${BASE_URL}/like/${user_ID}/${liked_ID}`, {
             method: 'GET',
             credentials: "include",
             headers: {
@@ -136,7 +138,7 @@ export class UserModel {
             })
     }
     async setUnLike(user_ID, liked_ID) {
-        return await fetch(`https://api.clink.test/unlike/${user_ID}/${liked_ID}`, {
+        return await fetch(`${BASE_URL}/unlike/${user_ID}/${liked_ID}`, {
             method: 'GET',
             credentials: "include",
             headers: {
@@ -164,7 +166,7 @@ export class UserModel {
             })
     }
     async getUserInfo() {
-        return await fetch(`https://api.clink.test/users/${this.id}`, {
+        return await fetch(`${BASE_URL}/users/${this.id}`, {
             method: 'GET',
             credentials: "include",
             headers: {
@@ -192,7 +194,7 @@ export class UserModel {
             })
     }
     async editUser(formData) {
-        return await fetch(`https://api.clink.test/users/edit/${this.id}`, {
+        return await fetch(`${BASE_URL}/users/edit/${this.id}`, {
             method: 'PUT',
             credentials: 'include',
             headers: {
@@ -221,7 +223,7 @@ export class UserModel {
             })
     }
     async editPassword(formData) {
-        return await fetch(`https://api.clink.test/users/edit/password/${this.id}`, {
+        return await fetch(`${BASE_URL}/users/edit/password/${this.id}`, {
             method: 'PATCH',
             credentials: 'include',
             headers: {
@@ -250,7 +252,7 @@ export class UserModel {
             })
     }
     async deleteUser() {
-        return await fetch(`https://api.clink.test/users/delete/${this.id}`, {
+        return await fetch(`${BASE_URL}/users/delete/${this.id}`, {
             method: 'DELETE',
             credentials: 'include',
             headers: {
@@ -278,7 +280,7 @@ export class UserModel {
             })
     }
     async unCo() {
-        await fetch('https://api.clink.test/logout', {
+        await fetch(`${BASE_URL}/logout`, {
             method: 'POST',
             credentials: "include"
         })
@@ -303,7 +305,7 @@ export class UserModel {
             })
     }
     async getAllMessages(convID) {
-        return await fetch(`https://api.clink.test/messages/${convID}`, {
+        return await fetch(`${BASE_URL}/messages/${convID}`, {
             method: 'GET',
             credentials: "include",
             headers: {
@@ -331,7 +333,7 @@ export class UserModel {
             })
     }
     async sendMessage(formData, idA, idB, convID) {
-        return await fetch(`https://api.clink.test/message/new/${idA}/${idB}/${convID}`, {
+        return await fetch(`${BASE_URL}/message/new/${idA}/${idB}/${convID}`, {
             method: 'POST',
             credentials: "include",
             headers: {
@@ -360,7 +362,7 @@ export class UserModel {
             })
     }
     async setPremium(date) {
-        return await fetch(`https://api.clink.test/users/premium/${this.id}/${date}`, {
+        return await fetch(`${BASE_URL}/users/premium/${this.id}/${date}`, {
             method: 'PATCH',
             headers: {
                 'Authorization': 'Bearer ' + this.token
@@ -386,7 +388,7 @@ export class UserModel {
             })
     }
     async validate(code, id) {
-        return await fetch(`https://api.clink.test/users/validate/${id}/${code}`, {
+        return await fetch(`${BASE_URL}/users/validate/${id}/${code}`, {
             method: 'PATCH',
         })
             .then(reponse => reponse.json())

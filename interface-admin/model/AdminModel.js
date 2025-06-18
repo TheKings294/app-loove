@@ -1,10 +1,12 @@
+import {BASE_URL} from "../Constant.js";
+
 export class AdminModel
 {
     constructor() {
         this.token = "Bearer " + localStorage.getItem("token")
     }
     async getAllAdmins() {
-        return await fetch('https://api.clink.test/users-admin', {
+        return await fetch(`${BASE_URL}/users-admin`, {
             method: 'GET',
             headers:  {
                 'Authorization': this.token
@@ -30,7 +32,7 @@ export class AdminModel
             })
     }
     async newAdmin(email, password) {
-        return await fetch('https://api.clink.test/users-admin/new', {
+        return await fetch(`${BASE_URL}/users-admin/new`, {
             method: 'POST',
             headers: {
                 'Authorization': this.token
@@ -60,7 +62,7 @@ export class AdminModel
             })
     }
     async checkIsGood() {
-        return await fetch("https://api.clink.test", {
+        return await fetch(`${BASE_URL}/`, {
             method: 'GET',
             headers: {
                 'Authorization': localStorage.getItem("token") ? 'Bearer ' + localStorage.getItem("token") : 0

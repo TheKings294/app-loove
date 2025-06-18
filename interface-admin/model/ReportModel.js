@@ -1,9 +1,10 @@
+import {BASE_URL} from "../Constant.js";
 export class ReportModel {
     constructor() {
         this.token = "Bearer " + localStorage.getItem("token")
     }
     async getAllReports() {
-        return await fetch('https://api.clink.test/reports', {
+        return await fetch(`${BASE_URL}/reports`, {
             method: 'GET',
             headers: {
                 'Authorization': this.token
@@ -28,7 +29,7 @@ export class ReportModel {
             })
     }
     async setEnd(id) {
-        return await fetch(`https://api.clink.test/reports/finish/${id}`, {
+        return await fetch(`${BASE_URL}/reports/finish/${id}`, {
             method: 'POST',
             headers: {
                 'Authorization': this.token

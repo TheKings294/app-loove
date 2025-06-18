@@ -1,4 +1,5 @@
 import {AuthController} from "../controlers/authController.js";
+import {BASE_URL} from "../Constant.js";
 
 export class UserModel
 {
@@ -9,7 +10,7 @@ export class UserModel
     }
     async login(email, password)
     {
-        return await fetch('https://api.clink.test/login-admin', {
+        return await fetch(`${BASE_URL}/login-admin`, {
             method: 'POST',
             body: new URLSearchParams({
                 email: email,
@@ -27,7 +28,7 @@ export class UserModel
 
     async getAll()
     {
-             return await fetch("https://api.clink.test/users", {
+             return await fetch(`${BASE_URL}/users`, {
                  method: 'GET',
                 headers: {
                     'Authorization': this.token
@@ -54,7 +55,7 @@ export class UserModel
     }
 
     async checkIsGood() {
-        return await fetch("https://api.clink.test", {
+        return await fetch(`${BASE_URL}/`, {
             method: 'GET',
             headers: {
                 'Authorization': localStorage.getItem("token") ? this.token : 0
@@ -69,7 +70,7 @@ export class UserModel
             })
     }
     async ban(id) {
-        return await fetch(`https://api.clink.test/users/ban/${id}`, {
+        return await fetch(`${BASE_URL}/users/ban/${id}`, {
             method: 'PATCH',
             headers: {
                 'Authorization': this.token
@@ -94,7 +95,7 @@ export class UserModel
             })
     }
     async suspend(id, date) {
-        return await fetch(`https://api.clink.test/users/suspended/${id}/${date}`, {
+        return await fetch(`${BASE_URL}/users/suspended/${id}/${date}`, {
             method: 'PATCH',
             headers: {
                 'Authorization': this.token
