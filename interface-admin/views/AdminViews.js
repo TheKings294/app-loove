@@ -28,10 +28,25 @@ export class AdminViews
         Ajouté un Modérateur
         </button>
         `
+        const searchDiv = document.createElement("div")
+        searchDiv.className = "flex flex-row gap-3 justify-center"
+        searchDiv.innerHTML = `
+        <input type="text" placeholder="Administrateur" class="input" id="search"/>
+        <button class="btn btn-secondary" id="sendSearch">Recherché</button>
+        `
+        const btnPagination = document.createElement("div")
+        btnPagination.className = 'join grid grid-cols-2 ml-180 mr-180 mt-10'
+        btnPagination.innerHTML = `
+        <button class="join-item btn btn-outline" id="prev">Previous page</button>
+        <button class="join-item btn btn-outline" id="next">Next</button>
+        `
+
         main.classList.add("flex-1")
         main.appendChild(title)
         main.appendChild(addAdmin)
+        main.appendChild(searchDiv)
         main.appendChild(await this.controller.getAdminList(navigate))
+        main.appendChild(btnPagination)
         el.appendChild(main)
 
         const contentModalAdmin = `
