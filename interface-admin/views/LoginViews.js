@@ -8,6 +8,7 @@ export class LoginViews
     }
     render(navigate)
     {
+        document.querySelector(".nav").innerHTML = ''
         document.querySelector(".app").innerHTML = `
         <div class="min-h-screen flex items-center justify-center bg-base-200">
         <div class="w-full max-w-sm p-8 space-y-4 bg-base-100 rounded-2xl shadow-xl">

@@ -3,7 +3,7 @@ export class NavComponent
     constructor() {
         this.parent = document.querySelector(".nav")
         this.el = document.createElement("aside")
-        this.el.className = "w-64 bg-base-200 flex flex-col text-base-content p-4 h-screen"
+        this.el.className = "w-64 bg-base-200 flex flex-col text-base-content p-4 h-full"
         this.el.innerHTML = `
             <h2 class="text-xl font-bold mb-4">Menu</h2>
             <ul class="menu">
@@ -17,7 +17,7 @@ export class NavComponent
                             <path d="M22 21v-2a4 4 0 0 0-3-3.87"/>
                             <circle cx="9" cy="7" r="4"/>
                         </svg>
-                        Users
+                        Utilisateurs
                     </a>
                 </li>
                 <li>
@@ -85,7 +85,7 @@ export class NavComponent
                 </div>
                 <div>
                     <hr class="my-4 border-base-300" />
-                    <button class="btn btn-sm btn-error w-full" onclick="login()">Déconnexion</button>
+                    <button class="btn btn-sm btn-error w-full" id="decoBtn">Déconnexion</button>
                 </div>
             </div>
     `
@@ -99,7 +99,9 @@ export class NavComponent
         document.querySelector("#reportLink").addEventListener('click', () => navigate('report'))
         document.querySelector("#premiumLink").addEventListener('click', () => navigate('premium'))
         document.querySelector("#statsLink").addEventListener('click', () => navigate('stats'))
+        document.querySelector("#decoBtn").addEventListener("click", () => {
+            localStorage.clear()
+            navigate('login')
+        })
     }
 }
-
-//loginController

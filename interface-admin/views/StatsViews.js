@@ -1,8 +1,12 @@
 import {NavComponent} from "../component/NavComponent.js";
+import {StatsController} from "../controlers/StatsController.js";
 
 export class StatsViews
 {
-    render(navigate) {
+    constructor() {
+        this.controller = new StatsController()
+    }
+    async render(navigate) {
         const nav = new NavComponent()
         const el  = document.querySelector(".app")
         el.innerHTML = ''
@@ -13,7 +17,7 @@ export class StatsViews
         title.textContent = "Statistiques";
         main.classList.add("flex-1")
         main.appendChild(title)
-        //main.appendChild(await this.controller.getUsersList())
+        main.appendChild(await this.controller.getAllStats())
         el.appendChild(main)
     }
 }

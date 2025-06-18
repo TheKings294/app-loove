@@ -36,19 +36,14 @@ class PaypalMiddelware extends BaseMiddelware {
     public function getTransactions(\DateTime $start, \DateTime $end) :string
     {
         try {
-            $response = $this->client->request('GET', '/v1/reporting/transactions', [
+            $response = $this->client->request('GET', "/v1/reporting/transactions?start_date={$start->format('Y-m-d\TH:i:sO')}Z&end_date={$end->format('Y-m-d\TH:i:sO')}Z&currency_code=EUR", [
                 'headers' => [
-                    "Authorization: Bearer {$this->token}",
-                    "Content-Type: application/x-www-form-urlencoded"
+                    "Authorization" => "Bearer {$this->token}",
+                    "Content-Type" => "application/json"
                 ],
-                'query' => [
-                    'start_date' => $start->format('Y-m-d\TH:i:sO'),
-                    'end_date' => $end->format('Y-m-d\TH:i:sO'),
-                    'currency_code' => 'EUR',
-                ]
             ]);
 
-            return $response->getBody();
+            return $this->token;
         } catch (GuzzleException $e) {
             return $e->getMessage();
         }
