@@ -21,6 +21,13 @@ export class ReportControllers {
             this.listCard.push(report)
         })
 
+        if (grid.children.length === 0) {
+            grid.innerHTML = `
+            <p class="text-4xl text-primary">Auccun signalement a traité</p>
+            `
+            grid.className = "text-center flex flex-col justify-center content-center"
+        }
+
         return grid
     }
     bindModal() {

@@ -31,7 +31,15 @@ if (preg_match('#^/uploads/(.+)$#', $_SERVER['REQUEST_URI'], $matches)) {
     }
 }
 
-use App\Controllers\{UsersAdminController, ReportsController, UsersController, HomeController, ConvController, LikeController, MessageController};
+use App\Controllers\{
+    StatsController,
+    UsersAdminController,
+    ReportsController,
+    UsersController,
+    HomeController,
+    ConvController,
+    LikeController,
+    MessageController};
 use App\Core\Routeur;
 use App\Kernel;
 
@@ -84,5 +92,9 @@ $routeur->addRoute(['GET'], '/conv/{id}', ConvController::class, 'getMyConvs', '
 $routeur->addRoute(['POST'], '/pusher/auth', MessageController::class, 'pusherAuth', 'users');
 $routeur->addRoute(['POST'], '/message/new/{idA}/{idB}/{convID}', MessageController::class, 'sendMessage', 'users');
 $routeur->addRoute(['GET'], '/messages/{convID}', MessageController::class, 'getAllMessagesOfConv', 'users');
+
+//Stats
+$routeur->addRoute(['GET'], '/stats', StatsController::class, 'getAllStats', 'admin');
+$routeur->addRoute(['GET'], '/stats/paypal', StatsController::class, 'gatPaypalStats', 'admin');
 
 new Kernel($routeur);

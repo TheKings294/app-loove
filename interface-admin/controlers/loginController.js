@@ -9,6 +9,7 @@ export class LoginController
     async login(email, password, navigate)
     {
         const result = await this.userModel.login(email, password)
+        console.log(result)
         if (!result.success) {
             new Toast(result.message, 'alert-error').render()
             return
