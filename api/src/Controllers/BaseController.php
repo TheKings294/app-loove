@@ -3,19 +3,15 @@
 namespace App\Controllers;
 
 use App\Core\Request;
-
-require_once '../includes/log.php';
+use Monolog\Logger;
 
 abstract class BaseController {
     
     protected Request $request;
+    protected Logger $logger;
 
-    public function __construct(
-        protected $logger,
-    ) {}
-    
-    protected function render(string $filepath, array $context) : string {
-        return $this->templateEngine->render($filepath, $context);
+    public function __construct(Logger $logger) {
+        $this->logger = $logger;
     }
 
     public function setRequest(Request $request) {

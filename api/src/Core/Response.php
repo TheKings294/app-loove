@@ -19,4 +19,7 @@ class Response {
     public function setCode(int $code) {
         $this->code = $code;
     }
+    public function setBody(string $body) {
+        $this->body = $body;
+    }
 }

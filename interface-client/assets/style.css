@@ -1,0 +1,44 @@
+:root {
+    --color-primary: #F7E9D7;
+    --color-secondary: #60171C;
+    --color-third: #EAB8B1;
+    --color-fourth: #1D1D1F;
+    --color-white: #FFFFFF;
+    .bg-red {
+        background-color: var(--color-secondary);
+    }
+    .bg-white {
+        background-color: var(--color-primary);
+    }
+    .bg-full-white {
+        background-color: var(--color-white);
+    }
+    .progress-secondary {
+        color: var(--color-secondary);
+    }
+    .btn-link {
+        color: var(--color-secondary);
+    }
+    .btn-primary {
+        background-color: var(--color-secondary);
+        color: var(--color-primary);
+    }
+    .choice-card input[type="radio"]:checked + .card {
+        @apply border-2 border-primary ring ring-primary ring-offset-2;
+    }
+    .mask-wine-glass {
+        mask: url('../assets/wine-glass-solid.svg') no-repeat center;
+        mask-size: contain;
+        -webkit-mask-size: contain;
+        background-color: currentColor;
+    }
+    #messages {
+        overflow-y: auto;
+    }
+    .messages {
+        overflow: hidden;
+    }
+    .chat-bubble {
+        overflow-wrap:  break-word;
+    }
+}

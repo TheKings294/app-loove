@@ -2,10 +2,33 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
-  <title>Title</title>
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5/themes.css" rel="stylesheet" type="text/css" />
+  <link href="assets/style.css" rel="stylesheet" type="text/css">
+  <link href="favicon.ico" rel="icon">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <script src="https://js.pusher.com/8.4.0/pusher.min.js"></script>
+  <script src="https://js.pusher.com/beams/2.1.0/push-notifications-cdn.js"></script>
+  <script
+  src="https://www.paypal.com/sdk/js?client-id=AbVmilFuCMMm6pkgN1u1yg1k2J-oWAoDFzeRXaNb2adQY2t7wrpSWaBip1kJKIebhB5p4c5yqhxxWM0m&buyer-country=FR&currency=EUR&components=buttons&enable-funding=card&disable-funding=venmo,paylater"
+  data-sdk-integration-source="developer-studio"
+  ></script>
+  <title>Clink</title>
+  <style>
+    html {
+      background-color: var(--color-primary);
+    }
+  </style>
 </head>
 <body>
+<div class="app">
 
+</div>
+<script type="module">
+    import {PageController} from "./controllers/PageController.js";
+
+    const page = new PageController()
+    page.start()
+</script>
 </body>
 </html>

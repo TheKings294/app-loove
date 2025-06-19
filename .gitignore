@@ -3,3 +3,5 @@ composer.lock
 vendor
 .env
 log
+.DS_Store
+api/uploads/*

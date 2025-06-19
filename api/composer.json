@@ -2,12 +2,24 @@
     "name": "antoine/clink",
     "autoload": {
         "psr-4": {
-            "App\\": "src/*"
+            "App\\": "src/",
+            "App\\Core\\": "src/Core/",
+            "App\\Faker\\": "fixture/",
+            "App\\Service\\": "src/Services",
+            "App\\Middelware": "src/Middelware"
         }
     },
     "require": {
         "vlucas/phpdotenv": "^5.6",
         "monolog/monolog": "^3.9",
-        "ext-pdo": "^1.0.0"
+        "ext-pdo": "^1.0.0",
+        "firebase/php-jwt": "^6.11",
+        "phpmailer/phpmailer": "^6.10",
+        "notihnio/php-multipart-form-data-parser": "^2.0",
+        "league/geotools": "^0.1.5",
+        "pusher/pusher-php-server": "^7.2",
+        "fakerphp/faker": "^1.24",
+        "pusher/pusher-push-notifications": "^2.0",
+        "guzzlehttp/guzzle": "^7.0"
     }
 }

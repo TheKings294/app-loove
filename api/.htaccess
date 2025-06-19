@@ -1,0 +1,12 @@
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [QSA,L]
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1
+<FilesMatch "^\.env">
+    Require all denied
+</FilesMatch>
+<IfModule mod_headers.c>
+    Header set Access-Control-Allow-Methods "GET, POST, PUT, DELETE, PATCH, OPTION"
+    Header set Access-Control-Allow-Headers "Content-Type, Authorization"
+</IfModule>
