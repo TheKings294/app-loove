@@ -119,6 +119,31 @@ export class UserModel
                 return { success: false, message: error.message }
             })
     }
+    async getPremiumUser() {
+        return await fetch(`${BASE_URL}/users/stats/premium`, {
+            method: 'GET',
+            headers: {
+                'Authorization': this.token
+            }
+        })
+            .then(reponse => {
+                if (!reponse.ok) {
+                    if (reponse.status === 401) {
+                        localStorage.clear()
+                        this.token = null
+                        this.role = null
+                        return {success: false, message: "login"}
+                    }
+                }
+                return reponse.json()
+            })
+            .then(data => {
+                return {success: true, data: data}
+            })
+            .catch(error => {
+                return { success: false, message: error.message }
+            })
+    }
     isAuthenticated() {
         return !!this.token
     }

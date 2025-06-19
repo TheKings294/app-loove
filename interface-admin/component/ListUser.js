@@ -8,8 +8,8 @@ export class ListUser {
             li.className = "list-row"
             li.innerHTML = `
             <div>
-              <div>${user[0].last_name + " "    + user[0].first_name}</div>
-              <div class="text-xs font-semibold opacity-60">${user[0].email}</div>
+              <div>${(user[0] ? user[0].last_name : user.last_name) + " "    + (user[0] ? user[0].first_name : user.first_name)}</div>
+              <div class="text-xs font-semibold opacity-60">${user[0] ? user[0].email : user.email}</div>
             </div>
             `
             this.el.appendChild(li)

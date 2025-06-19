@@ -88,7 +88,7 @@ class Routeur {
             return ['code' => 401,'message' => 'Token not provided' ];
         } elseif (is_string($token) && $route->getRole() !== 'none') {
             $decoded = JWTFunctions::decodeJWTToken($token);
-                if (is_object($decoded) && $decoded->data->role !== $route->getRole()) {
+            if (is_object($decoded) && $decoded->data->role !== $route->getRole()) {
                 return ['code' => 403, 'message' => 'You don\'t have permission to access this route'];
             } elseif (is_array($decoded)) {
                 return $decoded;

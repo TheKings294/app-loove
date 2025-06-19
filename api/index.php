@@ -80,6 +80,7 @@ $routeur->addRoute(['PATCH'], '/users/validate/{id}/{code}', UsersController::cl
 $routeur->addRoute(['PATCH'], '/users/suspended/{id}/{end_date}', UsersController::class, 'suspendUser', 'admin');
 $routeur->addRoute(['GET'], '/users/compatible/{x}/{y}/{id}', UsersController::class, 'getUsersCompatible', 'users');
 $routeur->addRoute(['POST'], '/users/login', UsersController::class, 'loginUser', 'none');
+$routeur->addRoute(['GET'], '/users/stats/premium', UsersController::class, 'getPremiumUser', 'admin');
 
 //Routes for like and un_like
 $routeur->addRoute(['GET'], '/like/{id}/{idLiked}', LikeController::class, 'LikeAnUser', 'users');

@@ -279,4 +279,8 @@ class UsersController extends BaseController
         http_response_code(200);
         return json_encode(['token' => $token, 'id' => $user[0], 'premium' => $user[3]]);
     }
+    public function getPremiumUser()
+    {
+        return json_encode($this->userRepo->getPremiumUser());
+    }
 }

@@ -50,6 +50,29 @@ class StatsController extends BaseController
     }
     public function gatPaypalStats()
     {
+        $startDate = new \DateTime("first day of this month");
+        $startDate->setTime(0, 0, 0);
 
+        $endDate = new \DateTime("last day of this month");
+        $endDate->setTime(23, 59, 59);
+
+        $result = $this->paypalMiddelware->getTransactions($startDate, $endDate);
+        $decodedResult = json_decode($result, true);
+
+        $totalPerWeek = [];
+
+        foreach ($decodedResult['transaction_details'] as $transaction) {
+            $info = $transaction['transaction_info'];
+
+            if ($info['transaction_event_code'] === 'T0006') {
+                $date = new \DateTime($info['transaction_initiation_date']);
+
+                $weekNum = $date->format('W');
+
+                $totalPerWeek[$weekNum] = ($totalPerWeek[$weekNum] ?? 0) + $info['transaction_amount']['value'];
+            }
+        }
+
+        return json_encode($totalPerWeek);
     }
 }

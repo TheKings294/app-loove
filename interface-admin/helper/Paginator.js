@@ -22,7 +22,9 @@ export class Paginator {
         const query = this.input.value.toLowerCase()
         this.filteredData = this.originalData.filter(item => {
             if (this.listObj === ListUser) {
-                return item[0].last_name.toLowerCase().includes(query)
+                const lastNameToCheck = item[0] ? item[0].last_name : item.last_name;
+                const querySearch = lastNameToCheck.toLowerCase().includes(query);
+                return querySearch
             } else if (this.listObj === ListAdmin) {
                 return item.username.toLowerCase().includes(query)
             }

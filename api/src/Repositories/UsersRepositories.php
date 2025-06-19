@@ -336,13 +336,10 @@ class UsersRepositories extends BaseRepositories
                 'search' => $city
             ]);
     }
-    public function setVerifCode(int $id, int $code) :void
+    public function getPremiumUser()
     {
-        $this
-            ->query('INSERT INTO `verification_code` (`user_id`, `code`) VALUES (:id, :code)')
-            ->fetch([
-                'id' => $id,
-                'code' => $code
-            ]);
+        return $this
+            ->query("SELECT first_name, last_name, email FROM users WHERE is_premium = 1")
+            ->fetch();
     }
 }
