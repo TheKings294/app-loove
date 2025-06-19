@@ -2,6 +2,8 @@ import {NavComponent} from "../component/NavComponent.js";
 import {AdminController} from "../controlers/AdminController.js";
 import {ModalComponent} from "../component/ModalComponent.js";
 import {Toast} from "../component/Toast.js";
+import {Paginator} from "../helper/Paginator.js";
+import {ListAdmin} from "../component/ListAdmin.js";
 
 
 export class AdminViews
@@ -35,19 +37,25 @@ export class AdminViews
         <button class="btn btn-secondary" id="sendSearch">Recherché</button>
         `
         const btnPagination = document.createElement("div")
-        btnPagination.className = 'join grid grid-cols-2 ml-180 mr-180 mt-10'
+        btnPagination.className = 'join grid grid-cols-2 ml-30 mr-30 mt-10'
         btnPagination.innerHTML = `
         <button class="join-item btn btn-outline" id="prev">Previous page</button>
         <button class="join-item btn btn-outline" id="next">Next</button>
         `
+        const contentDiv = document.createElement("div")
+        contentDiv.id = "listDiv"
+
+        const result = await this.controller.getAdminList(navigate)
 
         main.classList.add("flex-1")
         main.appendChild(title)
         main.appendChild(addAdmin)
         main.appendChild(searchDiv)
-        main.appendChild(await this.controller.getAdminList(navigate))
+        main.appendChild(contentDiv)
         main.appendChild(btnPagination)
         el.appendChild(main)
+
+        new Paginator(result.data, ListAdmin, 20)
 
         const contentModalAdmin = `
         <form class="flex flex-col justify-center gap-4 mt-3" id="formNewAdmin">

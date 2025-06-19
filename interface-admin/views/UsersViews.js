@@ -1,6 +1,7 @@
 import {NavComponent} from "../component/NavComponent.js";
 import {UsersController} from "../controlers/UsersController.js";
 import {ListUser} from "../component/ListUser.js";
+import {Paginator} from "../helper/Paginator.js";
 
 export class UsersViews
 {
@@ -26,14 +27,18 @@ export class UsersViews
         `
         main.appendChild(searchDiv)
 
+        const contentDiv = document.createElement("div")
+        contentDiv.id = "listDiv"
+
+        main.appendChild(contentDiv)
+
         const data = await this.controller.getUsersList()
         if (!data) {
             navigate('login')
         }
-        new ListUser(data).render(main)
 
         const btnPagination = document.createElement("div")
-        btnPagination.className = 'join grid grid-cols-2 ml-180 mr-180 mt-10'
+        btnPagination.className = 'join grid grid-cols-2 ml-30 mr-30 mt-10'
         btnPagination.innerHTML = `
         <button class="join-item btn btn-outline" id="prev">Previous page</button>
         <button class="join-item btn btn-outline" id="next">Next</button>
@@ -42,5 +47,6 @@ export class UsersViews
 
         this.app.appendChild(main)
 
+        const paginator = new Paginator(data, ListUser, 20)
     }
 }

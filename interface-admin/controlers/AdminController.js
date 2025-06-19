@@ -14,7 +14,7 @@ export class AdminController
             navigate('login')
             return
         }
-        return new ListAdmin(result.data).render()
+        return result
     }
     async newAdmin(navigate, email, password) {
         const result = await this.model.newAdmin(email, password)

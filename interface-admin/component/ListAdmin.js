@@ -16,6 +16,6 @@ export class ListAdmin {
     }
 
     render(parent) {
-        return this.el
+        parent.appendChild(this.el)
     }
 }
