@@ -64,7 +64,7 @@ export class SettingController {
         const NP = document.getElementById("new_mp").value
         const CNP = document.getElementById("confirm_new_mp").value
 
-        if (!AP === NP) {
+        if (AP === NP) {
             new Toast("Le mot de passe doit être différant de l'acien", 'alert-error').render()
             return false
         }
@@ -77,6 +77,8 @@ export class SettingController {
         const formData = new FormData()
         formData.append("password", NP)
         const result = await this.model.editPassword(formData)
+
+        console.log(result)
 
         if (!result.success) {
             new Toast(result.message, 'alert-error').render()

@@ -23,8 +23,8 @@ export class HomeViews
         const divUsersList = document.createElement("div")
         divUsersList.className = "flex flex-col items-center gap-4 my-8"
 
-        if (window.matchMedia('(max-width: 640px)').matches) {
-            divUsersList.className = "grid grid-cols-3 gap-4"
+        if (window.matchMedia('(min-width: 640px)').matches) {
+            divUsersList.className = "grid grid-cols-3 gap-4 ml-4 mr-4"
         }
 
         const data = await this.controller.getUsers()
@@ -33,13 +33,18 @@ export class HomeViews
             const likeController = new LikeController()
             window.likeController = likeController;
             for (let i = 0; i < data.data.length; i++) {
+                const imageUrl = data.data[i][0].image_url.startsWith('https')
+                    ? data.data[i][0].image_url
+                    : `https://api.clink.test/uploads/${data.data[i][0].image_url}`;
                 const name = data.data[i][0].first_name +" "+ data.data[i][0].last_name
-                const user = new User(name, data.data[i][0].image_url)
+                const user = new User(name, imageUrl)
                 user.render(navigate, divUsersList)
+
+                console.log(imageUrl)
 
                 const userContent = `
                     <div class="relative">
-                      <img src="https://api.clink.test/uploads/${data.data[i][0].image_url}" alt="${name}" class="w-full h-72 object-contain">
+                      <img src="${imageUrl}" alt="${name}" class="w-full h-72 object-contain">
                       <h2 class="absolute bottom-[-1.25rem] left-1/2 transform -translate-x-1/2 text-4xl text-black bg-white px-4 rounded-xl font-serif">
                        ${name}
                       </h2>
@@ -76,7 +81,7 @@ export class HomeViews
             const divNoUser = document.createElement("div")
             divNoUser.className = "flex flex-col items-center mb-100 mt-10 sm:text-4xl"
             divNoUser.innerHTML = `
-            <p>Auccun utilisateur compatible</p>
+            <p>Aucun utilisateur compatible</p>
             `
             document.querySelector(".app").appendChild(divNoUser)
         }

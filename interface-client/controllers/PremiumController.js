@@ -2,6 +2,7 @@ import {LikeRepo} from "../models/LikeRepo.js";
 import {User} from "../component/User.js";
 import {Modal} from "../component/Modal.js";
 import {LikeController} from "./LikeController.js";
+import {BASE_URL} from "../Constant.js";
 
 export class PremiumController {
     constructor() {
@@ -16,7 +17,7 @@ export class PremiumController {
 
         result.data.data.forEach((user) => {
             const name = user.first_name + " " + user.last_name
-            const userObjet = new User(name, user.image)
+            const userObjet = new User(name, `${BASE_URL}/uploads/` + user.image)
             userObjet.render(result, contentUserElement)
             userObjet.listener(() => this.modalLike(user))
         })

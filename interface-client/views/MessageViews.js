@@ -60,10 +60,10 @@ export class MessageViews {
             messages.scrollTop = messages.scrollHeight;
         };
 
-        if (window.matchMedia('(max-width: 639px)').matches) {
-            document.querySelector(".return").addEventListener("click", () => navigate("inbox"))
-        } else if (window.matchMedia('(min-width: 640px)').matches) {
+        if (window.matchMedia("(width >= 64rem)").matches) {
             mainDiv.className = "h-screen flex flex-col mb-20"
+        } else {
+            document.querySelector(".return").addEventListener("click", () => navigate("inbox"))
         }
 
         await this.controller.getAllMessages(convID)

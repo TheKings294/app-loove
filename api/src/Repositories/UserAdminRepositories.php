@@ -48,9 +48,8 @@ class UserAdminRepositories extends BaseRepositories {
 
     public function save(UserAdmin $user): void {
         $this
-            ->query("UPDATE users_admin SET email = :email, password = :password WHERE id = :id")
+            ->query("UPDATE users_admin SET password = :password WHERE id = :id")
             ->execute([
-                'email' => $user->username,
                 'password' => $user->password,
                 'id' => $user->id
             ]);

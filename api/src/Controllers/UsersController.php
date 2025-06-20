@@ -236,7 +236,7 @@ class UsersController extends BaseController
             $coorCity = new \Geotools\Coordinate\Coordinate([(int) $city[0]['ville_longitude_deg'], (int) $city[0]['ville_latitude_deg']]);
 
             $distance = new \Geotools\Distance\Distance();
-            if ($distance->setFrom($coorOfCityUser)->setTo($coorCity)->in('km')->haversine() < 20) {
+            if ($distance->setFrom($coorOfCityUser)->setTo($coorCity)->in('km')->haversine() < 50) {
                 $compatibleUsers[] = $user;
             }
         }
@@ -264,6 +264,21 @@ class UsersController extends BaseController
         if ($user[2] === 0) {
             http_response_code(406);
             return json_encode(['message' => "Need Verification", 'id' => $user[0]]);
+        }
+
+        if ($user[4] === 1 && new \DateTime($user[6]) > new \DateTime('now')) {
+            http_response_code(403);
+            return json_encode(['message' => "This user is suspended"]);
+        }
+
+        if ($user[5] === 1) {
+            http_response_code(403);
+            return json_encode(['message' => "This user is ban"]);
+        }
+
+        if ($user[7] === 1) {
+            http_response_code(403);
+            return json_encode(['message' => "This user is delete"]);
         }
 
         if (!password_verify($password, $user[1]))

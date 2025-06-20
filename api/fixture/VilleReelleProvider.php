@@ -15,12 +15,21 @@ class VilleReelleProvider extends Base {
         $donnees = json_decode(file_get_contents($chemin), true);
 
         $this->city = array_map(function ($commune) {
-            return ucwords(strtolower($commune['Nom_commune']));
+            return [ucwords(strtolower($commune['Nom_commune'])), $commune['Code_postal']];
         }, $donnees);
     }
 
-    public function villeReelle()
+    public function villeReelle(int $dep)
     {
-        return $this->city[array_rand($this->city)];
+        $prefix = str_pad($dep, 2, '0', STR_PAD_LEFT);
+        $min = (int)($prefix . '000');
+        $max = (int)($prefix . '999');
+
+        $villesFiltre = array_filter($this->city, function ($ville) use ($min, $max) {
+            $code = (int)$ville[1];
+            return $code >= $min && $code <= $max;
+        });
+
+        return $villesFiltre[array_rand($villesFiltre)][0];
     }
 }

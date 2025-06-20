@@ -1,11 +1,11 @@
 import {ReportModel} from "../model/ReportModel.js";
 import {ReportList} from "../component/ReportList.js";
-import {UserModel} from "../model/userModel.js";
+import {UserAdminModel} from "../model/userAdminModel.js";
 
 export class ReportControllers {
     constructor() {
         this.model = new ReportModel()
-        this.user = new UserModel()
+        this.user = new UserAdminModel()
         this.listCard = []
     }
 

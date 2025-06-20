@@ -7,7 +7,7 @@ export class User
         this.el.innerHTML = `
         <figure>
             <img
-              src="https://api.clink.test/uploads/${imageURL}"
+              src="${imageURL}"
               alt="Photo de l'utilisateur" 
               style="width: 50%"
               />

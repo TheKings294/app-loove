@@ -7,7 +7,7 @@ Clink est une application de rencontres originale développée dans le cadre d�
 ---
 
 ![PHP Version](https://img.shields.io/badge/php-8.0+-purple.svg)
-![JS Vanilla](https://img.shields.io/badge/JavaScript-OOP-blue.svg)
+![JS Vanilla](https://img.shields.io/badge/JavaScript-POO-blue.svg)
 ![MySQL](https://img.shields.io/badge/database-MySQL-orange.svg)
 
 ---
@@ -32,39 +32,19 @@ Clink est une application de rencontres originale développée dans le cadre d�
 - PHP (architecture MVC simplifiée, orienté objet)
 - MySQL
 
+#### Base de donnée 
+
+![Diagram de la BDD](/docs/Clink.svg)
+
 ### Design
 - Identité visuelle complète (logo, palette, interface)
 - UX/UI pensée pour la simplicité et l’engagement
-
-## 📁 Architecture du projet
-
-```
-clink/
-├── api/
-│ ├── Controller/
-│ ├── Model/
-│ ├── Repository/
-│ └── index.php
-├── interface-client/
-│ ├── assets/
-│ ├── controllers/
-│ ├── model/
-│ ├── views/
-│ └── index.html
-│── interface-admin/
-│ ├── assets/
-│ ├── controllers/
-│ ├── model/
-│ ├── views/
-│ └── index.html
-└── README.md
-```
 
 [documentation technique](./docs/TECHNIC.md)
 
 ## 📸 Aperçu
 
-> _Ajoute ici quelques captures d’écran si possible_
+![Image login](docs/login.png)
 
 ## 📚 À propos du projet
 
@@ -79,7 +59,7 @@ Ce projet a été réalisé en autonomie dans le cadre de ma soutenance de fin d
 
 ## 📝 Licence
 
-Ce projet est sous licence MIT. Consultez le fichier [[LICENSE]] pour plus d’informations.
+Ce projet est sous licence MIT. Consultez le fichier [LICENSE](LICENSE) pour plus d’informations.
 
 ---
 

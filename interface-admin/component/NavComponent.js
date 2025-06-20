@@ -1,6 +1,10 @@
+import {ModalComponent} from "./ModalComponent.js";
+import {AdminController} from "../controlers/AdminController.js";
+
 export class NavComponent
 {
     constructor() {
+        this.controller = new AdminController()
         this.parent = document.querySelector(".nav")
         this.el = document.createElement("aside")
         this.el.className = "w-64 bg-base-200 flex flex-col text-base-content p-4 h-full"
@@ -73,22 +77,24 @@ export class NavComponent
                 </li>
             </ul>
             <div  class="mt-auto">
-                <div class="flex items-center gap-3 p-2">
-                    <div tabindex="0" role="button" class="btn btn-ghost btn-sm rounded-btn flex items-center gap-2">
-                        <div class="avatar avatar-placeholder">
-                            <div class="bg-neutral text-neutral-content w-8 rounded-full">
-                                <span class="text-xs">UI</span>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="text-sm font-medium">Your Name</p>
-                </div>
                 <div>
                     <hr class="my-4 border-base-300" />
+                    <button class="btn btn-sm btn-primary w-full mb-5" id="editAdmin">Modifier le mot de passe</button>
                     <button class="btn btn-sm btn-error w-full" id="decoBtn">Déconnexion</button>
                 </div>
             </div>
     `
+
+        const modal = `
+        <form class="flex flex-col gap-4">
+            <input type="password" class="input rounded-lg w-full" placeholder="mot de passe actuelle" id="mp" required>
+            <input type="password" class="input rounded-lg w-full" placeholder="mot de passe" id="np" required>
+            <input type="password" class="input rounded-lg w-full" placeholder="confirmation de mot de passe" id="cnp" required>
+            <button type="button" class="btn btn-primary" id="editPassword">Modifier</button>
+        </form>
+        `
+
+        this.modal = new ModalComponent(modal)
     }
 
     render(navigate) {
@@ -102,6 +108,17 @@ export class NavComponent
         document.querySelector("#decoBtn").addEventListener("click", () => {
             localStorage.clear()
             navigate('login')
+        })
+        this.modal.render()
+        document.querySelector('#editAdmin').addEventListener('click', () => {
+            this.modal.open()
+        })
+        document.querySelector("#editPassword").addEventListener('click', async () => {
+            const result = await this.controller.editMyPassword()
+
+            if (result) {
+                this.modal.close()
+            }
         })
     }
 }

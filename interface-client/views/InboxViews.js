@@ -15,7 +15,7 @@ export class InboxViews
         this.app.innerHTML = ""
         const title = document.createElement("p")
         title.textContent = "Inbox"
-        title.className = "text-center text-[20px] mt-5"
+        title.className = "text-center text-[20px] mt-5 sm:text-lg"
         this.app.appendChild(title)
 
         const data = await this.controller.getConv()
@@ -29,14 +29,14 @@ export class InboxViews
 
         let renderMessage
 
-        if (window.matchMedia('(max-width: 640px)').matches) {
-            messageDiv.className = 'hidden'
-            renderMessage = this.app
-        } else if (window.matchMedia('(min-width: 640px)').matches) {
+        if(window.matchMedia("(width >= 64rem)").matches) {
             renderMessage = messageDiv
             divInboxList.className = "w-1/3 border-r border-black p-4 overflow-y-auto flex flex-col items-center gap-4 my-8"
             messageDiv.className = "w-full flex flex-col"
             mainDiv.className = "flex flex-col flex-row h-[calc(100vh-120px)]"
+        } else {
+            messageDiv.className = 'hidden'
+            renderMessage = this.app
         }
 
         if (data.data.length !== 0) {
@@ -62,7 +62,7 @@ export class InboxViews
             const nothing = document.createElement("div")
             nothing.className = "flex flex-col items-center mb-100"
             nothing.innerHTML = `
-            <p>Auccune conversation en cours</p>
+            <p>Aucune conversation en cours</p>
             `
             this.app.appendChild(nothing)
         }
