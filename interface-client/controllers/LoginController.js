@@ -11,6 +11,8 @@ export class LoginController {
         const password = document.getElementById("password").value
 
         const result = await this.model.login(email, password)
+
+        console.log(result)
         if (!result.success) {
             new Toast(result.message, 'alert-error').render()
             return
@@ -27,6 +29,11 @@ export class LoginController {
             return
         }
 
+        if (!result.data.token) {
+            new Toast(result.data.message, 'alert-error').render()
+            return
+        }
+
         localStorage.clear()
         localStorage.setItem("token", result.data.token)
         localStorage.setItem("role", "user")
@@ -35,6 +42,7 @@ export class LoginController {
 
         if (!this.isMobile()) {
             const notif = new NotifController()
+            console.log('user-' + result.data.id)
             notif.register()
                 .then(() => notif.suscribe(result.data.id))
                 .catch(console.error)

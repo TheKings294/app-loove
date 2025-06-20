@@ -120,7 +120,7 @@ class UsersRepositories extends BaseRepositories
     public function getByEmail(string $email): array | null
     {
         $result = $this
-            ->query("SELECT `id`, `password`, `is_verified`, `is_premium`, `is_suspended`, `is_ban`, `end_suspended_date`, `is_delet` FROM users WHERE email = :email")
+            ->query("SELECT `id`, `password`, `is_verified`, `is_premium`, `is_suspended`, `is_ban`, `end_suspended_date`, `is_delete` FROM users WHERE email = :email")
             ->fetch([
                 'email' => $email,
             ]);
@@ -282,34 +282,34 @@ class UsersRepositories extends BaseRepositories
           )  
             
           AND (
-            (me_r.soft_1 = 5 AND r.soft_1 BETWEEN 4 AND 5) OR (me_r.soft_1 < 5 AND r.soft_1 BETWEEN me_r.soft_1 - 1 AND me_r.soft_1 + 1)
+            (me_r.soft_1 = 5 AND r.soft_1 BETWEEN 4 AND 5) OR (me_r.soft_1 < 5 AND r.soft_1 BETWEEN me_r.soft_1 - 2 AND me_r.soft_1 + 2)
             )
           AND (
-            (me_r.soft_2 = 5 AND r.soft_2 BETWEEN 4 AND 5) OR (me_r.soft_2 < 5 AND r.soft_2 BETWEEN me_r.soft_2 - 1 AND me_r.soft_2 + 1)
+            (me_r.soft_2 = 5 AND r.soft_2 BETWEEN 4 AND 5) OR (me_r.soft_2 < 5 AND r.soft_2 BETWEEN me_r.soft_2 - 2 AND me_r.soft_2 + 2)
             )
           AND (
-            (me_r.soft3 = 5 AND r.soft3 BETWEEN 4 AND 5) OR (me_r.soft3 < 5 AND r.soft3 BETWEEN me_r.soft3 - 1 AND me_r.soft3 + 1)
+            (me_r.soft3 = 5 AND r.soft3 BETWEEN 4 AND 5) OR (me_r.soft3 < 5 AND r.soft3 BETWEEN me_r.soft3 - 2 AND me_r.soft3 + 2)
             )
           AND (
-            (me_r.soft4 = 5 AND r.soft4 BETWEEN 4 AND 5) OR (me_r.soft4 < 5 AND r.soft4 BETWEEN me_r.soft4 - 1 AND me_r.soft4 + 1)
+            (me_r.soft4 = 5 AND r.soft4 BETWEEN 4 AND 5) OR (me_r.soft4 < 5 AND r.soft4 BETWEEN me_r.soft4 - 2 AND me_r.soft4 + 2)
             )
           AND (
-            (me_r.soft5 = 5 AND r.soft5 BETWEEN 4 AND 5) OR (me_r.soft5 < 5 AND r.soft5 BETWEEN me_r.soft5 - 1 AND me_r.soft5 + 1)
+            (me_r.soft5 = 5 AND r.soft5 BETWEEN 4 AND 5) OR (me_r.soft5 < 5 AND r.soft5 BETWEEN me_r.soft5 - 2 AND me_r.soft5 + 2)
             )
           AND (
-            (me_r.soft6 = 5 AND r.soft6 BETWEEN 4 AND 5) OR (me_r.soft6 < 5 AND r.soft6 BETWEEN me_r.soft6 - 1 AND me_r.soft6 + 1)
+            (me_r.soft6 = 5 AND r.soft6 BETWEEN 4 AND 5) OR (me_r.soft6 < 5 AND r.soft6 BETWEEN me_r.soft6 - 2 AND me_r.soft6 + 2)
             )
           AND (
-            (me_r.soft7 = 5 AND r.soft7 BETWEEN 4 AND 5) OR (me_r.soft7 < 5 AND r.soft7 BETWEEN me_r.soft7 - 1 AND me_r.soft7 + 1)
+            (me_r.soft7 = 5 AND r.soft7 BETWEEN 4 AND 5) OR (me_r.soft7 < 5 AND r.soft7 BETWEEN me_r.soft7 - 2 AND me_r.soft7 + 2)
             )
           AND (
-            (me_r.soft8 = 5 AND r.soft8 BETWEEN 4 AND 5) OR (me_r.soft8 < 5 AND r.soft8 BETWEEN me_r.soft8 - 1 AND me_r.soft8 + 1)
+            (me_r.soft8 = 5 AND r.soft8 BETWEEN 4 AND 5) OR (me_r.soft8 < 5 AND r.soft8 BETWEEN me_r.soft8 - 2 AND me_r.soft8 + 2)
             )
           AND (
-            (me_r.soft9 = 5 AND r.soft9 BETWEEN 4 AND 5) OR (me_r.soft9 < 5 AND r.soft9 BETWEEN me_r.soft9 - 1 AND me_r.soft9 + 1)
+            (me_r.soft9 = 5 AND r.soft9 BETWEEN 4 AND 5) OR (me_r.soft9 < 5 AND r.soft9 BETWEEN me_r.soft9 - 2 AND me_r.soft9 + 2)
             )
           AND (
-            (me_r.soft10 = 5 AND r.soft10 BETWEEN 4 AND 5) OR (me_r.soft10 < 5 AND r.soft10 BETWEEN me_r.soft10 - 1 AND me_r.soft10 + 1)
+            (me_r.soft10 = 5 AND r.soft10 BETWEEN 4 AND 5) OR (me_r.soft10 < 5 AND r.soft10 BETWEEN me_r.soft10 - 2 AND me_r.soft10 + 2)
             );")
             ->fetch([
                 'id' => $id

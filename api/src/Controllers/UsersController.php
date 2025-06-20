@@ -236,7 +236,7 @@ class UsersController extends BaseController
             $coorCity = new \Geotools\Coordinate\Coordinate([(int) $city[0]['ville_longitude_deg'], (int) $city[0]['ville_latitude_deg']]);
 
             $distance = new \Geotools\Distance\Distance();
-            if ($distance->setFrom($coorOfCityUser)->setTo($coorCity)->in('km')->haversine() < 20) {
+            if ($distance->setFrom($coorOfCityUser)->setTo($coorCity)->in('km')->haversine() < 50) {
                 $compatibleUsers[] = $user;
             }
         }

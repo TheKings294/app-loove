@@ -33,7 +33,7 @@ export class PremiumViews {
         const elementUnlike = await this.controller.getMyUnlike()
         elementUnlike.style.display = "none"
 
-        if (window.matchMedia('(min-width: 640px)').matches) {
+        if (window.matchMedia('(width <= 64rem)').matches) {
             if (elementLike.querySelector('p') === null) {
                 elementLike.classList.add("grid", "grid-cols-3", "gap-4", "mr-3", "ml-3");
             } else {

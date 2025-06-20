@@ -10,6 +10,7 @@ class Notif
     {
 
         $user = "user-{$userID}";
+        var_dump($user);
         $beamsClient = new PushNotifications([
             "instanceId" => $_ENV['PUSHER_INSTANCE'],
             "secretKey" =>  $_ENV['PUSHER_PRIMARY_KEY'],

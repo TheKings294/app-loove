@@ -38,11 +38,12 @@ export class UserModel {
             })
     }
     async checkIsGood() {
+        const token = this.token ? 'Bearer ' + this.token : 0
         return await fetch(`${BASE_URL}`, {
             method: 'GET',
             credentials: 'include',
             headers: {
-                'Authorization': localStorage.getItem("token") ? 'Bearer ' + localStorage.getItem("token") : 0
+                'Authorization': token
             }
         })
             .then(reponse => reponse.json())
@@ -223,9 +224,9 @@ export class UserModel {
             })
     }
     async editPassword(formData) {
+        //return `${BASE_URL}/users/edit/password/${this.id}`
         return await fetch(`${BASE_URL}/users/edit/password/${this.id}`, {
             method: 'PATCH',
-            credentials: 'include',
             headers: {
                 'Authorization': 'Bearer ' + this.token
             },
@@ -238,7 +239,6 @@ export class UserModel {
                         this.token = null
                         this.role = null
                         this.id = null
-                        document.cookie = "session_token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.clink.local;"
                         return {success: false, message: "login"}
                     }
                 }

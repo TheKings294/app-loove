@@ -119,7 +119,7 @@ export class SettingsViews
                 <input class="input" type="password" placeholder="Ancien mot de passe" id="actual_mp">
                 <input class="input" type="password" placeholder="Nouveau mot de passe" id="new_mp">
                 <input class="input" type="password" placeholder="Nouveau mot de passe" id="confirm_new_mp">
-                <button class="btn btn-primary rounded-lg" id="sendEditPassword">Modifier</button>
+                <button class="btn btn-primary rounded-lg" id="sendEditPassword" type="button">Modifier</button>
             </form>
             `
         const modalPassword = new Modal("Modification du mot de passe", formPassword)
@@ -171,7 +171,11 @@ export class SettingsViews
 
         document.getElementById("sendEditUser").addEventListener('click', async () => await this.controller.editUser())
         document.getElementById("sendEditPassword").addEventListener('click', async () => await this.controller.editPassword())
-        document.getElementById("deleteButton").addEventListener('click', async () => await this.controller.deleteUser())
+        document.getElementById("deleteButton").addEventListener('click', async () => {
+            if (confirm("Voulez vous vraiment supprimé votre compte")) {
+                await this.controller.deleteUser()
+            }
+        })
         document.getElementById("unCoButton").addEventListener('click', async () => await this.controller.unCo())
     }
 }

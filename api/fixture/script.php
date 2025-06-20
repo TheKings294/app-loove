@@ -35,11 +35,11 @@ for ($i = 0; $i < 100; $i++) {
     try {
         $stmtUser->bindValue(':first_name', $faker->firstName, PDO::PARAM_STR);
         $stmtUser->bindValue(':last_name', $faker->lastName, PDO::PARAM_STR);
-        $stmtUser->bindValue(':date_of_birth', $faker->dateTimeBetween('-100 years', '-18 years')->format('Y-m-d'));
+        $stmtUser->bindValue(':date_of_birth', $faker->dateTimeBetween('-30 years', '-18 years')->format('Y-m-d'));
         $stmtUser->bindValue(':gender', $faker->randomElement(['man', 'woman', 'other']), PDO::PARAM_STR);
         $stmtUser->bindValue(':email', $faker->email, PDO::PARAM_STR);
         $stmtUser->bindValue(':password', $password, PDO::PARAM_STR);
-        $stmtUser->bindValue(':city', $faker->villeReelle, PDO::PARAM_STR);
+        $stmtUser->bindValue(':city', $faker->villeReelle(45), PDO::PARAM_STR);
         $stmtUser->bindValue(':description', $faker->text, PDO::PARAM_STR);
         $stmtUser->bindValue(':image', $faker->imageUrl, PDO::PARAM_STR);
         $stmtUser->bindValue(':gender_attraction', $faker->randomElement(['man', 'woman', 'other']), PDO::PARAM_STR);
