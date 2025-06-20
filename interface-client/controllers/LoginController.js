@@ -11,7 +11,6 @@ export class LoginController {
         const password = document.getElementById("password").value
 
         const result = await this.model.login(email, password)
-        console.log(result)
         if (!result.success) {
             new Toast(result.message, 'alert-error').render()
             return
@@ -20,6 +19,11 @@ export class LoginController {
         if (result.data.message === "Need Verification") {
             localStorage.setItem("id", result.data.id)
             navigate("validate")
+            return
+        }
+
+        if (result.data.message === "Wrong password") {
+            localStorage.clear()
             return
         }
 
