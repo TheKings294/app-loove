@@ -1,7 +1,6 @@
-import {AuthController} from "../controlers/authController.js";
 import {BASE_URL} from "../Constant.js";
 
-export class UserModel
+export class UserAdminModel
 {
     constructor()
     {

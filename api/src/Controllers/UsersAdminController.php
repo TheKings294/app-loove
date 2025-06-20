@@ -82,26 +82,23 @@ class UsersAdminController extends BaseController {
     {
         return json_encode($this->userAdminRepo->get($id));
     }
-    public function edit_user_admin(string $id)
+    public function edit_password_user_admin(string $id)
     {
-        parse_str(file_get_contents("php://input"), $put_vars);
+        $password = !empty($_POST['password']) ? Functions::cleanCodeString($_POST['password']) : null;
 
-        $email = !empty($put_vars['email']) ? Functions::cleanCodeString($put_vars['email']) : null;
-        $password = !empty($put_vars['password']) ? Functions::cleanCodeString($put_vars['password']) : null;
-
-        if (!Functions::checkIfIsNotNull([$email, $password])) {
+        if (!Functions::checkIfIsNotNull([$password])) {
             http_response_code(406);
             return json_encode(["message" => "All fields are required"]);
         }
 
 
-        $user = new UserAdmin(intval($id), $email, password_hash($password, PASSWORD_DEFAULT));
+        $user = new UserAdmin(intval($id), 'test@test.Com', password_hash($password, PASSWORD_DEFAULT));
         $password = null;
 
         $this->userAdminRepo->save($user);
         $this->logger->info("User [username => $user->username] updated");
 
-        return json_encode(["success" => true]);
+        return json_encode(["success" => true, 'message' => 'Password updated']);
     }
     public function delete_user_admin(string $id)
     {

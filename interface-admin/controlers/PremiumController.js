@@ -1,10 +1,10 @@
 import {StatsModel} from "../model/StatsModel.js";
-import {UserModel} from "../model/userModel.js";
+import {UserAdminModel} from "../model/userAdminModel.js";
 
 export class PremiumController {
     constructor() {
         this.modelStats = new StatsModel()
-        this.modelUser = new UserModel()
+        this.modelUser = new UserAdminModel()
     }
 
     async getPremiumUser() {

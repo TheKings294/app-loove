@@ -4,6 +4,7 @@ export class AdminModel
 {
     constructor() {
         this.token = "Bearer " + localStorage.getItem("token")
+        this.id = localStorage.getItem("id")
     }
     async getAllAdmins() {
         return await fetch(`${BASE_URL}/users-admin`, {
@@ -74,6 +75,32 @@ export class AdminModel
             })
             .catch(error => {
                 return { success: false, message: error.message }
+            })
+    }
+    async editPassword(password) {
+        return await fetch(`${BASE_URL}/admin/edit/${this.id}`, {
+            method: 'POST',
+            headers: {
+                'Authorization': this.token
+            },
+            body: password
+        })
+            .then(reponse => {
+                if (!reponse.ok) {
+                    if (reponse.status === 401) {
+                        localStorage.clear()
+                        this.token = null
+                        this.role = null
+                        return {success: false, message: "login"}
+                    }
+                }
+                return reponse.json()
+            })
+            .then(data => {
+                return {success: true, data: data}
+            })
+            .catch(error => {
+                return {success: false, message: error.message}
             })
     }
 }

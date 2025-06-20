@@ -266,6 +266,21 @@ class UsersController extends BaseController
             return json_encode(['message' => "Need Verification", 'id' => $user[0]]);
         }
 
+        if ($user[4] === 1 && new \DateTime($user[6]) > new \DateTime('now')) {
+            http_response_code(403);
+            return json_encode(['message' => "This user is suspended"]);
+        }
+
+        if ($user[5] === 1) {
+            http_response_code(403);
+            return json_encode(['message' => "This user is ban"]);
+        }
+
+        if ($user[7] === 1) {
+            http_response_code(403);
+            return json_encode(['message' => "This user is delete"]);
+        }
+
         if (!password_verify($password, $user[1]))
         {
             http_response_code(401);

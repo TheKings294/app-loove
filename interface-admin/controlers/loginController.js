@@ -1,10 +1,10 @@
-import {UserModel} from "../model/userModel.js";
+import {UserAdminModel} from "../model/userAdminModel.js";
 import {Toast} from "../component/Toast.js";
 
 export class LoginController
 {
     constructor() {
-        this.userModel = new UserModel()
+        this.userModel = new UserAdminModel()
     }
     async login(email, password, navigate)
     {

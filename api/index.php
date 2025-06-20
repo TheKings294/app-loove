@@ -60,6 +60,7 @@ $routeur->addRoute(['GET'], '/users-admin', UsersAdminController::class, 'get_us
 $routeur->addRoute(['GET'], '/user-admin/{id}', UsersAdminController::class, 'get_user_admin', 'admin');
 $routeur->addRoute(['PUT'], '/users-admin/edit/{id}', UsersAdminController::class, 'edit_user_admin', 'admin');
 $routeur->addRoute(['DELETE'], '/users-admin/delete/{id}', UsersAdminController::class, 'delete_user_admin', 'admin');
+$routeur->addRoute(['POST'], '/admin/edit/{id}', UsersAdminController::class, 'edit_password_user_admin', 'admin');
 
 //Routes for report
 $routeur->addRoute(['GET'], '/reports', ReportsController::class, 'getAll', 'admin');
