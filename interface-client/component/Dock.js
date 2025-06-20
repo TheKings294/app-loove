@@ -2,10 +2,10 @@ export class Dock
 {
     constructor() {
         this.dock = document.createElement("div")
-        this.dock.classList.add("dock")
+        this.dock.classList.add("dock", "sm:dock-xl")
 
         this.dock.innerHTML = `
-        <button id="homeBtn">
+        <button id="homeBtn" class="dock-active">
             <svg class="size-[1.2em]" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><g fill="currentColor" 
             stroke-linejoin="miter" stroke-linecap="butt"><polyline points="1 11 12 2 23 11" fill="none" 
             stroke="currentColor" stroke-miterlimit="10" stroke-width="2">
@@ -52,10 +52,24 @@ export class Dock
     render(navigate, parent)
     {
         parent.appendChild(this.dock)
-        document.querySelector("#homeBtn").addEventListener("click", () => navigate("home"))
-        document.querySelector("#inboxBtn").addEventListener("click", () => navigate("inbox"))
-        document.querySelector("#settingsId").addEventListener("click", () => navigate("settings"))
-        document.querySelector("#PremiumBtn").addEventListener("click", () => {
+        document.querySelector("#homeBtn").addEventListener("click", (e) => {
+            document.querySelector(".dock-active").classList.remove("dock-active")
+            e.className = "dock-active"
+            navigate("home")
+        })
+        document.querySelector("#inboxBtn").addEventListener("click", (e) => {
+            document.querySelector(".dock-active").classList.remove("dock-active")
+            e.className = "dock-active"
+            navigate("inbox")
+        })
+        document.querySelector("#settingsId").addEventListener("click", (e) => {
+            document.querySelector(".dock-active").classList.remove("dock-active")
+            e.className = "dock-active"
+            navigate("settings")
+        })
+        document.querySelector("#PremiumBtn").addEventListener("click", (e) => {
+            document.querySelector(".dock-active").classList.remove("dock-active")
+            e.className = "dock-active"
             if (localStorage.getItem("premium") == 1) {
                 navigate("premium")
             } else {

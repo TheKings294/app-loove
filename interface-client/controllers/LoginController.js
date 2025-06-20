@@ -11,7 +11,6 @@ export class LoginController {
         const password = document.getElementById("password").value
 
         const result = await this.model.login(email, password)
-        console.log(result)
         if (!result.success) {
             new Toast(result.message, 'alert-error').render()
             return
@@ -23,15 +22,27 @@ export class LoginController {
             return
         }
 
+        if (result.data.message === "Wrong password") {
+            localStorage.clear()
+            return
+        }
+
         localStorage.clear()
         localStorage.setItem("token", result.data.token)
         localStorage.setItem("role", "user")
         localStorage.setItem("id", result.data.id)
         localStorage.setItem('premium', result.data.premium)
-        const notif = new NotifController()
-        notif.register()
-            .then(() => notif.suscribe(result.data.id))
-            .catch(console.error)
+
+        if (!this.isMobile()) {
+            const notif = new NotifController()
+            notif.register()
+                .then(() => notif.suscribe(result.data.id))
+                .catch(console.error)
+        }
         navigate("home")
+    }
+    isMobile() {
+        const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+        return regex.test(navigator.userAgent);
     }
 }

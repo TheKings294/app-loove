@@ -41,4 +41,12 @@
     .chat-bubble {
         overflow-wrap:  break-word;
     }
+    html {
+        font-family: 'Playfair Display', serif !important;
+    }
+    @media (max-width: 900px) {
+        .center-on-tablet-pc {
+            transform: translate(-50%, -50%);
+        }
+    }
 }

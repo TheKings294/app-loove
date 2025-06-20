@@ -6,6 +6,8 @@ export class SettingsViews
 {
     constructor() {
         this.app = document.querySelector(".app")
+        this.app.className = "app"
+        this.app.classList.remove("flex", "justify-center", "min-h-screen", "flex-col")
         this.controller = new SettingController()
     }
     async render(navigate)
@@ -162,6 +164,7 @@ export class SettingsViews
             content.style.display = 'none'
             infoDiv.style.display = 'block'
         })
+
         document.querySelector("#return").addEventListener("click", () => navigate("settings"))
         document.querySelector("#editPassword").addEventListener("click", () => modalPassword.open())
         document.querySelector("#editUser").addEventListener("click", () => modalEditUser.open())

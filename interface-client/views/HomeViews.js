@@ -17,11 +17,15 @@ export class HomeViews
         document.querySelector(".app").innerHTML = ``
         const title = document.createElement("p")
         title.textContent = "Home"
-        title.className = "text-center text-[20px] mt-5"
+        title.className = "text-center text-[20px] mt-5 sm:text-4xl"
         document.querySelector(".app").appendChild(title)
 
         const divUsersList = document.createElement("div")
-            divUsersList.className = "flex flex-col items-center gap-4 my-8"
+        divUsersList.className = "flex flex-col items-center gap-4 my-8"
+
+        if (window.matchMedia('(max-width: 640px)').matches) {
+            divUsersList.className = "grid grid-cols-3 gap-4"
+        }
 
         const data = await this.controller.getUsers()
 
@@ -32,8 +36,6 @@ export class HomeViews
                 const name = data.data[i][0].first_name +" "+ data.data[i][0].last_name
                 const user = new User(name, data.data[i][0].image_url)
                 user.render(navigate, divUsersList)
-
-                console.log(data.data[i][1].userId)
 
                 const userContent = `
                     <div class="relative">
@@ -72,7 +74,7 @@ export class HomeViews
             document.querySelector(".app").appendChild(divUsersList)
         } else {
             const divNoUser = document.createElement("div")
-            divNoUser.className = "flex flex-col items-center mb-100 mt-10"
+            divNoUser.className = "flex flex-col items-center mb-100 mt-10 sm:text-4xl"
             divNoUser.innerHTML = `
             <p>Auccun utilisateur compatible</p>
             `

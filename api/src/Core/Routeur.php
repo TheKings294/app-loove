@@ -15,7 +15,7 @@ class Routeur {
     public function __construct(
         private array $routes = []
     ) {
-        $container = require_once __DIR__ . '/../utils/Services.php';
+        $container = require_once __DIR__ . '/../Utils/Services.php';
         $this->logger = $container['logger'];
     }
 
