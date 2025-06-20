@@ -1,5 +1,6 @@
 import {Toast} from "../component/Toast.js";
 import {CheckoutController} from "../controllers/CheckoutController.js";
+import {Dock} from "../component/Dock.js";
 
 export class CheckoutViews {
     constructor() {
@@ -26,15 +27,9 @@ export class CheckoutViews {
     <p id="result-message" class="text-center text-green-600 font-medium"></p>
   </div>
     `
-        const RetunrnHome = document.createElement("div")
-        RetunrnHome.id = "returnHome"
-        RetunrnHome.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-arrow-left-icon lucide-arrow-left"><path d="m12 19-7-7 7-7"/><path d="M19 12H5"/></svg>
-        `
-        this.app.appendChild(RetunrnHome)
         this.app.appendChild(paimentDiv)
 
-        document.getElementById("returnHome").addEventListener("click", () => navigate("settings"))
+        new Dock().render(navigate, this.app)
 
         let selectedAmount = "10";
 

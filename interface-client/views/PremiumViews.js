@@ -33,20 +33,35 @@ export class PremiumViews {
         const elementUnlike = await this.controller.getMyUnlike()
         elementUnlike.style.display = "none"
 
+        if (window.matchMedia('(min-width: 640px)').matches) {
+            if (elementLike.querySelector('p') === null) {
+                elementLike.classList.add("grid", "grid-cols-3", "gap-4", "mr-3", "ml-3");
+            } else {
+                elementLike.querySelector('p').classList.add("col-span-3")
+            }
+
+            if (elementUnlike.querySelector('p') === null) {
+                elementUnlike.classList.add("grid", "grid-cols-3", "gap-4", "mr-3", "ml-3");
+            } else {
+               elementUnlike.querySelector('p').classList.add("col-span-3")
+            }
+        }
+
+
         this.app.appendChild(elementLike)
         this.app.appendChild(elementUnlike)
 
         tabA.addEventListener("click", () => {
             tabB.classList.remove("tab-active")
             tabA.classList.add("tab-active")
-            elementLike.style.display = "flex"
+            elementLike.style.display = "grid"
             elementUnlike.style.display = "none"
         })
         tabB.addEventListener("click", () => {
             tabA.classList.remove("tab-active")
             tabB.classList.add("tab-active")
             elementLike.style.display = "none"
-            elementUnlike.style.display = "flex"
+            elementUnlike.style.display = "grid"
         })
 
         new Dock().render(navigate, this.app)

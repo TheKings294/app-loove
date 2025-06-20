@@ -8,9 +8,9 @@ export class MessageViews {
         this.controller = new MessageController()
         this.report = new ReportController()
     }
-    async render(navigate, id, name, otherID, convID, chanel) {
+    async render(navigate, id, name, otherID, convID, chanel, parent) {
         this.controller.conection(id, otherID, chanel)
-        this.app.innerHTML = ""
+        parent.innerHTML = ""
 
         const mainDiv = document.createElement("div")
         mainDiv.className = "h-screen flex flex-col"
@@ -44,27 +44,29 @@ export class MessageViews {
         messages.className = "flex-1 overflow-y-auto p-4 space-y-2"
 
         const inputDiv = document.createElement("div")
-        inputDiv.className = "flex items-center gap-2"
+        inputDiv.className = "flex items-center gap-2 md:pb-[115px]"
         inputDiv.innerHTML = `
         <input type="text" placeholder="Votre message" class="input rounded-lg w-full" id="messageContent"/>
         <button class="btn btn-primary rounded-lg" id="sendMessage">Envoyer</button>
         `
+
         mainDiv.appendChild(nameDiv)
         mainDiv.appendChild(messages)
         mainDiv.appendChild(inputDiv)
 
-        this.app.appendChild(mainDiv)
+        parent.appendChild(mainDiv)
 
         window.onload = () => {
             messages.scrollTop = messages.scrollHeight;
         };
 
-        document.querySelector(".return").addEventListener("click", () => navigate("inbox"))
+        if (window.matchMedia('(max-width: 639px)').matches) {
+            document.querySelector(".return").addEventListener("click", () => navigate("inbox"))
+        } else if (window.matchMedia('(min-width: 640px)').matches) {
+            mainDiv.className = "h-screen flex flex-col mb-20"
+        }
+
         await this.controller.getAllMessages(convID)
-        console.log({
-            'id' : id,
-            'otherID' : otherID
-        })
         document.getElementById("sendMessage").addEventListener('click', (e) => {
             const content = document.getElementById("messageContent").value
             if (content.length !== 0) {

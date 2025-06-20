@@ -20,8 +20,24 @@ export class InboxViews
 
         const data = await this.controller.getConv()
 
+        const mainDiv = document.createElement("div")
+
+        const messageDiv = document.createElement("div")
+
         const divInboxList = document.createElement("div")
         divInboxList.className = "flex flex-col items-center gap-4 my-8"
+
+        let renderMessage
+
+        if (window.matchMedia('(max-width: 640px)').matches) {
+            messageDiv.className = 'hidden'
+            renderMessage = this.app
+        } else if (window.matchMedia('(min-width: 640px)').matches) {
+            renderMessage = messageDiv
+            divInboxList.className = "w-1/3 border-r border-black p-4 overflow-y-auto flex flex-col items-center gap-4 my-8"
+            messageDiv.className = "w-full flex flex-col"
+            mainDiv.className = "flex flex-col flex-row h-[calc(100vh-120px)]"
+        }
 
         if (data.data.length !== 0) {
             data.data.forEach((inbox) => {
@@ -34,11 +50,14 @@ export class InboxViews
                         inbox.first_name,
                         localStorage.getItem('id') == inbox.user_a? inbox.user_b : inbox.user_a,
                         inbox.id,
-                        inbox.chanel_name)
+                        inbox.chanel_name,
+                        renderMessage)
                 })
                 inboxComponent.render(divInboxList)
             })
-            this.app.appendChild(divInboxList)
+            mainDiv.appendChild(divInboxList)
+            mainDiv.appendChild(messageDiv)
+            this.app.appendChild(mainDiv)
         } else {
             const nothing = document.createElement("div")
             nothing.className = "flex flex-col items-center mb-100"

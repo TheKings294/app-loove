@@ -6,7 +6,7 @@
             "App\\Core\\": "src/Core/",
             "App\\Faker\\": "fixture/",
             "App\\Service\\": "src/Services",
-            "App\\Middelware": "src/Middelware"
+            "App\\Middelware\\": "src/Middelware"
         }
     },
     "require": {

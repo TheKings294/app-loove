@@ -8,20 +8,22 @@ export class LoginViews
     }
     render(navigate) {
         this.app.innerHTML = `
-        <div class="w-64 mr-auto ml-auto mb-15">
-            <img src="../assets/clink_logo.webp" alt="logo">
-        </div>
-        <div class="flex mr-auto ml-auto flex-col content-between">
-            <div id="formDiv" class="flex flex-col">
-                <form class="flex flex-col gap-3 mr-auto ml-auto">
-                    <input type="email" placeholder="test@test.com" class="input w-[150%] self-center" id="email"/>
-                    <input type="password" placeholder="**********" class="input w-[150%] self-center" id="password"/>
-                    <button class="btn btn-neutral w-[80%] self-center" style="background-color: #60171C;" id="LoginBtn">Connexion</button>
-                </form>
-                <button class="btn btn-link">Mot de passe oublié ?</button>   
+        <div class="flex flex-col justify-center min-h-screen">
+            <div class="w-full max-w-lg mx-auto mb-4 px-4 sm:pb-10">
+                <img src="../assets/clink_logo.webp" alt="logo" class="w-full h-auto max-w-xs mx-auto md:max-w-sm lg:max-w-[150px]">
             </div>
-            <div id="SingInDiv" class="flex fixed justify-center bottom-0 left-[50%]" style="transform: translate(-50%, -50%)">
-                <button class="btn btn-outline" style="border-color: #60171C;" id="SingInButton">Inscription</button>
+    
+            <div class="flex flex-col mx-auto items-center gap-6 px-4 w-full max-w-lg">
+              <form class="flex flex-col gap-4 w-full">
+                <input type="email" placeholder="test@test.com" class="input w-full sm:input-xl lg:input-md" id="email"/>
+                <input type="password" placeholder="**********" class="input w-full sm:input-xl lg:input-md" id="password"/>
+                <button class="btn btn-neutral w-full sm:btn-xl lg:btn-md" style="background-color: #60171C;" id="LoginBtn">Connexion</button>
+              </form>
+              <button class="btn btn-link self-center">Mot de passe oublié ?</button>
+            
+              <div id="SingInDiv" class="flex justify-center sm:mt-5 w-full max-w-lg">
+                <button class="btn btn-outline sm:btn-xl lg:btn-md w-full max-w-xs mx-auto" style="border-color: #60171C;" id="SingInButton">Inscription</button>
+              </div>
             </div>
         </div>
         `
