@@ -32,10 +32,17 @@ export class LoginController {
         localStorage.setItem("role", "user")
         localStorage.setItem("id", result.data.id)
         localStorage.setItem('premium', result.data.premium)
-        const notif = new NotifController()
-        notif.register()
-            .then(() => notif.suscribe(result.data.id))
-            .catch(console.error)
+
+        if (!this.isMobile()) {
+            const notif = new NotifController()
+            notif.register()
+                .then(() => notif.suscribe(result.data.id))
+                .catch(console.error)
+        }
         navigate("home")
+    }
+    isMobile() {
+        const regex = /Mobi|Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+        return regex.test(navigator.userAgent);
     }
 }
