@@ -25,7 +25,7 @@ export class SettingsViews
         const settings = document.createElement("div")
         settings.innerHTML = `
         <div class="flex justify-between items-center bg-full-white rounded-lg border-solid p-4 m-5 border-black" id="goToInfo">
-        <span>Information personnelle</span>
+        <span>Informations personnelles</span>
         <span>
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" 
         fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" 
@@ -50,6 +50,11 @@ export class SettingsViews
         unCo.textContent = "Deconexion"
         unCo.className = "btn btn-outline btn-primary"
         unCo.id = "unCoButton"
+
+        if (window.matchMedia('(width >= 64rem)').matches) {
+            buttonDelete.className = "btn btn-primary mr-5 ml-5 rounded-lg"
+            unCo.className = "btn btn-outline btn-primary mr-5 ml-5 rounded-lg"
+        }
 
         const infoDiv = document.createElement("div")
         infoDiv.style.display = 'none'

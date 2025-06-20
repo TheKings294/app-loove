@@ -24,7 +24,7 @@ export class HomeViews
         divUsersList.className = "flex flex-col items-center gap-4 my-8"
 
         if (window.matchMedia('(min-width: 640px)').matches) {
-            divUsersList.className = "grid grid-cols-3 gap-4"
+            divUsersList.className = "grid grid-cols-3 gap-4 ml-4 mr-4"
         }
 
         const data = await this.controller.getUsers()
@@ -81,7 +81,7 @@ export class HomeViews
             const divNoUser = document.createElement("div")
             divNoUser.className = "flex flex-col items-center mb-100 mt-10 sm:text-4xl"
             divNoUser.innerHTML = `
-            <p>Auccun utilisateur compatible</p>
+            <p>Aucun utilisateur compatible</p>
             `
             document.querySelector(".app").appendChild(divNoUser)
         }

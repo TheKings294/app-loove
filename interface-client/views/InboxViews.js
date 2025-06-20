@@ -62,7 +62,7 @@ export class InboxViews
             const nothing = document.createElement("div")
             nothing.className = "flex flex-col items-center mb-100"
             nothing.innerHTML = `
-            <p>Auccune conversation en cours</p>
+            <p>Aucune conversation en cours</p>
             `
             this.app.appendChild(nothing)
         }
